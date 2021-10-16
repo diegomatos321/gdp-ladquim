@@ -1,0 +1,22 @@
+{
+  "name": "projeto-ladquim-conservacao-e-restauracao",
+  "version": "1.0.0",
+  "description": "Jogo desenvolvido para o Laboratório Didático de Química da UFRJ",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "private": true,
+  "scripts": {
+    "prebuild": "rmdir dist /s /q",
+    "start": "parcel serve src/index.html --open",
+    "build": "parcel build src/index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@swc/helpers": "^0.2.13",
+    "phaser": "^3.55.2"
+  },
+  "devDependencies": {
+    "@parcel/transformer-image": "^2.0.0-rc.0",
+    "parcel": "^2.0.0-rc.0"
+  }
+}
