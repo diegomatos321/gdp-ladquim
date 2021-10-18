@@ -7,7 +7,7 @@
   "scripts": {
     "prebuild": "rmdir dist /s /q",
     "start": "parcel serve src/index.html --open",
-    "build": "parcel build src/index.html"
+    "build": "parcel build src/index.html --public-url ./"
   },
   "author": "",
   "license": "ISC",
