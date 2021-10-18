@@ -76,8 +76,8 @@ export default class MainGame extends Phaser.Scene {
       vasoAntigo.setInteractive({draggable: true});
       vasoAntigo.setDepth(10);
 
-      vasoAntigo.on('dragstart', function () {
-        this.setState("isDragging", true);
+      vasoAntigo.on("dragstart", function () {
+        this.setState("dragstart");
         this.body.moves = false;
         this.body.setVelocityY(0);
       }, vasoAntigo);
@@ -86,22 +86,18 @@ export default class MainGame extends Phaser.Scene {
         this.setPosition(dragX, dragY);
       }, vasoAntigo);
       
-      vasoAntigo.on('dragend', function () {
-        this.setState("isDragging", false);
+      vasoAntigo.on("dragend", function () {
+        this.setState("dragend");
         this.body.moves = true;
       }, vasoAntigo);
 
       grupoDeItems.add(vasoAntigo, true);
     };
     
-    // Raindrop particles and Hit Area
+    // Raindrop particles
     const target1 = mesa;
     let rainSource = new Phaser.Geom.Line(target1.x - target1.width/2, 0, target1.x + target1.width/2, 0);
-    
-    let widthOfRainHitArea = Phaser.Geom.Line.Length(rainSource);
-    let heightOfRainHitArea = this.game.config.height - rainSource.y1;
-    let rainHitArea = this.add.rectangle(rainSource.x1 + widthOfRainHitArea/2, rainSource.y1 + heightOfRainHitArea/2, widthOfRainHitArea, heightOfRainHitArea);
-    
+        
     let raindropParticles = this.add.particles("raindrop");
     raindropParticles.createEmitter({
       speedY: 300,
@@ -115,6 +111,8 @@ export default class MainGame extends Phaser.Scene {
         type: "random"
       },
     });
+
+    let rainHitArea = this.createRainHitArea(rainSource);
     
     // Grupo de áreas de efeito
     let grupoDeAreasDeEfeito = this.physics.add.staticGroup();
@@ -128,8 +126,16 @@ export default class MainGame extends Phaser.Scene {
     this.physics.add.overlap(grupoDeItems, grupoDeAreasDeEfeito, this.damageItem);
   }
 
+  
   update() {
     
+  }
+  
+  createRainHitArea(rainSource) {
+    let widthOfRainHitArea = Phaser.Geom.Line.Length(rainSource);
+    let heightOfRainHitArea = this.game.config.height - rainSource.y1;
+    let rainHitArea = this.add.rectangle(rainSource.x1 + widthOfRainHitArea / 2, rainSource.y1 + heightOfRainHitArea / 2, widthOfRainHitArea, heightOfRainHitArea);
+    return rainHitArea;
   }
 
   checkOrientation = (orientation) => {
@@ -141,14 +147,14 @@ export default class MainGame extends Phaser.Scene {
   }
 
   repositionVase = (item, mesa) => {
-    if(item.state["hasDragStarted"] == false) {
+    console.log(item.state)
+    if(item.state == "dragend") {
       item.setPosition(item.x, mesa.body.center.y - mesa.body.height/2 - item.body.height/2);
     }
   }
 
   damageItem = (item, areaDeEfeito) => {
-    const minHealth = 20;
-    if(item.getData("health") - minHealth > 0) {
+    if(item.getData("health") > 0) {
       const currentColor = Phaser.Display.Color.ValueToColor("#ffffff");
       const finalColor = Phaser.Display.Color.ValueToColor("#ff0000");
 
