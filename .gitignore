@@ -37,7 +37,6 @@ node_modules/
 jspm_packages/
 
 ideias/
-dist/
 .parcel-cache/
 
 # TypeScript v1 declaration files
