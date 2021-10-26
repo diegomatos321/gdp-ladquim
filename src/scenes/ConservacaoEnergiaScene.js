@@ -17,45 +17,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.load.image("raindrop", new URL("../images/raindrop-2d-sprite.png?as=webp&quality=75&width=8", import.meta.url).pathname);
   }
 
-  createLoadingInterface() {
-    const offSetX = this.game.config.width / 4;
-    const maxProgressWidth = this.game.config.width / 2;
-
-    let progressGraphic = this.add.graphics();
-
-    let shape = new Phaser.Geom.Rectangle(-offSetX, 0, 0, 16);
-    let rectShape = progressGraphic.fillRectShape(shape);
-
-    let textProgress = this.add.text(0, 8, "0%").setOrigin(0.5, 0.5);
-    let fileProgressText = this.add.text(-offSetX, 32, "Iniciando Cena...").setOrigin(0, 0.5);
-
-    let loadingContainer = this.add.container(this.game.config.width / 2, this.game.config.height / 2, [rectShape, textProgress, fileProgressText]);
-
-    this.load.on(Phaser.Loader.Events.FILE_PROGRESS, handleFileProgressBar);
-    this.load.on(Phaser.Loader.Events.PROGRESS, handleProgressBar);
-    this.load.on(Phaser.Loader.Events.COMPLETE, handleCompleteProgressBar);
-
-    function handleCompleteProgressBar() {
-      fileProgressText.setText("Carregamento Completo");
-      loadingContainer.destroy();
-    }
-
-    function handleFileProgressBar(file, progress) {
-      progressGraphic.clear();
-      progressGraphic.fillStyle(0xffffff, 0.4);
-      shape.width = progress * maxProgressWidth;
-      rectShape = progressGraphic.fillRectShape(shape);
-
-      fileProgressText.setText(`Carregando: ${file.key}.${file.type} (${progress * 100}%)`);
-    }
-
-    function handleProgressBar(progress) {
-      textProgress.setText(`${progress * 100}%`);
-    }
-
-    return loadingContainer;
-  }
-
   create() {
     // Configurando bordas de colisoes do mundo
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
@@ -142,6 +103,45 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   
   update() {
     
+  }
+  
+  createLoadingInterface() {
+    const offSetX = this.game.config.width / 4;
+    const maxProgressWidth = this.game.config.width / 2;
+
+    let progressGraphic = this.add.graphics();
+
+    let shape = new Phaser.Geom.Rectangle(-offSetX, 0, 0, 16);
+    let rectShape = progressGraphic.fillRectShape(shape);
+
+    let textProgress = this.add.text(0, 8, "0%").setOrigin(0.5, 0.5);
+    let fileProgressText = this.add.text(-offSetX, 32, "Iniciando Cena...").setOrigin(0, 0.5);
+
+    let loadingContainer = this.add.container(this.game.config.width / 2, this.game.config.height / 2, [rectShape, textProgress, fileProgressText]);
+
+    this.load.on(Phaser.Loader.Events.FILE_PROGRESS, handleFileProgressBar);
+    this.load.on(Phaser.Loader.Events.PROGRESS, handleProgressBar);
+    this.load.on(Phaser.Loader.Events.COMPLETE, handleCompleteProgressBar);
+
+    function handleCompleteProgressBar() {
+      fileProgressText.setText("Carregamento Completo");
+      loadingContainer.destroy();
+    }
+
+    function handleFileProgressBar(file, progress) {
+      progressGraphic.clear();
+      progressGraphic.fillStyle(0xffffff, 0.4);
+      shape.width = progress * maxProgressWidth;
+      rectShape = progressGraphic.fillRectShape(shape);
+
+      fileProgressText.setText(`Carregando: ${file.key}.${file.type} (${progress * 100}%)`);
+    }
+
+    function handleProgressBar(progress) {
+      textProgress.setText(`${progress * 100}%`);
+    }
+
+    return loadingContainer;
   }
   
   createRainHitArea(rainSource) {
