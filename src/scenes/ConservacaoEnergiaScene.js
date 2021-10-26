@@ -1,6 +1,8 @@
 import Phaser from "phaser"
 import CONSTANTS from "../constants.json"
 
+import fullScreenBtnComponent from "../components/fullScreenBtn.js"
+
 export default class ConservacaoEnergiaScene extends Phaser.Scene {
   constructor() {
     super({key: CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO});
@@ -59,6 +61,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
     this.scale.on(Phaser.Scale.Events.ORIENTATION_CHANGE, this.checkOrientation);
+
+    fullScreenBtnComponent(this);
     
     // Grupo estatico de mesas
     let grupoDeMesas = this.physics.add.staticGroup();
