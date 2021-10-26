@@ -1,6 +1,8 @@
 import Phaser from "phaser"
 import CONSTANTS from "../constants.json"
 
+import fullScreenBtnComponent from "../components/fullScreenBtn.js"
+
 export default class MenuScene extends Phaser.Scene {
   constructor() {
     super({key: CONSTANTS.MAIN_MENU});
@@ -18,7 +20,7 @@ export default class MenuScene extends Phaser.Scene {
     this.add.text(this.game.config.width/2, 20, "Menu Principal").setOrigin(0.5, 0.5);
     
     this.ladquimArea = this.createLadquimMap();
-    this.fullscreenBtn = this.createFullScreenBtn();
+    fullScreenBtnComponent(this);
   }
   
   createLadquimMap() {
@@ -29,12 +31,12 @@ export default class MenuScene extends Phaser.Scene {
     return ladquimArea;
   }
 
-  createFullScreenBtn() {
+/*   createFullScreenBtn() {
     let fullscreenBtn = this.add.sprite(this.game.config.width - 16, 16, "fullscreen-icon", 0).setOrigin(1, 0).setInteractive();
     fullscreenBtn.on(Phaser.Input.Events.POINTER_UP, this.handleFullScreenMode);
 
     return fullscreenBtn;
-  }
+  } */
   
   changeScene = (event) => {
     event.preventDefault();
@@ -42,7 +44,7 @@ export default class MenuScene extends Phaser.Scene {
     this.scene.start(CONSTANTS[event.target.id]);
   }
   
-  handleFullScreenMode = () => {
+/*   handleFullScreenMode = () => {
     if (this.scale.isFullscreen) {
       this.fullscreenBtn.setFrame(0);
       this.scale.stopFullscreen();
@@ -50,5 +52,5 @@ export default class MenuScene extends Phaser.Scene {
       this.fullscreenBtn.setFrame(1);
       this.scale.startFullscreen();
     }
-  }
+  } */
 }
