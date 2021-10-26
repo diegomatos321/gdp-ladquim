@@ -17,20 +17,31 @@ export default class MenuScene extends Phaser.Scene {
   create() {
     this.add.text(this.game.config.width/2, 20, "Menu Principal").setOrigin(0.5, 0.5);
     
-    this.ladquimArea = this.add.dom(this.game.config.width/2, this.game.config.height/2).createFromCache("ladquim-mapa");
-    this.ladquimArea.addListener(Phaser.Input.Events.POINTER_DOWN);
-    this.ladquimArea.on(Phaser.Input.Events.POINTER_DOWN, this.changeScene);
+    this.ladquimArea = this.createLadquimMap();
+    this.fullscreenBtn = this.createFullScreenBtn();
+  }
+  
+  createLadquimMap() {
+    let ladquimArea = this.add.dom(this.game.config.width / 2, this.game.config.height / 2).createFromCache("ladquim-mapa");
+    ladquimArea.addListener(Phaser.Input.Events.POINTER_DOWN);
+    ladquimArea.on(Phaser.Input.Events.POINTER_DOWN, this.changeScene);
 
-    this.fullscreenBtn = this.add.sprite(this.game.config.width - 16, 16, "fullscreen-icon", 0).setOrigin(1, 0).setInteractive();
-    this.fullscreenBtn.on(Phaser.Input.Events.POINTER_UP, this.handleFullScreenMode);
+    return ladquimArea;
   }
 
+  createFullScreenBtn() {
+    let fullscreenBtn = this.add.sprite(this.game.config.width - 16, 16, "fullscreen-icon", 0).setOrigin(1, 0).setInteractive();
+    fullscreenBtn.on(Phaser.Input.Events.POINTER_UP, this.handleFullScreenMode);
+
+    return fullscreenBtn;
+  }
+  
   changeScene = (event) => {
     event.preventDefault();
-
+  
     this.scene.start(CONSTANTS[event.target.id]);
   }
-
+  
   handleFullScreenMode = () => {
     if (this.scale.isFullscreen) {
       this.fullscreenBtn.setFrame(0);
