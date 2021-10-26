@@ -1,8 +1,9 @@
 import Phaser from "phaser"
+import CONSTANTS from "../constants.json"
 
-export default class MainGame extends Phaser.Scene {
+export default class ConservacaoEnergiaScene extends Phaser.Scene {
   constructor() {
-    super({key: "MainGame"});
+    super({key: CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO});
   }
 
   preload() {
