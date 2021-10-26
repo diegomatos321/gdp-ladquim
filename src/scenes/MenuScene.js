@@ -8,7 +8,7 @@ export default class MenuScene extends Phaser.Scene {
 
   preload() {
     this.load.html("ladquim-mapa", new URL("../DOMElements/mapa-laquim.html", import.meta.url).pathname);
-    this.load.spritesheet("fullscreen-icon", new URL("../images/fullscreen-icon.png", import.meta.url).pathname, {
+    this.load.spritesheet("fullscreen-icon", new URL("../ui/fullscreen-icon.png", import.meta.url).pathname, {
       frameWidth: 64,
       frameHeight: 64
     });
