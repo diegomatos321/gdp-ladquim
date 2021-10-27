@@ -10,6 +10,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
   preload() {
     this.loadingContainer = this.createLoadingInterface();
+    this.checkOrientation(this.scale.orientation);
 
     // Carregando Imagens
     this.load.image("vaso", new URL("../images/vaso-grego-antigo.png?as=webp&quality=75&width=75", import.meta.url).pathname);
@@ -152,10 +153,16 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   checkOrientation = (orientation) => {
+    if(!this.orientationText) {
+      this.orientationText = this.add.text(this.game.config.width/2, 20, "").setOrigin(0.5);
+    }
+
     if (orientation === Phaser.Scale.PORTRAIT) {
       console.log("PORTRAIT");
+      this.orientationText.setText("Vire o seu celular na Horizontal");
     } else if (orientation === Phaser.Scale.LANDSCAPE) {
       console.log("LANDSCAPE");
+      this.orientationText.setText("");
     }
   }
 
