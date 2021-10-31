@@ -11,10 +11,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   preload() {
     this.loadingContainer = this.createLoadingInterface();
 
-    // Carregando Imagens
-    this.load.image("vaso", new URL("../images/vaso-grego-antigo.png?as=webp&quality=75&width=75", import.meta.url).pathname);
-    this.load.image("mesa", new URL("../images/desk-sprite.png?as=webp&quality=75&width=300", import.meta.url).pathname);
-    this.load.image("raindrop", new URL("../images/raindrop-2d-sprite.png?as=webp&quality=75&width=8", import.meta.url).pathname);
+    this.carregarImagens();
   }
 
   create() {
@@ -99,11 +96,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.physics.add.overlap(grupoDeItems, grupoDeMesas, this.repositionVase);
     this.physics.add.overlap(grupoDeItems, grupoDeAreasDeEfeito, this.damageItem);
   }
-
-  
-  update() {
-    
-  }
   
   createLoadingInterface() {
     const offSetX = this.game.config.width / 4;
@@ -143,6 +135,13 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     return loadingContainer;
   }
+
+  carregarImagens() {
+    this.load.image("vaso", new URL("../images/vaso-grego-antigo.png?as=webp&quality=75&width=75", import.meta.url).pathname);
+    this.load.image("mesa", new URL("../images/desk-sprite.png?as=webp&quality=75&width=300", import.meta.url).pathname);
+    this.load.image("raindrop", new URL("../images/raindrop-2d-sprite.png?as=webp&quality=75&width=8", import.meta.url).pathname);
+  }
+
   
   createRainHitArea(rainSource) {
     let widthOfRainHitArea = Phaser.Geom.Line.Length(rainSource);
