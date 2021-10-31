@@ -2,6 +2,7 @@ import Phaser from "phaser"
 import CONSTANTS from "../constants.json"
 
 import fullScreenBtnComponent from "../components/fullScreenBtn.js"
+import Mesa from "../prefabs/Mesa.js"
 
 export default class ConservacaoEnergiaScene extends Phaser.Scene {
   constructor() {
@@ -26,12 +27,9 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     let grupoDeMesas = this.physics.add.staticGroup();
 
     // Criando mesas e adicionando ao grupo
-    let mesa = this.physics.add.staticImage(200, this.game.config.height-100, "mesa");
-    mesa.body.setSize(mesa.displayWidth, mesa.displayHeight/3, true);
+    let mesa = new Mesa(this, 200, this.game.config.height-100, "mesa");
     grupoDeMesas.add(mesa);
-    
-    let mesa1 = this.physics.add.staticImage(this.game.config.width - 200, this.game.config.height-100, "mesa");
-    mesa1.body.setSize(mesa1.displayWidth, mesa1.displayHeight/3, true);
+    let mesa1 = new Mesa(this, this.game.config.width - 200, this.game.config.height-100, "mesa");
     grupoDeMesas.add(mesa1);
 
     // Grupo de vasos
