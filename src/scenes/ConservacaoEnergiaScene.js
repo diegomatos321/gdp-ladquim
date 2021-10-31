@@ -33,6 +33,9 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     // Criando vasos
     for (let index = 0; index < 2; index++) {
+      const mesa = grupoDeMesas.getFirstAlive();
+      console.dir(mesa);
+
       const stepX = (mesa.displayWidth/2*index);
 
       let vasoAntigo = this.physics.add.image((mesa.x - mesa.displayWidth/4) + stepX, this.game.config.height/2, "vaso");
@@ -60,7 +63,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     };
     
     // Raindrop particles
-    const target1 = mesa;
+    const target1 = grupoDeMesas.getFirstAlive();
     let rainSource = new Phaser.Geom.Line(target1.x - target1.width/2, 0, target1.x + target1.width/2, 0);
         
     let raindropParticles = this.add.particles("raindrop");
