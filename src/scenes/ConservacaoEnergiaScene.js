@@ -3,6 +3,7 @@ import CONSTANTS from "../constants.json"
 
 import fullScreenBtnComponent from "../components/fullScreenBtn.js"
 import Mesa from "../prefabs/Mesa.js"
+import VasoAntigo from "../prefabs/VasoAntigo.js"
 
 export default class ConservacaoEnergiaScene extends Phaser.Scene {
   constructor() {
@@ -34,31 +35,9 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // Criando vasos
     for (let index = 0; index < 2; index++) {
       const mesa = grupoDeMesas.getFirstAlive();
-      console.dir(mesa);
-
       const stepX = (mesa.displayWidth/2*index);
 
-      let vasoAntigo = this.physics.add.image((mesa.x - mesa.displayWidth/4) + stepX, this.game.config.height/2, "vaso");
-      vasoAntigo.setState("isDragging", false);
-      vasoAntigo.setData("health", 100);
-      vasoAntigo.setInteractive({draggable: true});
-      vasoAntigo.setDepth(10);
-
-      vasoAntigo.on("dragstart", function () {
-        this.setState("dragstart");
-        this.body.moves = false;
-        this.body.setVelocityY(0);
-      }, vasoAntigo);
-      
-      vasoAntigo.on("drag", function (pointer, dragX, dragY) {
-        this.setPosition(dragX, dragY);
-      }, vasoAntigo);
-      
-      vasoAntigo.on("dragend", function () {
-        this.setState("dragend");
-        this.body.moves = true;
-      }, vasoAntigo);
-
+      let vasoAntigo = new VasoAntigo(this, (mesa.x - mesa.displayWidth/4) + stepX, this.game.config.height/2);
       grupoDeItems.add(vasoAntigo, true);
     };
     
