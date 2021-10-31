@@ -1,8 +1,8 @@
 import Phaser from "phaser"
 
 export default class Mesa extends Phaser.Physics.Arcade.Image {
-  constructor(scene, x, y, key) {
-    super(scene, x, y, key);
+  constructor(scene, x, y) {
+    super(scene, x, y, "mesa");
 
     scene.add.existing(this);
     scene.physics.add.existing(this, true);

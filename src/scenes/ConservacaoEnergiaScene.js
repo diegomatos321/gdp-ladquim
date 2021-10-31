@@ -24,13 +24,9 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     fullScreenBtnComponent(this);
     
     // Grupo estatico de mesas
-    let grupoDeMesas = this.physics.add.staticGroup();
-
-    // Criando mesas e adicionando ao grupo
-    let mesa = new Mesa(this, 200, this.game.config.height-100, "mesa");
-    grupoDeMesas.add(mesa);
-    let mesa1 = new Mesa(this, this.game.config.width - 200, this.game.config.height-100, "mesa");
-    grupoDeMesas.add(mesa1);
+    let grupoDeMesas = this.physics.add.staticGroup({classType: Mesa});
+    grupoDeMesas.create(200, this.game.config.height-100);
+    grupoDeMesas.create(this.game.config.width - 200, this.game.config.height-100);
 
     // Grupo de vasos
     let grupoDeItems = this.physics.add.group({collideWorldBounds: true});
