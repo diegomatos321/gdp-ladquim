@@ -30,27 +30,10 @@ export default class MenuScene extends Phaser.Scene {
 
     return ladquimArea;
   }
-
-/*   createFullScreenBtn() {
-    let fullscreenBtn = this.add.sprite(this.game.config.width - 16, 16, "fullscreen-icon", 0).setOrigin(1, 0).setInteractive();
-    fullscreenBtn.on(Phaser.Input.Events.POINTER_UP, this.handleFullScreenMode);
-
-    return fullscreenBtn;
-  } */
   
   changeScene = (event) => {
     event.preventDefault();
   
     this.scene.start(CONSTANTS[event.target.id]);
   }
-  
-/*   handleFullScreenMode = () => {
-    if (this.scale.isFullscreen) {
-      this.fullscreenBtn.setFrame(0);
-      this.scale.stopFullscreen();
-    } else {
-      this.fullscreenBtn.setFrame(1);
-      this.scale.startFullscreen();
-    }
-  } */
 }
