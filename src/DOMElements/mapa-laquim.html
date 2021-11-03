@@ -1,7 +1,27 @@
-<div style="width:348px; height:431px">
-  <img usemap="#laquim-mapa" src="../images/ladquim-mapa-exemplo.png" alt="Mapa do LAQUIM"/>
+<style>
+  .mapa-container{
+    width: 348px;
+    height: 431px;
+    position: relative;
+  }
+  .mapa-container .mapa-ladquim,
+  .mapa-container .mapa-areas{
+    position: absolute;
+  }
 
-  <map name="laquim-mapa">
-    <area id="MINI_GAME_QUIMICA_CONSERVACAO" shape="poly" coords="261, 266, 186, 340, 336, 340, 336, 216, 262, 270" href="#" alt=""/>
-  </map>
+  .mapa-areas path {
+    fill: transparent;
+  }
+
+  .mapa-areas path:hover {
+    fill: rgba(0, 0, 255, 0.2);
+  }
+</style>
+
+<div class="mapa-container">
+  <img src="../images/ladquim-mapa-exemplo.png" alt="Mapa do LAQUIM" class="mapa-ladquim"/>
+
+  <svg class="mapa-areas" viewBox="0 0 348 431">
+    <path id="MINI_GAME_QUIMICA_CONSERVACAO" d="M 261, 266 L 186, 340 L 336, 340 L 336, 216 L 262, 270"/>
+  </svg>
 </div>
