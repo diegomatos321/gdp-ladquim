@@ -5,8 +5,8 @@ import ConservacaoEnergiaScene from "./scenes/ConservacaoEnergiaScene.js"
 let config = {
   title: "LADQUIM - Conservação e Restauração",
   version: "1.0.0",
-  width: 1280,
-  height: 768,
+  width: 1920,
+  height: 1080,
   parent: "game-container",
   type: Phaser.AUTO,
   backgroundColor: "#00b3ff",
@@ -14,8 +14,8 @@ let config = {
     createContainer: true
   },
   scale: {
-    width: 1280,
-    height: 768,
+    width: 1920,
+    height: 1080,
     parent: "game-container",
     fullscreenTarget: "game-container",
     mode: Phaser.Scale.FIT,
@@ -31,7 +31,7 @@ let config = {
   },
   banner: true,
   url: "https://ladquim.iq.ufrj.br/",
-  scene: [MenuScene, ConservacaoEnergiaScene]
+  scene: [MenuScene/* , ConservacaoEnergiaScene */]
 };
 
 let game = new Phaser.Game(config);
