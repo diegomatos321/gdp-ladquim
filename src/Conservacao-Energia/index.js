@@ -2,8 +2,8 @@ import Phaser from "phaser"
 import CONSTANTS from "../constants.json"
 
 import fullScreenBtnComponent from "../components/fullScreenBtn.js"
-import Mesa from "../prefabs/Mesa.js"
-import VasoAntigo from "../prefabs/VasoAntigo.js"
+import Mesa from "./prefabs/Mesa.js"
+import VasoAntigo from "./prefabs/VasoAntigo.js"
 
 export default class ConservacaoEnergiaScene extends Phaser.Scene {
   constructor() {
