@@ -1,6 +1,6 @@
 import Phaser from "phaser"
-import MenuScene from "./scenes/MenuScene.js"
-import ConservacaoEnergiaScene from "./scenes/ConservacaoEnergiaScene.js"
+import MenuScene from "./Menu"
+// import ConservacaoEnergiaScene from "./Conservacao-Energia"
 
 let config = {
   title: "LADQUIM - Conservação e Restauração",
