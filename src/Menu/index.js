@@ -10,7 +10,7 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.atlas("menu-atlas", new URL("./images/menu.png8", import.meta.url).pathname, menuAtlas);
+    this.load.atlas("menu-atlas", new URL("./images/menu.png", import.meta.url).pathname, menuAtlas);
 
     this.load.html("ladquim-mapa", new URL("./DOMElements/mapa-laquim.html", import.meta.url).pathname);
     this.load.spritesheet("fullscreen-icon", new URL("../ui/fullscreen.png", import.meta.url).pathname, {
