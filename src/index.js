@@ -1,12 +1,12 @@
 import Phaser from "phaser"
-import MenuScene from "./scenes/MenuScene.js"
-import ConservacaoEnergiaScene from "./scenes/ConservacaoEnergiaScene.js"
+import MenuScene from "./Menu"
+import ConservacaoEnergiaScene from "./Conservacao-Energia"
 
 let config = {
   title: "LADQUIM - Conservação e Restauração",
   version: "1.0.0",
-  width: 1280,
-  height: 768,
+  width: 1920,
+  height: 1080,
   parent: "game-container",
   type: Phaser.AUTO,
   backgroundColor: "#00b3ff",
@@ -14,8 +14,8 @@ let config = {
     createContainer: true
   },
   scale: {
-    width: 1280,
-    height: 768,
+    width: 1920,
+    height: 1080,
     parent: "game-container",
     fullscreenTarget: "game-container",
     mode: Phaser.Scale.FIT,
