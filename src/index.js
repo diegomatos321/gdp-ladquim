@@ -1,6 +1,6 @@
 import Phaser from "phaser"
 import MenuScene from "./Menu"
-// import ConservacaoEnergiaScene from "./Conservacao-Energia"
+import ConservacaoEnergiaScene from "./Conservacao-Energia"
 
 let config = {
   title: "LADQUIM - Conservação e Restauração",
@@ -31,7 +31,7 @@ let config = {
   },
   banner: true,
   url: "https://ladquim.iq.ufrj.br/",
-  scene: [MenuScene/* , ConservacaoEnergiaScene */]
+  scene: [MenuScene, ConservacaoEnergiaScene]
 };
 
 let game = new Phaser.Game(config);
