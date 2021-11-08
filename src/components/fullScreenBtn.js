@@ -1,16 +1,16 @@
-export default function fullScreenBtn(scene) {
-  let fullscreenBtn = scene.add.sprite(scene.game.config.width - 16, 16, "fullscreen-icon", 0).setOrigin(1, 0).setInteractive();
-  fullscreenBtn.on(Phaser.Input.Events.POINTER_UP, handleFullScreenMode);
+export default class FullScreenBtn extends Phaser.GameObjects.Image {
+  constructor(scene) {
+    super(scene, scene.game.config.width - 16, 16, "fullscreen-icon");
 
-  function handleFullScreenMode() {
-    if (scene.scale.isFullscreen) {
-      fullscreenBtn.setFrame(0);
-      scene.scale.stopFullscreen();
-    } else {
-      fullscreenBtn.setFrame(1);
-      scene.scale.startFullscreen();
+    scene.add.existing(this)
+
+    this.setOrigin(1, 0);
+    this.setInteractive();
+    this.on(Phaser.Input.Events.POINTER_UP, handleFullScreenMode);
+    this.on(Phaser.Scale.Events.FULLSCREEN_UNSUPPORTED, () => console.error("Full Screen Unsupported"));
+
+    function handleFullScreenMode() {
+      scene.scale.toggleFullscreen();
     }
   }
-
-  return fullscreenBtn;
 }
