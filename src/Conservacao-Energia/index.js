@@ -113,9 +113,9 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   carregarImagens() {
-    this.load.image("vaso", new URL("../images/vaso-grego-antigo.png?as=webp&quality=75&width=75", import.meta.url).pathname);
-    this.load.image("mesa", new URL("../images/desk-sprite.png?as=webp&quality=75&width=300", import.meta.url).pathname);
-    this.load.image("raindrop", new URL("../images/raindrop-2d-sprite.png?as=webp&quality=75&width=8", import.meta.url).pathname);
+    this.load.image("vaso", new URL("./images/vaso-grego-antigo.png?quality=75&width=75", import.meta.url).pathname);
+    this.load.image("mesa", new URL("./images/desk-sprite.png?quality=75&width=300", import.meta.url).pathname);
+    this.load.image("raindrop", new URL("./images/raindrop-2d-sprite.png?quality=75&width=8", import.meta.url).pathname);
   }
 
   
