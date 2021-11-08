@@ -30,13 +30,13 @@ export default class MenuScene extends Phaser.Scene {
       botao.on(Phaser.Input.Events.POINTER_OVER, () => botao.setTexture("menu-atlas", "menu-botao-hover"))
       botao.on(Phaser.Input.Events.POINTER_OUT, () => botao.setTexture("menu-atlas", "menu-botao"))
 
-      this.add.text(botao.x, botao.y, label[index], {fontFamily: "Nunito ExtraBold", fontSize: "43px"}).setOrigin(0.5, 0.5);
+      this.add.text(botao.x, botao.y, label[index], {fontFamily: "Nunito-ExtraBold", fontSize: "43px"}).setOrigin(0.5, 0.5);
     }
 
     this.add.image(683, 197, "menu-atlas", "menu-title");
     
     this.ladquimArea = this.createLadquimMap(683, 699);
-    this.add.text(this.ladquimArea.x, 1030, "Selecione um Mini-Jogo!", {fontFamily: "Nunito ExtraBold", fontSize: "43px"}).setOrigin(0.5, 0.5);
+    this.add.text(this.ladquimArea.x, 1030, "Selecione um Mini-Jogo!", {fontFamily: "Nunito-Black", fontSize: "43px"}).setOrigin(0.5, 0.5);
     fullScreenBtnComponent(this);
   }
   
