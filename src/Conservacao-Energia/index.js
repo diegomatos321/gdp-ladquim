@@ -1,7 +1,7 @@
 import Phaser from "phaser"
 import CONSTANTS from "../constants.json"
 
-import fullScreenBtnComponent from "../components/fullScreenBtn.js"
+import fullScreenBtn from "../components/fullScreenBtn.js"
 import Mesa from "./prefabs/Mesa.js"
 import VasoAntigo from "./prefabs/VasoAntigo.js"
 
@@ -22,7 +22,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     this.scale.on(Phaser.Scale.Events.ORIENTATION_CHANGE, this.checkOrientation);
 
-    fullScreenBtnComponent(this);
+    new fullScreenBtn(this);
     
     // Grupo estatico de mesas
     let grupoDeMesas = this.physics.add.staticGroup({classType: Mesa});

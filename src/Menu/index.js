@@ -37,7 +37,7 @@ export default class MenuScene extends Phaser.Scene {
     
     this.ladquimArea = this.createLadquimMap(683, 699);
     this.add.text(this.ladquimArea.x, 1030, "Selecione um Mini-Jogo!", {fontFamily: "Nunito-Black", fontSize: "43px"}).setOrigin(0.5, 0.5);
-    fullScreenBtnComponent(this);
+    new fullScreenBtnComponent(this);
   }
   
   createLadquimMap(x, y) {
