@@ -79,5 +79,4 @@ typings/
 *.zip
 ideias/
 .parcel-cache/
-dist/
 etc/
