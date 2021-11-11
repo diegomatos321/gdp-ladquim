@@ -2,6 +2,7 @@ import Phaser from "phaser"
 import CONSTANTS from "../constants.json"
 import menuAtlas from "./images/menu_atlas.json"
 
+import Button from "../common/scripts/Button"
 import fullScreenBtnComponent from "../common/scripts/fullScreenBtn"
 
 export default class MenuScene extends Phaser.Scene {
@@ -20,14 +21,11 @@ export default class MenuScene extends Phaser.Scene {
     this.add.image(this.game.config.width/2, this.game.config.height/2, "menu-atlas", "menu-fundo");
     this.add.image(40, 50, "menu-atlas", "menu-logo_old").setOrigin(0, 0);
 
-    const label = ["O Projeto", "Leaderboard", "Créditos", "Configurações"]
-    const initX = 1440, initY = 400, stepY = 150;
+    const label = ["O Projeto", "Leaderboard", "Créditos", "Configurações"], stepY = 150;
+    const containerBotoes = this.add.container(1440, 400)
     for (let index = 0; index < 4; index++) {
-      const botao = this.add.image(initX + (350/2), (initY + 97/2) + (index * stepY), "menu-atlas", "menu-botao").setInteractive();
-      botao.on(Phaser.Input.Events.POINTER_OVER, () => botao.setTexture("menu-atlas", "menu-botao-hover"))
-      botao.on(Phaser.Input.Events.POINTER_OUT, () => botao.setTexture("menu-atlas", "menu-botao"))
-
-      this.add.text(botao.x, botao.y, label[index], {fontFamily: "Nunito-ExtraBold", fontSize: "43px"}).setOrigin(0.5, 0.5);
+      const botao = new Button(this, 0, index * stepY, label[index], {fontFamily: "Nunito-ExtraBold", fontSize: "43px"})
+      containerBotoes.add(botao)
     }
 
     this.add.image(683, 197, "menu-atlas", "menu-title");
