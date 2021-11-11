@@ -2,7 +2,7 @@ import Phaser from "phaser"
 import CONSTANTS from "../constants.json"
 import menuAtlas from "./images/menu_atlas.json"
 
-import fullScreenBtnComponent from "../components/fullScreenBtn"
+import fullScreenBtnComponent from "../common/scripts/fullScreenBtn"
 
 export default class MenuScene extends Phaser.Scene {
   constructor() {
@@ -13,7 +13,7 @@ export default class MenuScene extends Phaser.Scene {
     this.load.atlas("menu-atlas", new URL("./images/menu.png", import.meta.url).pathname, menuAtlas);
 
     this.load.html("ladquim-mapa", new URL("./DOMElements/mapa-laquim.html", import.meta.url).pathname);
-    this.load.image("fullscreen-icon", new URL("../ui/fullscreen.png", import.meta.url).pathname);
+    this.load.image("fullscreen-icon", new URL("../common/ui/fullscreen.png", import.meta.url).pathname);
   }
 
   create() {

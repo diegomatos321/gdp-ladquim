@@ -1,7 +1,7 @@
 import Phaser from "phaser"
 import CONSTANTS from "../constants.json"
 
-import fullScreenBtn from "../components/fullScreenBtn.js"
+import fullScreenBtn from "../common/scripts/fullScreenBtn"
 import Mesa from "./prefabs/Mesa.js"
 import VasoAntigo from "./prefabs/VasoAntigo.js"
 
