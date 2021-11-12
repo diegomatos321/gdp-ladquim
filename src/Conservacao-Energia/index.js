@@ -4,20 +4,25 @@ import CONSTANTS from "../constants.json"
 import fullScreenBtn from "../common/scripts/fullScreenBtn"
 import Mesa from "./prefabs/Mesa.js"
 import VasoAntigo from "./prefabs/VasoAntigo.js"
+import GameTimer from "./prefabs/GameTimer"
+import FinishGame from "../common/scripts/FinishGame"
 
 export default class ConservacaoEnergiaScene extends Phaser.Scene {
   constructor() {
     super({key: CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO});
+
+    var gameTimer
   }
 
   preload() {
     this.loadingContainer = this.createLoadingInterface();
     this.checkOrientation(this.scale.orientation);
 
-    this.carregarImagens();
+    this.loadImages();
   }
 
   create() {
+
     // Configurando bordas de colisoes do mundo
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
@@ -72,7 +77,24 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // Overlap
     this.physics.add.overlap(grupoDeItems, grupoDeMesas, this.repositionVase);
     this.physics.add.overlap(grupoDeItems, grupoDeAreasDeEfeito, this.damageItem);
+
+    this.gameTimer = new GameTimer(this,240,36)
   }
+
+  update() {
+    
+    this.gameTimer.updateTimer()
+    if(this.gameTimer.hasEnded) {
+      FinishGame.FinishToMainMenu(this)
+    }
+
+  }
+
+  /**
+   * 
+   * Functions
+   * 
+   */
   
   createLoadingInterface() {
     const offSetX = this.game.config.width / 4;
@@ -113,12 +135,11 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     return loadingContainer;
   }
 
-  carregarImagens() {
+  loadImages() {
     this.load.image("vaso", new URL("./images/vaso-grego-antigo.png?quality=75&width=75", import.meta.url).pathname);
     this.load.image("mesa", new URL("./images/desk-sprite.png?quality=75&width=300", import.meta.url).pathname);
     this.load.image("raindrop", new URL("./images/raindrop-2d-sprite.png?quality=75&width=8", import.meta.url).pathname);
   }
-
   
   createRainHitArea(rainSource) {
     let widthOfRainHitArea = Phaser.Geom.Line.Length(rainSource);
@@ -142,7 +163,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   repositionVase = (item, mesa) => {
-    console.log(item.state)
     if(item.state == "dragend") {
       item.setPosition(item.x, mesa.body.center.y - mesa.body.height/2 - item.body.height/2);
     }
