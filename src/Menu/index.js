@@ -22,7 +22,7 @@ export default class MenuScene extends Phaser.Scene {
     this.add.image(40, 50, "menu-atlas", "menu-logo_old").setOrigin(0, 0);
 
     const label = ["O Projeto", "Leaderboard", "Créditos", "Configurações"], stepY = 150;
-    const containerBotoes = this.add.container(1440, 400)
+    const containerBotoes = this.add.container(1600, 400)
     for (let index = 0; index < 4; index++) {
       const botao = new Button(this, 0, index * stepY, label[index], {fontFamily: "Nunito-ExtraBold", fontSize: "43px"})
       containerBotoes.add(botao)

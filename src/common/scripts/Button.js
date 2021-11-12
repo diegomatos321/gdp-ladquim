@@ -4,16 +4,23 @@ export default class Button extends Phaser.GameObjects.Container {
 
     scene.add.existing(this)
 
-    const imageWidth = 350, imageHeight = 97
-
-    // A origem do Container é no canto superior esquerdo, realizo esse offset para as imagens ficarem no centro do container
-    let botao = scene.add.image(imageWidth/2, imageHeight/2, "menu-atlas", "menu-botao");
-    botao.setInteractive();
-    botao.on(Phaser.Input.Events.POINTER_OVER, () => botao.setTexture("menu-atlas", "menu-botao-hover"))
-    botao.on(Phaser.Input.Events.POINTER_OUT, () => botao.setTexture("menu-atlas", "menu-botao"))
+    let botao = scene.add.rexNinePatch({
+      x: 0, 
+      y: 0, 
+      width: 350, 
+      height: 97, 
+      key: "menu-atlas", 
+      baseFrame: "menu-botao", 
+      columns: [6, undefined, 6], 
+      rows: [6, undefined, 6]
+    })
     this.add(botao)
-
-    const buttonText = scene.add.text(botao.x, botao.y, text, textConfig).setOrigin(0.5);
+    
+    const buttonText = scene.add.text(0, 0, text, textConfig).setOrigin(0.5);
     this.add(buttonText)
+    
+    this.setInteractive(new Phaser.Geom.Rectangle(-botao.width/2, -botao.height/2, botao.width, botao.height), Phaser.Geom.Rectangle.Contains);
+    this.on(Phaser.Input.Events.POINTER_OVER, () => botao.setTexture("menu-atlas", "menu-botao-hover", [6, undefined, 6], [6, undefined, 6]))
+    this.on(Phaser.Input.Events.POINTER_OUT, () => botao.setTexture("menu-atlas", "menu-botao", [6, undefined, 6], [6, undefined, 6]))
   }
 }
