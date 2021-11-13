@@ -6,6 +6,7 @@ import Mesa from "./prefabs/Mesa.js"
 import VasoAntigo from "./prefabs/VasoAntigo.js"
 import GameTimer from "./prefabs/GameTimer"
 import FinishGame from "../common/scripts/FinishGame"
+import MusicPlayer from "../common/scripts/MusicPlayer"
 
 export default class ConservacaoEnergiaScene extends Phaser.Scene {
   constructor() {
@@ -15,14 +16,15 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   preload() {
+    this.load.audio('dark-world', ['ost/dark-world.mp3', 'ost/dark-world.ogg']);
     this.loadingContainer = this.createLoadingInterface();
     this.checkOrientation(this.scale.orientation);
-
+    console.log(this)
     this.loadImages();
   }
 
   create() {
-
+    MusicPlayer.StartMusic(this, "dark-world")
     // Configurando bordas de colisoes do mundo
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
