@@ -1,5 +1,4 @@
 import Phaser from "phaser"
-import NinePatchPlugin from 'phaser3-rex-plugins/plugins/ninepatch-plugin.js'
 import MenuScene from "./Menu"
 import ConservacaoEnergiaScene from "./Conservacao-Energia"
 
@@ -29,13 +28,6 @@ let config = {
       gravity: { y: 1200 },
       debug: true
     }
-  },
-  plugins: {
-    global: [{
-      key: "rexNinePatchPlugin",
-      plugin: NinePatchPlugin,
-      start: true
-    }]
   },
   banner: true,
   url: "https://ladquim.iq.ufrj.br/",

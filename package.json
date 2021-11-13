@@ -11,8 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "phaser": "^3.55.2",
-    "phaser3-rex-plugins": "^1.1.63"
+    "phaser": "^3.55.2"
   },
   "devDependencies": {
     "parcel": "^2.0.0",
