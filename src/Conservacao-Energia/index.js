@@ -113,10 +113,10 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.load.on(Phaser.Loader.Events.FILE_PROGRESS, handleFileProgressBar);
     this.load.on(Phaser.Loader.Events.PROGRESS, handleProgressBar);
     this.load.on(Phaser.Loader.Events.COMPLETE, handleCompleteProgressBar);
+    this.scene.scene.events.on(Phaser.Scenes.Events.CREATE, handleSceneStart);
 
     function handleCompleteProgressBar() {
-      fileProgressText.setText("Carregamento Completo");
-      loadingContainer.destroy();
+      fileProgressText.setText("Carregamento Completo: Montando Cena...");
     }
 
     function handleFileProgressBar(file, progress) {
@@ -130,6 +130,10 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     function handleProgressBar(progress) {
       textProgress.setText(`${progress * 100}%`);
+    }
+
+    function handleSceneStart() {
+      loadingContainer.destroy();
     }
 
     return loadingContainer;
