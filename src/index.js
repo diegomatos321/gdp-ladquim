@@ -42,4 +42,4 @@ let config = {
   scene: [MenuScene, ConservacaoEnergiaScene]
 };
 
-let game = new Phaser.Game(config);
+document.addEventListener("DOMContentLoaded", () => new Phaser.Game(config))
