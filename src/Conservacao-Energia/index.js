@@ -95,49 +95,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
    * Functions
    * 
    */
-  
-  createLoadingInterface() {
-    const offSetX = this.game.config.width / 4;
-    const maxProgressWidth = this.game.config.width / 2;
-
-    let progressGraphic = this.add.graphics();
-
-    let shape = new Phaser.Geom.Rectangle(-offSetX, 0, 0, 16);
-    let rectShape = progressGraphic.fillRectShape(shape);
-
-    let textProgress = this.add.text(0, 8, "0%").setOrigin(0.5, 0.5);
-    let fileProgressText = this.add.text(-offSetX, 32, "Iniciando Cena...").setOrigin(0, 0.5);
-
-    let loadingContainer = this.add.container(this.game.config.width / 2, this.game.config.height / 2, [rectShape, textProgress, fileProgressText]);
-
-    this.load.on(Phaser.Loader.Events.FILE_PROGRESS, handleFileProgressBar);
-    this.load.on(Phaser.Loader.Events.PROGRESS, handleProgressBar);
-    this.load.on(Phaser.Loader.Events.COMPLETE, handleCompleteProgressBar);
-    this.scene.scene.events.on(Phaser.Scenes.Events.CREATE, handleSceneStart);
-
-    function handleCompleteProgressBar() {
-      fileProgressText.setText("Carregamento Completo: Montando Cena...");
-    }
-
-    function handleFileProgressBar(file, progress) {
-      progressGraphic.clear();
-      progressGraphic.fillStyle(0xffffff, 0.4);
-      shape.width = progress * maxProgressWidth;
-      rectShape = progressGraphic.fillRectShape(shape);
-
-      fileProgressText.setText(`Carregando: ${file.key}.${file.type} (${progress * 100}%)`);
-    }
-
-    function handleProgressBar(progress) {
-      textProgress.setText(`${progress * 100}%`);
-    }
-
-    function handleSceneStart() {
-      loadingContainer.destroy();
-    }
-
-    return loadingContainer;
-  }
 
   loadImages() {
     this.load.image("vaso", new URL("./images/vaso-grego-antigo.png?quality=75&width=75", import.meta.url).pathname);
