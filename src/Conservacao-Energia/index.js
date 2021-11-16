@@ -6,6 +6,7 @@ import Mesa from "./prefabs/Mesa.js"
 import VasoAntigo from "./prefabs/VasoAntigo.js"
 import GameTimer from "./prefabs/GameTimer"
 import FinishGame from "../common/scripts/FinishGame"
+import LoadingInterface from "../common/scripts/LoadingInterface"
 
 export default class ConservacaoEnergiaScene extends Phaser.Scene {
   constructor() {
@@ -15,7 +16,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   preload() {
-    this.loadingContainer = this.createLoadingInterface();
+    new LoadingInterface(this, this.game.config.width/2, this.game.config.height/2)
     this.checkOrientation(this.scale.orientation);
 
     this.loadImages();
