@@ -23,6 +23,7 @@ export default class LoadingInterface extends Phaser.GameObjects.Container {
     this.scene.load.on(Phaser.Loader.Events.COMPLETE, this.handleCompleteProgressBar);
     this.scene.load.on(Phaser.Loader.Events.FILE_LOAD_ERROR, this.handleProgressError);
     this.scene.events.on(Phaser.Scenes.Events.CREATE, this.handleSceneStart);
+    this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
 
   handleFileProgressBar = (file, progress) => {
@@ -53,5 +54,14 @@ export default class LoadingInterface extends Phaser.GameObjects.Container {
 
   handleSceneStart = () => {
     this.destroy();
+  }
+
+  cleanEvents = (sys) => {
+    sys.scene.load.removeListener(Phaser.Loader.Events.FILE_PROGRESS, this.handleFileProgressBar);
+    sys.scene.load.removeListener(Phaser.Loader.Events.PROGRESS, this.handleProgressBar);
+    sys.scene.load.removeListener(Phaser.Loader.Events.COMPLETE, this.handleCompleteProgressBar);
+    sys.scene.load.removeListener(Phaser.Loader.Events.FILE_LOAD_ERROR, this.handleProgressError);
+    sys.scene.events.removeListener(Phaser.Scenes.Events.CREATE, this.handleSceneStart);
+    sys.scene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
 }
