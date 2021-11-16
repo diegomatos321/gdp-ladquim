@@ -4,6 +4,7 @@ export default class LoadingInterface extends Phaser.GameObjects.Container {
   constructor(scene, x, y){
     super(scene, x, y);
     const offSetX = this.scene.game.config.width / 4, leftTextPadding = 8;
+    this.scene.add.existing(this)
 
     this.progressGraphic = this.scene.add.graphics();
 
