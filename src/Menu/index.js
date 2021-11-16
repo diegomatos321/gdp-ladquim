@@ -4,6 +4,7 @@ import menuAtlas from "./images/menu_atlas.json"
 
 import Button from "../common/scripts/Button"
 import fullScreenBtnComponent from "../common/scripts/fullScreenBtn"
+import LoadingInterface from "../common/scripts/LoadingInterface"
 
 export default class MenuScene extends Phaser.Scene {
   constructor() {
@@ -11,6 +12,7 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   preload() {
+    new LoadingInterface(this, this.game.config.width/2, this.game.config.height/2)
     this.load.atlas("menu-atlas", new URL("./images/menu.png", import.meta.url).pathname, menuAtlas);
 
     this.load.html("ladquim-mapa", new URL("./DOMElements/mapa-laquim.html", import.meta.url).pathname);
