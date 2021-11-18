@@ -3,13 +3,13 @@ export default class Button extends Phaser.GameObjects.Container {
     super(scene, x, y);
 
     this.scene.add.existing(this)
-    this.textura = this.scene.add.image(0, 0, "menu-atlas", "menu-botao")
-    this.add(textura)
+    this.textura = this.scene.add.image(0, 0, "common-atlas", "botao-normal")
+    this.add(this.textura)
     
     const buttonText = this.scene.add.text(0, 0, text, textConfig).setOrigin(0.5);
     this.add(buttonText)
     
-    this.setInteractive(new Phaser.Geom.Rectangle(-textura.displayWidth/2, -textura.displayHeight/2, textura.displayWidth, textura.displayHeight), Phaser.Geom.Rectangle.Contains);
+    this.setInteractive(new Phaser.Geom.Rectangle(-this.textura.displayWidth/2, -this.textura.displayHeight/2, this.textura.displayWidth, this.textura.displayHeight), Phaser.Geom.Rectangle.Contains);
     this.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, this.hoverButton)
     this.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, this.normalButton)
     this.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.downButton)
@@ -17,18 +17,20 @@ export default class Button extends Phaser.GameObjects.Container {
   }
 
   hoverButton = () => {
-    this.textura.setTexture("menu-atlas", "menu-botao-hover")
+    this.textura.setTexture("common-atlas", "botao-hover")
   }
 
   normalButton = () => {
-    textura.setTexture("menu-atlas", "menu-botao")
+    this.textura.setTexture("common-atlas", "botao-normal")
   }
 
   downButton = () => {
     console.log("GAMEOBJECT_POINTER_DOWN")
+    this.textura.setTexture("common-atlas", "botao-down")
   }
 
   upButton = () => {
     console.log("GAMEOBJECT_POINTER_UP")
+    this.textura.setTexture("common-atlas", "botao-hover")
   }
 }
