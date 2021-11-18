@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import CONSTANTS from "../constants.json"
-import menuAtlas from "./images/menu_atlas.json"
+import menuAtlas from "./atlas/menu-textures.json"
+import commonAtlas from "../common/atlas/common-textures.json"
 
 import Button from "../common/scripts/Button"
 import fullScreenBtnComponent from "../common/scripts/fullScreenBtn"
@@ -13,15 +14,15 @@ export default class MenuScene extends Phaser.Scene {
 
   preload() {
     new LoadingInterface(this, this.game.config.width/2, this.game.config.height/2)
-    this.load.atlas("menu-atlas", new URL("./images/menu.png", import.meta.url).pathname, menuAtlas);
+    this.load.atlas("menu-atlas", new URL("./atlas/menu-textures.png", import.meta.url).pathname, menuAtlas);
+    this.load.atlas("common-atlas", new URL("../common/atlas/common-textures.png", import.meta.url).pathname, commonAtlas);
 
     this.load.html("ladquim-mapa", new URL("./DOMElements/mapa-laquim.html", import.meta.url).pathname);
-    this.load.image("fullscreen-icon", new URL("../common/ui/fullscreen.png", import.meta.url).pathname);
   }
 
   create() {
-    this.add.image(this.game.config.width/2, this.game.config.height/2, "menu-atlas", "menu-fundo");
-    this.add.image(40, 50, "menu-atlas", "menu-logo_old").setOrigin(0, 0);
+    this.add.image(this.game.config.width/2, this.game.config.height/2, "menu-atlas", "fundo");
+    this.add.image(40, 50, "menu-atlas", "ladquim-logo").setOrigin(0, 0);
 
     const label = ["O Projeto", "Leaderboard", "Créditos", "Configurações"], stepY = 150;
     const containerBotoes = this.add.container(1600, 400)
@@ -30,7 +31,7 @@ export default class MenuScene extends Phaser.Scene {
       containerBotoes.add(botao)
     }
 
-    this.add.image(683, 197, "menu-atlas", "menu-title");
+    this.add.image(683, 197, "menu-atlas", "ladquim-title");
     
     this.ladquimArea = this.createLadquimMap(683, 699);
     this.add.text(this.ladquimArea.x, 1030, "Selecione um Mini-Jogo!", {fontFamily: "Nunito-Black", fontSize: "43px"}).setOrigin(0.5, 0.5);

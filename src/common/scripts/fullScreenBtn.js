@@ -1,6 +1,6 @@
 export default class FullScreenBtn extends Phaser.GameObjects.Image {
   constructor(scene) {
-    super(scene, scene.game.config.width - 16, 16, "fullscreen-icon");
+    super(scene, scene.game.config.width - 16, 16, "common-atlas", "fullscreen");
 
     scene.add.existing(this)
 
