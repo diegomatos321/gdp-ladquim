@@ -1,0 +1,124 @@
+{
+	"textures": [
+		{
+			"image": "common-textures",
+			"format": "RGBA8888",
+			"size": {
+				"w": 357,
+				"h": 396
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "botao-down",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 357,
+						"h": 102
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 357,
+						"h": 102
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 357,
+						"h": 102
+					}
+				},
+				{
+					"filename": "botao-hover",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 349,
+						"h": 97
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 349,
+						"h": 97
+					},
+					"frame": {
+						"x": 0,
+						"y": 102,
+						"w": 349,
+						"h": 97
+					}
+				},
+				{
+					"filename": "botao-normal",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 349,
+						"h": 97
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 349,
+						"h": 97
+					},
+					"frame": {
+						"x": 0,
+						"y": 199,
+						"w": 349,
+						"h": 97
+					}
+				},
+				{
+					"filename": "fullscreen-clicked",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 160,
+						"h": 132
+					},
+					"spriteSourceSize": {
+						"x": 12,
+						"y": 14,
+						"w": 136,
+						"h": 100
+					},
+					"frame": {
+						"x": 0,
+						"y": 296,
+						"w": 136,
+						"h": 100
+					}
+				},
+				{
+					"filename": "fullscreen",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 160,
+						"h": 132
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 16,
+						"w": 128,
+						"h": 97
+					},
+					"frame": {
+						"x": 136,
+						"y": 296,
+						"w": 128,
+						"h": 97
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7"
+	}
+}

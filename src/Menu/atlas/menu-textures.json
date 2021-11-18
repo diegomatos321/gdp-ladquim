@@ -1,0 +1,103 @@
+{
+	"textures": [
+		{
+			"image": "menu-textures",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1920,
+				"h": 1780
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "fundo",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1920,
+						"h": 1096
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1920,
+						"h": 1096
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 1920,
+						"h": 1096
+					}
+				},
+				{
+					"filename": "mapa-ladquim-areas",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 773,
+						"h": 684
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 773,
+						"h": 684
+					},
+					"frame": {
+						"x": 0,
+						"y": 1096,
+						"w": 773,
+						"h": 684
+					}
+				},
+				{
+					"filename": "ladquim-title",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 506,
+						"h": 215
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 506,
+						"h": 215
+					},
+					"frame": {
+						"x": 773,
+						"y": 1096,
+						"w": 506,
+						"h": 215
+					}
+				},
+				{
+					"filename": "ladquim-logo",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 139,
+						"h": 117
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 139,
+						"h": 117
+					},
+					"frame": {
+						"x": 1279,
+						"y": 1096,
+						"w": 139,
+						"h": 117
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7"
+	}
+}
