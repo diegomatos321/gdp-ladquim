@@ -7,28 +7,44 @@ import VasoAntigo from "./prefabs/VasoAntigo.js"
 import GameTimer from "./prefabs/GameTimer"
 import FinishGame from "../common/scripts/FinishGame"
 import LoadingInterface from "../common/scripts/LoadingInterface"
+import ConservacaoPauseScene from "./components/ConservacaoPauseScene"
+import PhoneOrientation from "../common/scripts/PhoneOrientation"
 
 export default class ConservacaoEnergiaScene extends Phaser.Scene {
   constructor() {
     super({key: CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO});
 
     var gameTimer
+    var pauseGame
+    
   }
 
   preload() {
     new LoadingInterface(this, this.game.config.width/2, this.game.config.height/2)
     this.checkOrientation(this.scale.orientation);
 
+    this.loadingContainer = this.createLoadingInterface();
+    PhoneOrientation.CheckOrientation(this);
     this.loadImages();
+
+     
+    this.load.image('left-cap', new URL("./images/uipack-space/barHorizontal_green_left.png", import.meta.url).pathname)
+	  this.load.image('middle', new URL("./images/uipack-space/barHorizontal_green_mid.png", import.meta.url).pathname)
+	  this.load.image('right-cap', new URL("./images/uipack-space/barHorizontal_green_right.png", import.meta.url).pathname)
+
+	  this.load.image('left-cap-shadow', new URL("./images/uipack-space/barHorizontal_shadow_left.png", import.meta.url).pathname)
+	  this.load.image('middle-shadow', new URL("./images/uipack-space/barHorizontal_shadow_mid.png", import.meta.url).pathname)
+	  this.load.image('right-cap-shadow', new URL("./images/uipack-space/barHorizontal_shadow_right.png", import.meta.url).pathname)
   }
 
   create() {
-
+    ConservacaoPauseScene.LoadPauseScene(this)
     // Configurando bordas de colisoes do mundo
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
     this.scale.on(Phaser.Scale.Events.ORIENTATION_CHANGE, this.checkOrientation);
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
+    this.scale.on(Phaser.Scale.Events.ORIENTATION_CHANGE, PhoneOrientation.CheckOrientation);
 
     new fullScreenBtn(this);
     
@@ -41,7 +57,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     let grupoDeItems = this.physics.add.group({collideWorldBounds: true});
 
     // Criando vasos
-    for (let index = 0; index < 2; index++) {
+    for (let index = 0; index < 1; index++) {
       const mesa = grupoDeMesas.getFirstAlive();
       const stepX = (mesa.displayWidth/2*index);
 
@@ -88,7 +104,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.gameTimer.updateTimer()
     if(this.gameTimer.hasEnded) {
       FinishGame.FinishToMainMenu(this)
-    }
+  }
 
   }
 
@@ -97,6 +113,41 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
    * Functions
    * 
    */
+
+    let progressGraphic = this.add.graphics();
+
+    let shape = new Phaser.Geom.Rectangle(-offSetX, 0, 0, 16);
+    let rectShape = progressGraphic.fillRectShape(shape);
+
+    let textProgress = this.add.text(0, 8, "0%").setOrigin(0.5, 0.5);
+    let fileProgressText = this.add.text(-offSetX, 32, "Iniciando Cena...").setOrigin(0, 0.5);
+
+    let loadingContainer = this.add.container(this.game.config.width / 2, this.game.config.height / 2, [rectShape, textProgress, fileProgressText]);
+
+    this.load.on(Phaser.Loader.Events.FILE_PROGRESS, handleFileProgressBar);
+    this.load.on(Phaser.Loader.Events.PROGRESS, handleProgressBar);
+    this.load.on(Phaser.Loader.Events.COMPLETE, handleCompleteProgressBar);
+
+    function handleCompleteProgressBar() {
+      fileProgressText.setText("Carregamento Completo");
+      loadingContainer.destroy();
+    }
+
+    function handleFileProgressBar(file, progress) {
+      progressGraphic.clear();
+      progressGraphic.fillStyle(0xffffff, 0.4);
+      shape.width = progress * maxProgressWidth;
+      rectShape = progressGraphic.fillRectShape(shape);
+
+      fileProgressText.setText(`Carregando: ${file.key}.${file.type} (${progress * 100}%)`);
+    }
+
+    function handleProgressBar(progress) {
+      textProgress.setText(`${progress * 100}%`);
+    }
+
+    return loadingContainer;
+  }
 
   loadImages() {
     this.load.image("vaso", new URL("./images/vaso-grego-antigo.png?quality=75&width=75", import.meta.url).pathname);
@@ -111,46 +162,19 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     return rainHitArea;
   }
 
-  checkOrientation = (orientation) => {
-    if(!this.orientationText) {
-      this.orientationText = this.add.text(this.game.config.width/2, 20, "").setOrigin(0.5);
-    }
-
-    if (orientation === Phaser.Scale.PORTRAIT) {
-      console.log("PORTRAIT");
-      this.orientationText.setText("Vire o seu celular na Horizontal");
-    } else if (orientation === Phaser.Scale.LANDSCAPE) {
-      console.log("LANDSCAPE");
-      this.orientationText.setText("");
-    }
-  }
-
   repositionVase = (item, mesa) => {
     if(item.state == "dragend") {
       item.setPosition(item.x, mesa.body.center.y - mesa.body.height/2 - item.body.height/2);
     }
   }
 
-  damageItem = (item, areaDeEfeito) => {
-    if(item.getData("health") > 0) {
-      const currentColor = Phaser.Display.Color.ValueToColor("#ffffff");
-      const finalColor = Phaser.Display.Color.ValueToColor("#ff0000");
-
-      if(!item.isTinted) {
-        item.setTint("#ffffff");
-      }
-
-      item.incData("health", -0.1);
-
-      const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(currentColor, finalColor, 100, 100 - item.getData("health"));
-      const colorNumber = Phaser.Display.Color.GetColor(colorObject.r, colorObject.g, colorObject.b);
-
-      item.setTint(colorNumber);
-    }
+  damageItem = (item, damageValue) => {
+    item.damageItem(damageValue)
   }
 
   cleanEvents = (sys) => {
     console.log("Cleaning Events from: " + CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO)
     sys.scene.scale.removeListener(Phaser.Scale.Events.ORIENTATION_CHANGE, this.checkOrientation)
   }
+
 }

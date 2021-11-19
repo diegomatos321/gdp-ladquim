@@ -13,8 +13,4 @@ export default class FinishGame  {
   static FinishToCredits(scene) {
 
   }
-
-  static FinishToCredits(scene, target) {
-    
-  }
 }
