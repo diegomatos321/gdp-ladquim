@@ -57,6 +57,7 @@ export default class LoadingInterface extends Phaser.GameObjects.Container {
   }
 
   cleanEvents = (sys) => {
+    console.log("Cleaning events from LoadingInterface")
     sys.scene.load.removeListener(Phaser.Loader.Events.FILE_PROGRESS, this.handleFileProgressBar);
     sys.scene.load.removeListener(Phaser.Loader.Events.PROGRESS, this.handleProgressBar);
     sys.scene.load.removeListener(Phaser.Loader.Events.COMPLETE, this.handleCompleteProgressBar);

@@ -6,11 +6,23 @@ export default class FullScreenBtn extends Phaser.GameObjects.Image {
 
     this.setOrigin(1, 0);
     this.setInteractive();
-    this.on(Phaser.Input.Events.POINTER_UP, handleFullScreenMode);
-    this.on(Phaser.Scale.Events.FULLSCREEN_UNSUPPORTED, () => console.error("Full Screen Unsupported"));
 
-    function handleFullScreenMode() {
-      scene.scale.toggleFullscreen();
-    }
+    this.on(Phaser.Input.Events.POINTER_UP, this.handleFullScreenMode);
+    this.on(Phaser.Scale.Events.FULLSCREEN_UNSUPPORTED, this.handleFullScreenUnsupported);
+    this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
+  }
+
+  handleFullScreenMode = () => {
+    this.scene.scale.toggleFullscreen();
+  }
+
+  handleFullScreenUnsupported = () => {
+    console.error("FullScreen não é suportado !!")
+  }
+
+  cleanEvents = () => {
+    console.log("Cleaning events from FullScreenBtn")
+    this.removeListener(Phaser.Input.Events.POINTER_UP, this.handleFullScreenMode);
+    this.removeListener(Phaser.Scale.Events.FULLSCREEN_UNSUPPORTED, this.handleFullScreenUnsupported)
   }
 }

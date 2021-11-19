@@ -28,6 +28,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
     this.scale.on(Phaser.Scale.Events.ORIENTATION_CHANGE, this.checkOrientation);
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
 
     new fullScreenBtn(this);
     
@@ -146,5 +147,10 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
       item.setTint(colorNumber);
     }
+  }
+
+  cleanEvents = (sys) => {
+    console.log("Cleaning Events from: " + CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO)
+    sys.scene.scale.removeListener(Phaser.Scale.Events.ORIENTATION_CHANGE, this.checkOrientation)
   }
 }

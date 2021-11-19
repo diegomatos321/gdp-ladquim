@@ -33,7 +33,7 @@ export default class MenuScene extends Phaser.Scene {
 
     this.add.image(683, 197, "menu-atlas", "ladquim-title");
     
-    this.ladquimArea = this.createLadquimMap(683, 699);
+    this.ladquimArea = this.createLadquimMap(683, 655);
     this.add.text(this.ladquimArea.x, 1030, "Selecione um Mini-Jogo!", {fontFamily: "Nunito-Black", fontSize: "43px"}).setOrigin(0.5, 0.5);
     new fullScreenBtnComponent(this);
   }
@@ -42,6 +42,7 @@ export default class MenuScene extends Phaser.Scene {
     let ladquimArea = this.add.dom(x, y).createFromCache("ladquim-mapa");
     ladquimArea.addListener(Phaser.Input.Events.POINTER_UP);
     ladquimArea.on(Phaser.Input.Events.POINTER_UP, this.changeScene);
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
 
     return ladquimArea;
   }
@@ -50,5 +51,10 @@ export default class MenuScene extends Phaser.Scene {
     event.preventDefault();
   
     this.scene.start(CONSTANTS[event.target.id]);
+  }
+
+  cleanEvents = (sys) => {
+    console.log("Cleaning events from: Menu")
+    sys.scene.ladquimArea.removeListener(Phaser.Input.Events.POINTER_UP, this.changeScene)
   }
 }

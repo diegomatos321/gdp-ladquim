@@ -14,6 +14,7 @@ export default class Button extends Phaser.GameObjects.Container {
     this.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, this.normalButton)
     this.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.downButton)
     this.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.upButton)
+    this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
   hoverButton = () => {
@@ -32,5 +33,13 @@ export default class Button extends Phaser.GameObjects.Container {
   upButton = () => {
     console.log("GAMEOBJECT_POINTER_UP")
     this.textura.setTexture("common-atlas", "botao-hover")
+  }
+
+  cleanEvents = (sys) => {
+    console.log("Cleaning events from Button")
+    this.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, this.hoverButton)
+    this.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, this.normalButton)
+    this.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.downButton)
+    this.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.upButton)
   }
 }
