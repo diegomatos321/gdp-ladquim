@@ -7,6 +7,7 @@ import VasoAntigo from "./prefabs/VasoAntigo.js"
 import GameTimer from "./prefabs/GameTimer"
 import FinishGame from "../common/scripts/FinishGame"
 import ConservacaoPauseScene from "./components/ConservacaoPauseScene"
+import PhoneOrientation from "../common/scripts/PhoneOrientation"
 
 export default class ConservacaoEnergiaScene extends Phaser.Scene {
   constructor() {
@@ -19,7 +20,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
   preload() {
     this.loadingContainer = this.createLoadingInterface();
-    this.checkOrientation(this.scale.orientation);
+    PhoneOrientation.CheckOrientation(this.scale.orientation);
     this.loadImages();
   }
 
@@ -148,20 +149,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     let heightOfRainHitArea = this.game.config.height - rainSource.y1;
     let rainHitArea = this.add.rectangle(rainSource.x1 + widthOfRainHitArea / 2, rainSource.y1 + heightOfRainHitArea / 2, widthOfRainHitArea, heightOfRainHitArea);
     return rainHitArea;
-  }
-
-  checkOrientation = (orientation) => {
-    if(!this.orientationText) {
-      this.orientationText = this.add.text(this.game.config.width/2, 20, "").setOrigin(0.5);
-    }
-
-    if (orientation === Phaser.Scale.PORTRAIT) {
-      console.log("PORTRAIT");
-      this.orientationText.setText("Vire o seu celular na Horizontal");
-    } else if (orientation === Phaser.Scale.LANDSCAPE) {
-      console.log("LANDSCAPE");
-      this.orientationText.setText("");
-    }
   }
 
   repositionVase = (item, mesa) => {
