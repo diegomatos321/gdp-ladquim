@@ -20,8 +20,17 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
   preload() {
     this.loadingContainer = this.createLoadingInterface();
-    PhoneOrientation.CheckOrientation(this.scale.orientation);
+    PhoneOrientation.CheckOrientation(this);
     this.loadImages();
+
+     
+    this.load.image('left-cap', new URL("./images/uipack-space/barHorizontal_green_left.png", import.meta.url).pathname)
+	  this.load.image('middle', new URL("./images/uipack-space/barHorizontal_green_mid.png", import.meta.url).pathname)
+	  this.load.image('right-cap', new URL("./images/uipack-space/barHorizontal_green_right.png", import.meta.url).pathname)
+
+	  this.load.image('left-cap-shadow', new URL("./images/uipack-space/barHorizontal_shadow_left.png", import.meta.url).pathname)
+	  this.load.image('middle-shadow', new URL("./images/uipack-space/barHorizontal_shadow_mid.png", import.meta.url).pathname)
+	  this.load.image('right-cap-shadow', new URL("./images/uipack-space/barHorizontal_shadow_right.png", import.meta.url).pathname)
   }
 
   create() {
@@ -29,7 +38,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // Configurando bordas de colisoes do mundo
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
-    this.scale.on(Phaser.Scale.Events.ORIENTATION_CHANGE, this.checkOrientation);
+    this.scale.on(Phaser.Scale.Events.ORIENTATION_CHANGE, PhoneOrientation.CheckOrientation);
 
     new fullScreenBtn(this);
     
@@ -42,7 +51,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     let grupoDeItems = this.physics.add.group({collideWorldBounds: true});
 
     // Criando vasos
-    for (let index = 0; index < 2; index++) {
+    for (let index = 0; index < 1; index++) {
       const mesa = grupoDeMesas.getFirstAlive();
       const stepX = (mesa.displayWidth/2*index);
 
@@ -157,21 +166,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     }
   }
 
-  damageItem = (item, areaDeEfeito) => {
-    if(item.getData("health") > 0) {
-      const currentColor = Phaser.Display.Color.ValueToColor("#ffffff");
-      const finalColor = Phaser.Display.Color.ValueToColor("#ff0000");
-
-      if(!item.isTinted) {
-        item.setTint("#ffffff");
-      }
-
-      item.incData("health", -0.1);
-
-      const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(currentColor, finalColor, 100, 100 - item.getData("health"));
-      const colorNumber = Phaser.Display.Color.GetColor(colorObject.r, colorObject.g, colorObject.b);
-
-      item.setTint(colorNumber);
-    }
+  damageItem = (item, damageValue) => {
+    item.damageItem(damageValue)
   }
+
 }
