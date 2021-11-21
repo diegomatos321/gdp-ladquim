@@ -1,10 +1,7 @@
 import Phaser from "phaser"
 import CONSTANTS from "../constants.json"
 import menuAtlas from "./atlas/menu-textures.json"
-import commonAtlas from "../common/atlas/common-textures.json"
-
 import Button from "../common/scripts/Button"
-import fullScreenBtnComponent from "../common/scripts/fullScreenBtn"
 import LoadingInterface from "../common/scripts/LoadingInterface"
 
 export default class MenuScene extends Phaser.Scene {
@@ -15,8 +12,6 @@ export default class MenuScene extends Phaser.Scene {
   preload() {
     new LoadingInterface(this, this.game.config.width/2, this.game.config.height/2)
     this.load.atlas("menu-atlas", new URL("./atlas/menu-textures.png", import.meta.url).pathname, menuAtlas);
-    this.load.atlas("common-atlas", new URL("../common/atlas/common-textures.png", import.meta.url).pathname, commonAtlas);
-
     this.load.html("ladquim-mapa", new URL("./DOMElements/mapa-laquim.html", import.meta.url).pathname);
   }
 
@@ -35,7 +30,6 @@ export default class MenuScene extends Phaser.Scene {
     
     this.ladquimArea = this.createLadquimMap(683, 655);
     this.add.text(this.ladquimArea.x, 1030, "Selecione um Mini-Jogo!", {fontFamily: "Nunito-Black", fontSize: "43px"}).setOrigin(0.5, 0.5);
-    new fullScreenBtnComponent(this);
   }
   
   createLadquimMap(x, y) {

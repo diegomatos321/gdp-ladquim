@@ -1,7 +1,6 @@
 import Phaser from "phaser"
 import CONSTANTS from "../constants.json"
 
-import fullScreenBtn from "../common/scripts/fullScreenBtn"
 import Mesa from "./prefabs/Mesa.js"
 import VasoAntigo from "./prefabs/VasoAntigo.js"
 import GameTimer from "./prefabs/GameTimer"
@@ -21,9 +20,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
   preload() {
     new LoadingInterface(this, this.game.config.width / 2, this.game.config.height / 2)
-    this.checkOrientation(this.scale.orientation);
 
-    this.loadingContainer = this.createLoadingInterface();
     PhoneOrientation.CheckOrientation(this);
     this.loadImages();
 
@@ -42,11 +39,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // Configurando bordas de colisoes do mundo
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
-    this.scale.on(Phaser.Scale.Events.ORIENTATION_CHANGE, this.checkOrientation);
-    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
     this.scale.on(Phaser.Scale.Events.ORIENTATION_CHANGE, PhoneOrientation.CheckOrientation);
-
-    new fullScreenBtn(this);
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
 
     // Grupo estatico de mesas
     let grupoDeMesas = this.physics.add.staticGroup({ classType: Mesa });
@@ -113,7 +107,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
    * Functions
    * 
    */
-
   loadImages() {
     this.load.image("vaso", new URL("./images/vaso-grego-antigo.png?quality=75&width=75", import.meta.url).pathname);
     this.load.image("mesa", new URL("./images/desk-sprite.png?quality=75&width=300", import.meta.url).pathname);
