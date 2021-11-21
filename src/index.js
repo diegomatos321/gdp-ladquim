@@ -5,7 +5,7 @@ import ConservacaoPauseScene from "./Conservacao-Energia/components/ConservacaoP
 
 let config = {
   title: "LADQUIM - Conservação e Restauração",
-  version: "1.0.0",
+  version: "0.1.0",
   width: 1920,
   height: 1080,
   parent: "game-container",
