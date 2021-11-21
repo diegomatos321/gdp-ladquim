@@ -1,5 +1,7 @@
 import Phaser from "phaser"
+import PreloadScene from "./preload"
 import MenuScene from "./Menu"
+import GUI from "./GUI"
 import ConservacaoEnergiaScene from "./Conservacao-Energia"
 import ConservacaoPauseScene from "./Conservacao-Energia/components/ConservacaoPauseScene"
 
@@ -32,7 +34,7 @@ let config = {
   },
   banner: true,
   url: "https://ladquim.iq.ufrj.br/",
-  scene: [MenuScene, ConservacaoEnergiaScene, ConservacaoPauseScene]
+  scene: [PreloadScene, GUI, MenuScene, ConservacaoEnergiaScene, ConservacaoPauseScene]
 };
 
 document.addEventListener("DOMContentLoaded", () => new Phaser.Game(config))
