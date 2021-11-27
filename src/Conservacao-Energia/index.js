@@ -117,6 +117,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     let widthOfRainHitArea = Phaser.Geom.Line.Length(rainSource);
     let heightOfRainHitArea = this.game.config.height - rainSource.y1;
     let rainHitArea = this.add.rectangle(rainSource.x1 + widthOfRainHitArea / 2, rainSource.y1 + heightOfRainHitArea / 2, widthOfRainHitArea, heightOfRainHitArea);
+    rainHitArea.setData("power", 0.1);
     return rainHitArea;
   }
 
@@ -126,8 +127,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     }
   }
 
-  damageItem = (item, damageValue) => {
-    item.damageItem(damageValue)
+  damageItem = (item, damageSource) => {
+    item.damageItem(damageSource.getData("power"))
   }
 
   cleanEvents = (sys) => {
