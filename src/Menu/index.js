@@ -29,7 +29,7 @@ export default class MenuScene extends Phaser.Scene {
     this.add.image(containerBotoes.x, 215, "menu-atlas", "ladquim-title");
     
     this.ladquimArea = this.createLadquimMap(1300, 550);
-    this.add.text(this.ladquimArea.x, this.ladquimArea.y + this.ladquimArea.displayHeight/2 + 225, "Selecione um Mini-Jogo!", {fontFamily: "Nunito-Black", fontSize: "43px"}).setOrigin(0.5, 0.5);
+    this.add.text(this.ladquimArea.x, this.ladquimArea.y + this.ladquimArea.displayHeight/2 + 200, "Selecione um Mini-Jogo!", {fontFamily: "Nunito-Black", fontSize: "43px"}).setOrigin(0.5, 0.5);
   }
   
   createLadquimMap(x, y) {
