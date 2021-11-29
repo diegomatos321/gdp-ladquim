@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,18 +8,33 @@
   <title>Conservação e Restauração</title>
   <meta name="description" content="Jogo desenvolvido para o Laboratório Didático de Química da UFRJ">
   <meta name="rating" content="General">
-  <link rel="preload" href="./fonts/Nunito/Nunito-ExtraBold.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="./fonts/Nunito/Nunito-Black.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="index.css"/>
+  <!-- <link rel="preload" as="style" href="index.css" crossorigin="anonymous"/> -->
+  <link rel="preload" as="font" href="./common/fonts/Nunito/Nunito-Black.woff2" type="font/woff2"
+    crossorigin="anonymous" />
+  <link rel="preload" as="font" href="./common/fonts/Nunito/Nunito-Black.woff" type="font/woff"
+    crossorigin="anonymous" />
   <style>
-    *{
+    @font-face {
+      font-family: 'Nunito-Black';
+      src: local('Nunito Black'), local('Nunito-Black'),
+        url('./common/fonts/Nunito/Nunito-Black.woff2') format('woff2'),
+        url('./common/fonts/Nunito/Nunito-Black.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    * {
+      font-family: Nunito-Black;
       margin: 0;
       padding: 0;
     }
   </style>
 </head>
+
 <body>
   <div id="game-container"></div>
   <script type="module" src="index.js"></script>
 </body>
+
 </html>

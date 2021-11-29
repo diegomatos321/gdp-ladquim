@@ -1,4 +1,7 @@
 {
   "MAIN_MENU": "main-menu",
-  "MINI_GAME_QUIMICA_CONSERVACAO": "conservacao-energia-scene"
+  "MINI_GAME_QUIMICA_CONSERVACAO": "conservacao-energia-scene",
+  "CONSERVACAO_PAUSE_MENU_SCENE": "conservacao-pause-scene",
+  "PRELOAD": "preload-scene",
+  "GUI": "gui-scene"
 }
