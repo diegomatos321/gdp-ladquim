@@ -40,7 +40,6 @@ export default class VasoAntigo extends Phaser.GameObjects.Container {
         this.textura.setTint("#ffffff");
       }
 
-      console.log(this.getData("health"))
       this.healthBar.setMeterPercentageAnimated(this.getData("health") / 100)
 
       const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(currentColor, finalColor, 100, 100 - this.getData("health"));
