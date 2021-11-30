@@ -21,7 +21,7 @@ export default class GameTimer {
    * 
    */
 
-  updateTimer() {
+  updateTimer = () => {
     this.graphics.clear()
 
     this.graphics.fillStyle(this.hsv[8].color, 1)

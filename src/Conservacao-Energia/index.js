@@ -18,7 +18,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
   }
 
-  preload() {
+  preload = () => {
     new LoadingInterface(this, this.game.config.width / 2, this.game.config.height / 2)
 
     PhoneOrientation.CheckOrientation(this);
@@ -34,7 +34,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.load.image('right-cap-shadow', new URL("./images/uipack-space/barHorizontal_shadow_right.png", import.meta.url).pathname)
   }
 
-  create() {
+  create = () => {
     ConservacaoPauseScene.LoadPauseScene(this)
     // Configurando bordas de colisoes do mundo
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
@@ -93,8 +93,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.gameTimer = new GameTimer(this, 240, 36)
   }
 
-  update() {
-
+  update = () => {
     this.gameTimer.updateTimer()
     if (this.gameTimer.hasEnded) {
       FinishGame.FinishToMainMenu(this)
@@ -107,13 +106,13 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
    * Functions
    * 
    */
-  loadImages() {
+  loadImages = () => {
     this.load.image("vaso", new URL("./images/vaso-grego-antigo.png?quality=75&width=75", import.meta.url).pathname);
     this.load.image("mesa", new URL("./images/desk-sprite.png?quality=75&width=300", import.meta.url).pathname);
     this.load.image("raindrop", new URL("./images/raindrop-2d-sprite.png?quality=75&width=8", import.meta.url).pathname);
   }
 
-  createRainHitArea(rainSource) {
+  createRainHitArea = (rainSource) => {
     let widthOfRainHitArea = Phaser.Geom.Line.Length(rainSource);
     let heightOfRainHitArea = this.game.config.height - rainSource.y1;
     let rainHitArea = this.add.rectangle(rainSource.x1 + widthOfRainHitArea / 2, rainSource.y1 + heightOfRainHitArea / 2, widthOfRainHitArea, heightOfRainHitArea);

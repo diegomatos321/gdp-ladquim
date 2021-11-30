@@ -6,11 +6,11 @@ export default class FinishGame  {
     scene.scene.start(CONSTANTS['MAIN_MENU']);
   }
 
-  static FinishToLeaderBoard(scene) {
+  static FinishToLeaderBoard = (scene) => {
 
   }
 
-  static FinishToCredits(scene) {
+  static FinishToCredits = () => {
 
   }
 }

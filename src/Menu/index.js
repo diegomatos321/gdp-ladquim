@@ -9,13 +9,13 @@ export default class MenuScene extends Phaser.Scene {
     super({key: CONSTANTS.MAIN_MENU});
   }
 
-  preload() {
+  preload = () => {
     new LoadingInterface(this, this.game.config.width/2, this.game.config.height/2)
     this.load.atlas("menu-atlas", new URL("./atlas/menu-textures.png", import.meta.url).pathname, menuAtlas);
     this.load.html("ladquim-mapa", new URL("./DOMElements/mapa-laquim.html", import.meta.url).pathname);
   }
 
-  create() {
+  create = () => {
     this.add.image(this.game.config.width/2, this.game.config.height/2, "menu-atlas", "fundo");
     this.add.image(40, 50, "menu-atlas", "ladquim-logo").setOrigin(0, 0);
 
@@ -32,7 +32,7 @@ export default class MenuScene extends Phaser.Scene {
     this.add.text(this.ladquimArea.x, this.ladquimArea.y + this.ladquimArea.displayHeight/2 + 200, "Selecione um Mini-Jogo!", {fontFamily: "Nunito-Black", fontSize: "43px"}).setOrigin(0.5, 0.5);
   }
   
-  createLadquimMap(x, y) {
+  createLadquimMap = (x, y) => {
     let ladquimArea = this.add.dom(x, y).createFromCache("ladquim-mapa");
     ladquimArea.addListener(Phaser.Input.Events.POINTER_UP);
     ladquimArea.on(Phaser.Input.Events.POINTER_UP, this.changeScene);
