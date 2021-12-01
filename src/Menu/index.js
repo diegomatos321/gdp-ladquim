@@ -30,13 +30,14 @@ export default class MenuScene extends Phaser.Scene {
     
     this.ladquimArea = this.createLadquimMap(1300, 550);
     this.add.text(this.ladquimArea.x, this.ladquimArea.y + this.ladquimArea.displayHeight/2 + 200, "Selecione um Mini-Jogo!", {fontFamily: "Nunito-Black", fontSize: "43px"}).setOrigin(0.5, 0.5);
+    
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
   
   createLadquimMap = (x, y) => {
     let ladquimArea = this.add.dom(x, y).createFromCache("ladquim-mapa");
     ladquimArea.addListener(Phaser.Input.Events.POINTER_UP);
     ladquimArea.on(Phaser.Input.Events.POINTER_UP, this.changeScene);
-    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
 
     return ladquimArea;
   }
