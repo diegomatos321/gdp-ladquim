@@ -32,7 +32,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   create = () => {
-    ConservacaoPauseScene.LoadPauseScene(this)
+    // ConservacaoPauseScene.LoadPauseScene(this)
     // Configurando bordas de colisoes do mundo
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
