@@ -15,7 +15,7 @@ export default class Preload extends Phaser.Scene {
 
   create = () => {
     // Launch GUI scene
-    this.scene.launch(CONSTANTS.GUI)
+    this.scene.launch(CONSTANTS.GAME_MANAGER)
 
     // Goto Menu
     this.scene.start(CONSTANTS.MAIN_MENU)
