@@ -3,5 +3,5 @@
   "MINI_GAME_QUIMICA_CONSERVACAO": "conservacao-energia-scene",
   "CONSERVACAO_PAUSE_MENU_SCENE": "conservacao-pause-scene",
   "PRELOAD": "preload-scene",
-  "GUI": "gui-scene"
+  "GAME_MANAGER": "game-manager"
 }

@@ -1,25 +1,29 @@
 import Phaser from "phaser"
-import FullScreenBtn from "../common/scripts/fullScreenBtn";
 import CONSTANTS from "../constants.json"
 
-export default class GUI extends Phaser.Scene {
+export default class GameManager extends Phaser.Scene {
   constructor() {
-    super({key: CONSTANTS.GUI});
+    super({key: CONSTANTS.GAME_MANAGER});
   }
   
   create() {
+    this.currentSceneKey = "";
     this.scene.bringToTop()
-    this.fullScreenBtn = new FullScreenBtn(this)
     
     this.CheckOrientation();
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
   CheckOrientation = () => {
-    this.orientationText = this.add.text(this.game.config.width/2, 50, "Vire o seu celular na Horizontal", {fontFamily: "Nunito-Black", fontSize: "43px", }).setOrigin(0.5).setVisible(false);
+    const textStyle = {
+      fontFamily: "Nunito-Black", 
+      fontSize: "43px", 
+      backgroundColor: "#ad1403", 
+      padding: 30
+    }
+    this.orientationText = this.add.text(this.game.config.width/2, 60, "Vire o seu celular na Horizontal", textStyle).setOrigin(0.5).setVisible(false);
 
     this.handleChangeOrientation(this.scale.orientation);
-
     this.scale.on(Phaser.Scale.Events.ORIENTATION_CHANGE, this.handleChangeOrientation);
   }
 
@@ -31,6 +35,10 @@ export default class GUI extends Phaser.Scene {
       console.log("LANDSCAPE");
       this.orientationText.setVisible(false);
     }
+  }
+
+  setCurrentScene = (currentSceneKey) => {
+    this.currentSceneKey = currentSceneKey;
   }
 
   cleanEvents = () => {
