@@ -7,7 +7,6 @@ import GameTimer from "./prefabs/GameTimer"
 import FinishGame from "../common/scripts/FinishGame"
 import LoadingInterface from "../common/scripts/LoadingInterface"
 import ConservacaoPauseScene from "./components/ConservacaoPauseScene"
-import PhoneOrientation from "../common/scripts/PhoneOrientation"
 
 export default class ConservacaoEnergiaScene extends Phaser.Scene {
   constructor() {
@@ -21,9 +20,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   preload = () => {
     new LoadingInterface(this, this.game.config.width / 2, this.game.config.height / 2)
 
-    PhoneOrientation.CheckOrientation(this);
     this.loadImages();
-
 
     this.load.image('left-cap', new URL("./images/uipack-space/barHorizontal_green_left.png", import.meta.url).pathname)
     this.load.image('middle', new URL("./images/uipack-space/barHorizontal_green_mid.png", import.meta.url).pathname)
@@ -39,8 +36,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // Configurando bordas de colisoes do mundo
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
-    this.scale.on(Phaser.Scale.Events.ORIENTATION_CHANGE, PhoneOrientation.CheckOrientation);
-    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
+    this.gameTimer = new GameTimer(this, 240, 36)
 
     // Grupo estatico de mesas
     let grupoDeMesas = this.physics.add.staticGroup({ classType: Mesa });
@@ -129,10 +125,4 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   damageItem = (item, damageSource) => {
     item.damageItem(damageSource.getData("power"))
   }
-
-  cleanEvents = (sys) => {
-    console.log("Cleaning Events from: " + CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO)
-    sys.scene.scale.removeListener(Phaser.Scale.Events.ORIENTATION_CHANGE, this.checkOrientation)
-  }
-
 }
