@@ -13,6 +13,7 @@ export default class GameTimer {
     this.timerEvent = scene.time.addEvent({ delay: this.totalTime, loop: false })
     this.hasEnded = false
 
+    scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
   /**
@@ -31,4 +32,8 @@ export default class GameTimer {
     }
   }
 
+  cleanEvents = (sys) => {
+    console.log("Cleaning events from GameTimer")
+    sys.scene.time.removeEvent(this.timerEvent);
+  }
 }
