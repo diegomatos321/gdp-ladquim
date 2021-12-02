@@ -30,6 +30,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   create = () => {
     // ConservacaoPauseScene.LoadPauseScene(this)
     // Configurando bordas de colisoes do mundo
+    this.scene.launch(CONSTANTS.QUIMICA_CONSERVACAO_GUI);
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
     // Grupo estatico de mesas
