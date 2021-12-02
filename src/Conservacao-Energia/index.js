@@ -3,18 +3,14 @@ import CONSTANTS from "../constants.json"
 
 import Mesa from "./prefabs/Mesa.js"
 import VasoAntigo from "./prefabs/VasoAntigo.js"
-import GameTimer from "./prefabs/GameTimer"
 import FinishGame from "../common/scripts/FinishGame"
 import LoadingInterface from "../common/scripts/LoadingInterface"
-import ConservacaoPauseScene from "./components/ConservacaoPauseScene"
 
 export default class ConservacaoEnergiaScene extends Phaser.Scene {
   constructor() {
     super({ key: CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO });
 
-    var gameTimer
     var pauseGame
-
   }
 
   preload = () => {
@@ -35,8 +31,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // ConservacaoPauseScene.LoadPauseScene(this)
     // Configurando bordas de colisoes do mundo
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
-
-    this.gameTimer = new GameTimer(this, 240, 36)
 
     // Grupo estatico de mesas
     let grupoDeMesas = this.physics.add.staticGroup({ classType: Mesa });
@@ -85,16 +79,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // Overlap
     this.physics.add.overlap(grupoDeItems, grupoDeMesas, this.repositionVase);
     this.physics.add.overlap(grupoDeItems, grupoDeAreasDeEfeito, this.damageItem);
-
-    this.gameTimer = new GameTimer(this, 240, 36)
-  }
-
-  update = () => {
-    this.gameTimer.updateTimer()
-    if (this.gameTimer.hasEnded) {
-      FinishGame.FinishToMainMenu(this)
-    }
-
   }
 
   /**
