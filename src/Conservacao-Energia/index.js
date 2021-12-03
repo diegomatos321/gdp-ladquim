@@ -85,6 +85,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // Overlap
     this.physics.add.overlap(grupoDeItems, grupoDeMesas, this.repositionVase);
     this.physics.add.overlap(grupoDeItems, grupoDeAreasDeEfeito, this.damageItem);
+
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
   /**
@@ -114,5 +116,10 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
   damageItem = (item, damageSource) => {
     item.damageItem(damageSource.getData("power"))
+  }
+
+  cleanEvents = () => {
+    const GameManager = this.scene.get(CONSTANTS.GAME_MANAGER);
+    GameManager.setCurrentScene(null)
   }
 }
