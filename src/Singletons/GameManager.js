@@ -5,6 +5,9 @@ export default class GameManager extends Phaser.Scene {
   constructor() {
     super({key: CONSTANTS.GAME_MANAGER});
     this.currentSceneKey = null;
+    this.mapOfScenesToNotPause = new Map([
+      [CONSTANTS.MAIN_MENU, "Menu Principal"]
+    ]);
   }
   
   create() {
@@ -39,14 +42,12 @@ export default class GameManager extends Phaser.Scene {
   }
 
   HandlePauseLogic = () => {
-    this.ListOfScenesDontPause = [CONSTANTS.MAIN_MENU];
-
     this.pauseImage = this.add.image(900, 500, "pauseImage").setVisible(false);
     this.input.keyboard.on("keyup-" + "W", this.pauseCurrentMiniGame)
   }
 
   pauseCurrentMiniGame = () => {
-    if (this.currentSceneKey === null || this.isDontPauseScene()) return
+    if (this.currentSceneKey === null || this.mapOfScenesToNotPause.has(this.currentSceneKey)) return
     
     const currentMiniGameScene = this.scene.get(this.currentSceneKey);
     const currentGUIMiniGame = this.scene.get(this.currentSceneKey + "-gui")
