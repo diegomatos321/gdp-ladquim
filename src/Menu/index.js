@@ -9,6 +9,11 @@ export default class MenuScene extends Phaser.Scene {
     super({key: CONSTANTS.MAIN_MENU});
   }
 
+  init = () => {
+    const GameManager = this.scene.get(CONSTANTS.GAME_MANAGER);
+    GameManager.setCurrentScene(CONSTANTS.MAIN_MENU)
+  }
+
   preload = () => {
     new LoadingInterface(this, this.game.config.width/2, this.game.config.height/2)
     this.load.atlas("menu-atlas", new URL("./atlas/menu-textures.png", import.meta.url).pathname, menuAtlas);

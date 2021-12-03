@@ -13,6 +13,11 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     var pauseGame
   }
 
+  init = () => {
+    const GameManager = this.scene.get(CONSTANTS.GAME_MANAGER);
+    GameManager.setCurrentScene(CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO)
+  }
+
   preload = () => {
     new LoadingInterface(this, this.game.config.width / 2, this.game.config.height / 2)
 
