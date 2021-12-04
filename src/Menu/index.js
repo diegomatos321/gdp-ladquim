@@ -24,8 +24,12 @@ export default class MenuScene extends Phaser.Scene {
     this.add.image(this.game.config.width/2, this.game.config.height/2, "menu-atlas", "fundo");
     this.add.image(40, 50, "menu-atlas", "ladquim-logo").setOrigin(0, 0);
 
-    this.mainMenuContainer = new MainMenuContainer(this, 0, 0);
+    const mainMenuContainer = new MainMenuContainer(this, 0, 0);
     
+    
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
+  }
+
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
