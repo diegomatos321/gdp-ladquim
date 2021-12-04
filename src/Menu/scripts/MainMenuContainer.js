@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import Button from "../../common/scripts/Button"
-import ConfiguracoesBtn from "./ConfiguracoesBtn"
+import MODAL_CONSTANTS from "../MODAL_CONSTANTS.json"
 import CONSTANTS from "../../constants.json"
 
 export default class MainMenuContainer extends Phaser.GameObjects.Container {
@@ -24,20 +24,20 @@ export default class MainMenuContainer extends Phaser.GameObjects.Container {
   }
 
   createButtons = () => {
-    const labels = ["O Projeto", "Leaderboard", "Créditos"], stepY = 150
+    const labels = [MODAL_CONSTANTS.O_PROJETO, MODAL_CONSTANTS.LEADERBOARD, MODAL_CONSTANTS.CREDITOS], stepY = 150
     const buttonStyle = { fontFamily: "Nunito-Black", fontSize: "43px" }
     const containerBotoes = this.scene.add.container(520, 450)
 
-    for (let index = 0; index < 3; index++) {
-      const botao = new Button(this.scene, 0, index * stepY, labels[index], buttonStyle)
+    for (let index = 0; index < labels.length; index++) {
+      const botao = new Button(this.scene, 0, index * stepY, labels[index], buttonStyle, labels[index])
 
       containerBotoes.add(botao)
     }
 
-    this.configuracoesBtn = new ConfiguracoesBtn(this.scene, 0, 3 * stepY, buttonStyle)
+    const configuracoesBtn = new Button(this.scene, 0, 3 * stepY, "Configurações", buttonStyle);
     containerBotoes.add(this.configuracoesBtn);
+    containerBotoes.add(configuracoesBtn);
 
-    // this.events.on(CONSTANTS.SHOW_MODAL, this.SHOW_MODAL);
     return containerBotoes;
   }
 
