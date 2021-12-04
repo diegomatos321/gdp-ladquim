@@ -31,10 +31,18 @@ export default class MenuScene extends Phaser.Scene {
     const mainMenuContainer = new MainMenuContainer(this, 0, 0);
     this.mapOfModals.set(MODAL_CONSTANTS.MENU, mainMenuContainer)
     
+    this.events.on(CONSTANTS.SHOW_MODAL, this.changeModal)
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
 
-    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
+  changeModal = (modalName) => {
+    // console.log("Hide " + this.currentModal)
+    const currentContainer = this.mapOfModals.get(this.currentContainerKey);
+    if (currentContainer != null) {
+      currentContainer.setVisible(false);
+    }
+
+    console.log("Show " + modalName)
   }
 
   cleanEvents = (sys) => {
