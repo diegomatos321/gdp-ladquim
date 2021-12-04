@@ -35,7 +35,9 @@ export default class MainMenuContainer extends Phaser.GameObjects.Container {
     }
 
     const configuracoesBtn = new Button(this.scene, 0, 3 * stepY, "Configurações", buttonStyle);
-    containerBotoes.add(this.configuracoesBtn);
+    configuracoesBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
+      this.scene.events.emit(CONSTANTS.SHOW_MODAL, MODAL_CONSTANTS.CONFIGURACOES);
+    })
     containerBotoes.add(configuracoesBtn);
 
     return containerBotoes;
