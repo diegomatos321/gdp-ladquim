@@ -33,6 +33,7 @@ export default class CheckOrientation extends Phaser.GameObjects.Text{
   }
 
   cleanEvents = (sys) => {
-    sys.scene.scale.removeListener(Phaser.Scale.Events.ORIENTATION_CHANGE, sys.scene.handleChangeOrientation);
+    console.log("Cleaning Events from CheckOrientation")
+    sys.scene.scale.removeListener(Phaser.Scale.Events.ORIENTATION_CHANGE, this.handleChangeOrientation);
   }
 }
