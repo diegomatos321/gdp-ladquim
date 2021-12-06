@@ -3,7 +3,6 @@ import CONSTANTS from "../constants.json"
 
 import Mesa from "./prefabs/Mesa.js"
 import VasoAntigo from "./prefabs/VasoAntigo.js"
-import GameTimer from "./prefabs/GameTimer"
 import FinishGame from "../common/scripts/FinishGame"
 import LoadingInterface from "../common/scripts/LoadingInterface"
 import ConservacaoPauseScene from "./components/ConservacaoPauseScene"
@@ -16,11 +15,16 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     var rainSources
     var grupoDeMesas
     var grupoDeAreasDeEfeito
+    var pauseGame
+  }
+
+  init = () => {
+    const GameManager = this.scene.get(CONSTANTS.GAME_MANAGER);
+    GameManager.setCurrentScene(CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO)
   }
 
   preload = () => {
     new LoadingInterface(this, this.game.config.width / 2, this.game.config.height / 2)
-
     this.loadImages();
   }
 
@@ -36,10 +40,11 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     //Adicionando background
     this.add.image(this.game.config.width/2, this.game.config.height/2,"background")
 
-    // Configurando bordas de colisoes do mundo
-    this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
+    // ConservacaoPauseScene.LoadPauseScene(this)
 
-    this.gameTimer = new GameTimer(this, 240, 36)
+    // Configurando bordas de colisoes do mundo
+    this.scene.launch(CONSTANTS.QUIMICA_CONSERVACAO_GUI);
+    this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
     // Grupo estatico de mesas
     this.grupoDeMesas = this.physics.add.staticGroup({ classType: Mesa });
@@ -65,6 +70,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.physics.add.overlap(grupoDeItems, this.grupoDeMesas, this.repositionVase);
     this.physics.add.overlap(grupoDeItems, this.grupoDeAreasDeEfeito, this.damageItem);
 
+    // Generate GameTimer
     this.gameTimer = new GameTimer(this, 240, 36)
   }
 
@@ -79,6 +85,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
       e.updateRain();
     })
     this.generateRandomRainArea();
+
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
   /**
@@ -130,5 +138,10 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
   damageItem = (item, damageSource) => {
     item.damageItem(damageSource.getData("power"))
+  }
+
+  cleanEvents = () => {
+    const GameManager = this.scene.get(CONSTANTS.GAME_MANAGER);
+    GameManager.setCurrentScene(null)
   }
 }

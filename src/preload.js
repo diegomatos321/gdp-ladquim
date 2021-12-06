@@ -11,13 +11,12 @@ export default class Preload extends Phaser.Scene {
   preload = () => {
     new LoadingInterface(this)
     this.load.atlas("common-atlas", new URL("./common/atlas/common-textures.png", import.meta.url).pathname, commonAtlas);
+    this.load.image("pauseImage", new URL("./common/images/paused.jpg", import.meta.url).pathname);
   }
 
   create = () => {
-    // Launch GUI scene
-    this.scene.launch(CONSTANTS.GUI)
+    this.scene.launch(CONSTANTS.GAME_MANAGER)
 
-    // Goto Menu
     this.scene.start(CONSTANTS.MAIN_MENU)
   }
 }
