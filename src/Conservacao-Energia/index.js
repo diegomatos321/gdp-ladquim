@@ -2,10 +2,10 @@ import Phaser from "phaser"
 import CONSTANTS from "../constants.json"
 
 import Mesa from "./prefabs/Mesa.js"
+import MesaBlank from "./prefabs/MesaBlank.js"
 import VasoAntigo from "./prefabs/VasoAntigo.js"
 import FinishGame from "../common/scripts/FinishGame"
 import LoadingInterface from "../common/scripts/LoadingInterface"
-import ConservacaoPauseScene from "./components/ConservacaoPauseScene"
 import Rain from "./prefabs/Rain"
 
 export default class ConservacaoEnergiaScene extends Phaser.Scene {
@@ -13,6 +13,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     super({ key: CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO });
 
     var rainSources
+    var isRaining
     var grupoDeMesas
     var grupoDeAreasDeEfeito
     var pauseGame
@@ -21,6 +22,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   init = () => {
     const GameManager = this.scene.get(CONSTANTS.GAME_MANAGER);
     GameManager.setCurrentScene(CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO)
+    this.isRaining = false
+    this.rainSources = []
   }
 
   preload = () => {
@@ -30,26 +33,19 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
   create = () => {
 
-    //Adicionando cenas extras
-    ConservacaoPauseScene.LoadPauseScene(this)
-
     //Carregando variáveis
     this.grupoDeAreasDeEfeito = this.physics.add.staticGroup();
-    this.rainSources = []
 
     //Adicionando background
     this.add.image(this.game.config.width/2, this.game.config.height/2,"background")
-
-    // ConservacaoPauseScene.LoadPauseScene(this)
 
     // Configurando bordas de colisoes do mundo
     this.scene.launch(CONSTANTS.QUIMICA_CONSERVACAO_GUI);
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
     // Grupo estatico de mesas
-    this.grupoDeMesas = this.physics.add.staticGroup({ classType: Mesa });
-    this.grupoDeMesas.get(200, this.game.config.height - 100);
-    this.grupoDeMesas.get(this.game.config.width - 200, this.game.config.height - 100);
+    this.grupoDeMesas = this.physics.add.staticGroup({ classType: MesaBlank });
+    this.grupoDeMesas.get(this.game.config.width - 1150, this.game.config.height - 280);
 
     // Grupo de vasos
     let grupoDeItems = this.physics.add.group({ collideWorldBounds: true });
@@ -69,20 +65,12 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // Overlap
     this.physics.add.overlap(grupoDeItems, this.grupoDeMesas, this.repositionVase);
     this.physics.add.overlap(grupoDeItems, this.grupoDeAreasDeEfeito, this.damageItem);
-
-    // Generate GameTimer
-    this.gameTimer = new GameTimer(this, 240, 36)
   }
 
-  update = () => {
-    this.gameTimer.updateTimer()
-    
-    if (this.gameTimer.hasEnded) {
-      FinishGame.FinishToMainMenu(this)
-    }
+  update = () => {    
     
     this.rainSources.forEach((e) => {
-      e.updateRain();
+      this.isRaining = e.updateRain();
     })
     this.generateRandomRainArea();
 
@@ -119,9 +107,10 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   generateRandomRainArea = () => {
-    let randomNumber = Phaser.Math.Between(0, 100);
+    let randomNumber = Phaser.Math.Between(0, 500);
 
-    if (randomNumber < 1) {
+    if (randomNumber < 1 && !this.isRaining) {
+      this.isRaining = true
       const target = this.grupoDeMesas.getFirstAlive();
       let rainSource = new Rain(target, this, "raindrop");
       Rain.CreateEmitter(rainSource.raindropParticles, rainSource, this)

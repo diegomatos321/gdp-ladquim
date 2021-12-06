@@ -2,7 +2,7 @@ import Phaser from "phaser"
 
 export default class Rain extends Phaser.Geom.Line {
   constructor(target, scene, particle) {
-    super(target.x - target.width / 2, 0, target.x + target.width / 2, 0);
+    super(target.x - target.body.width / 2, 0, (target.x + target.body.width / 2), 0);
     this.scene = scene
     this.raindropParticles = scene.add.particles(particle)
     this.rainHitArea = this.createRainHitArea(this, scene);
@@ -37,7 +37,11 @@ export default class Rain extends Phaser.Geom.Line {
       this.raindropParticles.destroy()
       this.rainHitArea.destroy()
       this.timerEvent.destroy()
+
+      return false
     }
+
+    return true
   }
 
 }
