@@ -13,6 +13,14 @@
     crossorigin="anonymous" />
   <link rel="preload" as="font" href="./common/fonts/Nunito/Nunito-Black.woff" type="font/woff"
     crossorigin="anonymous" />
+  <link rel="preload" as="font" href="./common/fonts/Nunito/Nunito-Regular.woff2" type="font/woff2"
+    crossorigin="anonymous" />
+  <link rel="preload" as="font" href="./common/fonts/Nunito/Nunito-Regular.woff" type="font/woff"
+    crossorigin="anonymous" />
+  <link rel="preload" as="font" href="./common/fonts/Nunito/Nunito-Bold.woff2" type="font/woff2"
+    crossorigin="anonymous" />
+  <link rel="preload" as="font" href="./common/fonts/Nunito/Nunito-Bold.woff" type="font/woff"
+    crossorigin="anonymous" />
   <style>
     @font-face {
       font-family: 'Nunito-Black';
@@ -24,10 +32,24 @@
       font-display: swap;
     }
 
-    * {
-      font-family: Nunito-Black;
-      margin: 0;
-      padding: 0;
+    @font-face {
+      font-family: 'Nunito-Regular';
+      src: local('Nunito Regular'), local('Nunito-Regular'),
+        url('./common/fonts/Nunito/Nunito-Regular.woff2') format('woff2'),
+        url('./common/fonts/Nunito/Nunito-Regular.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Nunito-Bold';
+      src: local('Nunito Bold'), local('Nunito-Bold'),
+        url('./common/fonts/Nunito/Nunito-Bold.woff2') format('woff2'),
+        url('./common/fonts/Nunito/Nunito-Bold.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
     }
   </style>
 </head>
