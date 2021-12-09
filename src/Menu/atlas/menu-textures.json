@@ -5,7 +5,7 @@
 			"format": "RGBA8888",
 			"size": {
 				"w": 1920,
-				"h": 1780
+				"h": 1872
 			},
 			"scale": 1,
 			"frames": [
@@ -15,40 +15,40 @@
 					"trimmed": false,
 					"sourceSize": {
 						"w": 1920,
-						"h": 1096
+						"h": 1080
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
 						"w": 1920,
-						"h": 1096
+						"h": 1080
 					},
 					"frame": {
 						"x": 0,
 						"y": 0,
 						"w": 1920,
-						"h": 1096
+						"h": 1080
 					}
 				},
 				{
-					"filename": "mapa-ladquim-areas",
+					"filename": "configuracoes-fundo",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 773,
-						"h": 684
+						"w": 895,
+						"h": 792
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 773,
-						"h": 684
+						"w": 895,
+						"h": 792
 					},
 					"frame": {
 						"x": 0,
-						"y": 1096,
-						"w": 773,
-						"h": 684
+						"y": 1080,
+						"w": 895,
+						"h": 792
 					}
 				},
 				{
@@ -66,10 +66,52 @@
 						"h": 215
 					},
 					"frame": {
-						"x": 773,
-						"y": 1096,
+						"x": 895,
+						"y": 1080,
 						"w": 506,
 						"h": 215
+					}
+				},
+				{
+					"filename": "mobile-instrucoes",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 198,
+						"h": 265
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 198,
+						"h": 265
+					},
+					"frame": {
+						"x": 1401,
+						"y": 1080,
+						"w": 198,
+						"h": 265
+					}
+				},
+				{
+					"filename": "desktop-instrucoes",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 355,
+						"h": 239
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 355,
+						"h": 239
+					},
+					"frame": {
+						"x": 895,
+						"y": 1295,
+						"w": 355,
+						"h": 239
 					}
 				},
 				{
@@ -87,8 +129,8 @@
 						"h": 117
 					},
 					"frame": {
-						"x": 1279,
-						"y": 1096,
+						"x": 1250,
+						"y": 1295,
 						"w": 139,
 						"h": 117
 					}
