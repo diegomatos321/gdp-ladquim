@@ -1,6 +1,6 @@
 export default class FullScreenBtn extends Phaser.GameObjects.Image {
   constructor(scene) {
-    super(scene, scene.game.config.width - 16, 16, "common-atlas", "fullscreen");
+    super(scene, scene.game.config.width - 16, 16, "ui-atlas", "fullscreen");
 
     this.scene.add.existing(this)
 
@@ -13,7 +13,7 @@ export default class FullScreenBtn extends Phaser.GameObjects.Image {
   }
 
   handleFullScreenMode = () => {
-    this.scene.scale.isFullscreen ? this.setTexture("common-atlas", "fullscreen") : this.setTexture("common-atlas", "fullscreen-clicked")
+    this.scene.scale.isFullscreen ? this.setTexture("ui-atlas", "fullscreen") : this.setTexture("ui-atlas", "fullscreen-clicked")
     this.scene.scale.toggleFullscreen();
   }
 
