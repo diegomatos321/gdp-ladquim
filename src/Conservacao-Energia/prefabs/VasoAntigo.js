@@ -23,9 +23,9 @@ export default class VasoAntigo extends Phaser.GameObjects.Container {
     })
     this.setDepth(10);
 
-    this.on("dragstart", this.handleDragStart);
-    this.on("drag", this.handleDrag);
-    this.on("dragend", this.handleDragEnd);
+    this.on(Phaser.Input.Events.DRAG_START, this.handleDragStart);
+    this.on(Phaser.Input.Events.DRAG, this.handleDrag);
+    this.on(Phaser.Input.Events.DRAG_END, this.handleDragEnd);
     this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
