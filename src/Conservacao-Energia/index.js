@@ -65,16 +65,15 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // Overlap
     this.physics.add.overlap(grupoDeItems, this.grupoDeMesas, this.repositionVase);
     this.physics.add.overlap(grupoDeItems, this.grupoDeAreasDeEfeito, this.damageItem);
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
   update = () => {    
-    
     this.rainSources.forEach((e) => {
       this.isRaining = e.updateRain();
     })
     this.generateRandomRainArea();
 
-    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
   /**
