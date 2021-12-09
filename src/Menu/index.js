@@ -4,6 +4,7 @@ import MODAL_CONSTANTS from "./MODAL_CONSTANTS.json"
 import menuAtlas from "./atlas/menu-textures.json"
 import LoadingInterface from "../common/scripts/LoadingInterface"
 import MainMenuContainer from "./scripts/MainMenuContainer"
+import ConfiguracoesContainer from "./scripts/ConfiguracoesContainer"
 
 export default class MenuScene extends Phaser.Scene {
   constructor() {
@@ -29,7 +30,14 @@ export default class MenuScene extends Phaser.Scene {
     this.add.image(40, 50, "menu-atlas", "ladquim-logo").setOrigin(0, 0);
 
     const mainMenuContainer = new MainMenuContainer(this, 0, 0);
+    mainMenuContainer.setVisible(false);
     this.mapOfModals.set(MODAL_CONSTANTS.MENU, mainMenuContainer)
+
+    const configuracoesContainer = new ConfiguracoesContainer(this, 0, 0);
+    configuracoesContainer.setVisible(false)
+    this.mapOfModals.set(MODAL_CONSTANTS.CONFIGURACOES, configuracoesContainer);
+
+    this.mapOfModals.get(this.currentContainerKey).setVisible(true);
     
     this.events.on(CONSTANTS.SHOW_MODAL, this.changeModal)
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
