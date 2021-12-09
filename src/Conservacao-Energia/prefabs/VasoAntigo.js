@@ -49,17 +49,17 @@ export default class VasoAntigo extends Phaser.GameObjects.Container {
     }
   }
 
-  handleDragStart() {
+  handleDragStart = () => {
     this.setState("dragstart");
     this.body.moves = false;
     this.body.setVelocityY(0);
   }
 
-  handleDrag(pointer, dragX, dragY) {
+  handleDrag = (pointer, dragX, dragY) => {
     this.setPosition(dragX, dragY);
   }
 
-  handleDragEnd() {
+  handleDragEnd = () => {
     this.setState("dragend");
     this.body.moves = true;
   }
