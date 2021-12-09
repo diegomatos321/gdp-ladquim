@@ -4,11 +4,74 @@
 			"image": "common-textures",
 			"format": "RGBA8888",
 			"size": {
-				"w": 357,
-				"h": 396
+				"w": 777,
+				"h": 320
 			},
 			"scale": 1,
 			"frames": [
+				{
+					"filename": "slider-background",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 777,
+						"h": 98
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 777,
+						"h": 98
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 777,
+						"h": 98
+					}
+				},
+				{
+					"filename": "slider-border",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 364,
+						"h": 23
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 364,
+						"h": 23
+					},
+					"frame": {
+						"x": 0,
+						"y": 98,
+						"w": 364,
+						"h": 23
+					}
+				},
+				{
+					"filename": "slider-fundo",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 360,
+						"h": 19
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 360,
+						"h": 19
+					},
+					"frame": {
+						"x": 364,
+						"y": 98,
+						"w": 360,
+						"h": 19
+					}
+				},
 				{
 					"filename": "botao-down",
 					"rotated": false,
@@ -25,7 +88,7 @@
 					},
 					"frame": {
 						"x": 0,
-						"y": 0,
+						"y": 121,
 						"w": 357,
 						"h": 102
 					}
@@ -45,8 +108,8 @@
 						"h": 97
 					},
 					"frame": {
-						"x": 0,
-						"y": 102,
+						"x": 357,
+						"y": 121,
 						"w": 349,
 						"h": 97
 					}
@@ -67,51 +130,51 @@
 					},
 					"frame": {
 						"x": 0,
-						"y": 199,
+						"y": 223,
 						"w": 349,
 						"h": 97
 					}
 				},
 				{
-					"filename": "fullscreen-clicked",
+					"filename": "slider-selected-range",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
-						"w": 160,
-						"h": 132
+						"w": 194,
+						"h": 23
 					},
 					"spriteSourceSize": {
-						"x": 12,
-						"y": 14,
-						"w": 136,
-						"h": 100
+						"x": 0,
+						"y": 0,
+						"w": 194,
+						"h": 23
 					},
 					"frame": {
-						"x": 0,
-						"y": 296,
-						"w": 136,
-						"h": 100
+						"x": 349,
+						"y": 223,
+						"w": 194,
+						"h": 23
 					}
 				},
 				{
-					"filename": "fullscreen",
+					"filename": "slider-stick",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
-						"w": 160,
-						"h": 132
+						"w": 40,
+						"h": 40
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 16,
-						"w": 128,
-						"h": 97
+						"x": 0,
+						"y": 0,
+						"w": 40,
+						"h": 40
 					},
 					"frame": {
-						"x": 136,
-						"y": 296,
-						"w": 128,
-						"h": 97
+						"x": 724,
+						"y": 98,
+						"w": 40,
+						"h": 40
 					}
 				}
 			]
