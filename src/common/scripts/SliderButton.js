@@ -24,7 +24,8 @@ export default class SliderButton extends Phaser.GameObjects.Container {
     this.minValue = this.sliderFundo.x - this.sliderFundo.width / 2;
     this.maxValue = this.sliderFundo.x + this.sliderFundo.width / 2;
     this.value = (this.sliderStick.x - this.minValue) / (this.maxValue - this.minValue);
-    console.log(this.value)
+
+    this.createMaskedRangeSelect();
 
     const paddingLeft = 150;
     const textStyle = {
@@ -35,6 +36,27 @@ export default class SliderButton extends Phaser.GameObjects.Container {
     this.add(this.text)
 
     this.sliderStick.on(Phaser.Input.Events.DRAG, this.handleDrag);
+  }
+
+  createMaskedRangeSelect = () => {
+    const offSetX = this.sliderFundo.x - this.sliderFundo.width / 2;
+    
+    this.selectedRange = this.scene.add.graphics();
+    this.selectedRange.fillStyle(0xff8243);
+
+    this.selectedRange.beginPath();
+    this.selectedRange.fillRect(offSetX, -this.sliderFundo.height/2, this.sliderFundo.width, this.sliderFundo.height);
+    this.selectedRange.closePath();
+
+    this.add(this.selectedRange);
+    this.moveDown(this.selectedRange)
+    this.moveDown(this.selectedRange)
+
+    this.rangeShape = this.scene.make.graphics();
+    this.rangeShape.fillStyle(0xffffff);
+    this.updateMaskShape();
+    
+    this.selectedRange.setMask(this.rangeShape.createGeometryMask())
   }
 
   handleDrag = (pointer, dragX, dragY) => {
