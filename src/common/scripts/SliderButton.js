@@ -67,5 +67,16 @@ export default class SliderButton extends Phaser.GameObjects.Container {
     const totalLength = this.maxValue - this.minValue
     this.value = distanteToBeginningOfStick/totalLength
     this.emit(CONSTANTS.VALUE_CHANGED, this.value)
+
+    this.rangeShape.clear();
+    this.updateMaskShape()
+   }
+
+  updateMaskShape = () => {
+    const offSetX = this.sliderFundo.x - this.sliderFundo.width / 2;
+
+    this.rangeShape.beginPath();
+    this.rangeShape.fillRect(this.x + this.sliderFundo.x - this.sliderFundo.width/2, this.y - this.sliderFundo.height/2, this.sliderFundo.width * this.value, this.sliderFundo.height);
+    this.rangeShape.closePath();
   }
 }
