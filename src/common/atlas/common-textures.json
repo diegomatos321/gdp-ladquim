@@ -4,11 +4,32 @@
 			"image": "common-textures",
 			"format": "RGBA8888",
 			"size": {
-				"w": 777,
-				"h": 320
+				"w": 2048,
+				"h": 1024
 			},
 			"scale": 1,
 			"frames": [
+				{
+					"filename": "modal-fundo",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 895,
+						"h": 792
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 895,
+						"h": 792
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 895,
+						"h": 792
+					}
+				},
 				{
 					"filename": "slider-background",
 					"rotated": false,
@@ -24,7 +45,7 @@
 						"h": 98
 					},
 					"frame": {
-						"x": 0,
+						"x": 895,
 						"y": 0,
 						"w": 777,
 						"h": 98
@@ -45,8 +66,8 @@
 						"h": 23
 					},
 					"frame": {
-						"x": 0,
-						"y": 98,
+						"x": 1672,
+						"y": 0,
 						"w": 364,
 						"h": 23
 					}
@@ -66,8 +87,8 @@
 						"h": 19
 					},
 					"frame": {
-						"x": 364,
-						"y": 98,
+						"x": 1672,
+						"y": 23,
 						"w": 360,
 						"h": 19
 					}
@@ -87,10 +108,31 @@
 						"h": 102
 					},
 					"frame": {
-						"x": 0,
-						"y": 121,
+						"x": 1672,
+						"y": 42,
 						"w": 357,
 						"h": 102
+					}
+				},
+				{
+					"filename": "desktop-instrucoes",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 355,
+						"h": 239
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 355,
+						"h": 239
+					},
+					"frame": {
+						"x": 895,
+						"y": 98,
+						"w": 355,
+						"h": 239
 					}
 				},
 				{
@@ -108,52 +150,10 @@
 						"h": 97
 					},
 					"frame": {
-						"x": 357,
-						"y": 121,
+						"x": 1250,
+						"y": 98,
 						"w": 349,
 						"h": 97
-					}
-				},
-				{
-					"filename": "botao-normal",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 349,
-						"h": 97
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 349,
-						"h": 97
-					},
-					"frame": {
-						"x": 0,
-						"y": 223,
-						"w": 349,
-						"h": 97
-					}
-				},
-				{
-					"filename": "slider-selected-range",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 194,
-						"h": 23
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 194,
-						"h": 23
-					},
-					"frame": {
-						"x": 349,
-						"y": 223,
-						"w": 194,
-						"h": 23
 					}
 				},
 				{
@@ -171,10 +171,73 @@
 						"h": 40
 					},
 					"frame": {
-						"x": 724,
+						"x": 1599,
 						"y": 98,
 						"w": 40,
 						"h": 40
+					}
+				},
+				{
+					"filename": "botao-normal",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 349,
+						"h": 97
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 349,
+						"h": 97
+					},
+					"frame": {
+						"x": 1599,
+						"y": 144,
+						"w": 349,
+						"h": 97
+					}
+				},
+				{
+					"filename": "mobile-instrucoes",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 198,
+						"h": 265
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 198,
+						"h": 265
+					},
+					"frame": {
+						"x": 1250,
+						"y": 195,
+						"w": 198,
+						"h": 265
+					}
+				},
+				{
+					"filename": "slider-selected-range",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 194,
+						"h": 23
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 194,
+						"h": 23
+					},
+					"frame": {
+						"x": 895,
+						"y": 337,
+						"w": 194,
+						"h": 23
 					}
 				}
 			]
