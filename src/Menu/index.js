@@ -44,7 +44,6 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   changeModal = (modalName) => {
-    // console.log("Hide " + this.currentModal)
     const currentContainer = this.mapOfModals.get(this.currentContainerKey);
     const containerToShow = this.mapOfModals.get(modalName);
 
@@ -52,8 +51,6 @@ export default class MenuScene extends Phaser.Scene {
     containerToShow?.setVisible(true);
 
     this.currentContainerKey = modalName;
-
-    // console.log("Show " + modalName)
   }
 
   cleanEvents = (sys) => {

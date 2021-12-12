@@ -19,7 +19,6 @@ export default class MainMenuContainer extends Phaser.GameObjects.Container {
     this.bottomMapText = this.scene.add.text(this.ladquimArea.x, this.ladquimArea.y + this.ladquimArea.height / 2 + 43, "Selecione um Mini-Jogo!", { fontFamily: "Nunito-Black", fontSize: "43px" }).setOrigin(0.5, 0.5)
     this.add([this.ladquimArea, this.bottomMapText])
 
-    // this.events.on(CONSTANTS.SHOW_MODAL, this.SHOW_MODAL);
     this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
