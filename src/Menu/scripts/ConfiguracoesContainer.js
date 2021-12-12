@@ -9,7 +9,7 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
 
     this.scene.add.existing(this);
 
-    this.fundo = this.scene.add.image(this.scene.game.config.width/2, this.scene.game.config.height/2, "menu-atlas", "configuracoes-fundo")
+    this.fundo = this.scene.add.image(this.scene.game.config.width/2, this.scene.game.config.height/2, "common-atlas", "modal-fundo")
     this.add(this.fundo)
 
     this.backArrow = this.scene.add.image(630, 230, "ui-atlas", "back-arrow").setInteractive();
@@ -24,7 +24,7 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
     this.Sons.on(CONSTANTS.VALUE_CHANGED, this.handleSonsChanged)
     this.add(this.Sons)
 
-    this.instrucoes = this.scene.add.image(this.scene.game.config.width/2 - 200, this.scene.game.config.height/2 + 200, "menu-atlas", "mobile-instrucoes")
+    this.instrucoes = this.scene.add.image(this.scene.game.config.width/2 - 200, this.scene.game.config.height/2 + 200, "common-atlas", "mobile-instrucoes")
     const textStyle = { 
       fontFamily: "Nunito-Regular", 
       fontSize: "30px",
