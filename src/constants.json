@@ -2,8 +2,10 @@
   "MAIN_MENU": "main-menu",
   "PRELOAD": "preload",
   "GAME_MANAGER": "game-manager",
+  "INICIO_MINI_GAME_QUIMICA_CONSERVACAO": "inicio-quimica-conservacao",
   "MINI_GAME_QUIMICA_CONSERVACAO": "quimica-conservacao",
   "CONSERVACAO_PAUSE_MENU_SCENE": "quimica-conservacao-pause",
+  "FIM_MINI_GAME_QUIMICA_CONSERVACAO": "fim-quimica-conservacao",
   "QUIMICA_CONSERVACAO_GUI": "quimica-conservacao-gui",
   "SHOW_MODAL": "show-modal",
   "VALUE_CHANGED": "value-changed"

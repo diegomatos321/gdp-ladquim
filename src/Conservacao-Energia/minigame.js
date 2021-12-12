@@ -1,7 +1,6 @@
 import Phaser from "phaser"
 import CONSTANTS from "../constants.json"
 
-import Mesa from "./prefabs/Mesa.js"
 import MesaBlank from "./prefabs/MesaBlank.js"
 import VasoAntigo from "./prefabs/VasoAntigo.js"
 import FinishGame from "../common/scripts/FinishGame"
