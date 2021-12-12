@@ -38,25 +38,24 @@ export default class SliderButton extends Phaser.GameObjects.Container {
     this.sliderStick.on(Phaser.Input.Events.DRAG, this.handleDrag);
   }
 
-  createMaskedRangeSelect = () => {
-    const offSetX = this.sliderFundo.x - this.sliderFundo.width / 2;
-    
+  createMaskedRangeSelect = () => {  
     this.selectedRange = this.scene.add.graphics();
-    this.selectedRange.fillStyle(0xff8243);
 
-    this.selectedRange.beginPath();
-    this.selectedRange.fillRect(offSetX, -this.sliderFundo.height/2, this.sliderFundo.width, this.sliderFundo.height);
-    this.selectedRange.closePath();
+    this.updateSelectRangeShape();
 
     this.add(this.selectedRange);
     this.moveDown(this.selectedRange)
     this.moveDown(this.selectedRange)
 
-    this.rangeShape = this.scene.make.graphics();
-    this.rangeShape.fillStyle(0xffffff);
-    this.updateMaskShape();
-    
-    this.selectedRange.setMask(this.rangeShape.createGeometryMask())
+    const rangeMaskShape = this.scene.make.image({
+      x: this.x + this.sliderFundo.x,
+      y: this.y + this.sliderFundo.y,
+      key: "common-atlas",
+      frame: "slider-fundo",
+      add: false
+    })
+    const rangeMask = new Phaser.Display.Masks.BitmapMask(this.scene, rangeMaskShape)
+    this.selectedRange.setMask(rangeMask)
   }
 
   handleDrag = (pointer, dragX, dragY) => {
@@ -68,15 +67,16 @@ export default class SliderButton extends Phaser.GameObjects.Container {
     this.value = distanteToBeginningOfStick/totalLength
     this.emit(CONSTANTS.VALUE_CHANGED, this.value)
 
-    this.rangeShape.clear();
-    this.updateMaskShape()
+    this.updateSelectRangeShape()
    }
 
-  updateMaskShape = () => {
+  updateSelectRangeShape = () => {
     const offSetX = this.sliderFundo.x - this.sliderFundo.width / 2;
 
-    this.rangeShape.beginPath();
-    this.rangeShape.fillRect(this.x + this.sliderFundo.x - this.sliderFundo.width/2, this.y - this.sliderFundo.height/2, this.sliderFundo.width * this.value, this.sliderFundo.height);
-    this.rangeShape.closePath();
+    this.selectedRange.clear();
+    this.selectedRange.fillStyle(0xff8243);
+    this.selectedRange.beginPath();
+    this.selectedRange.fillRect(offSetX, -this.sliderFundo.height/2, this.sliderFundo.width * this.value, this.sliderFundo.height);
+    this.selectedRange.closePath();
   }
 }
