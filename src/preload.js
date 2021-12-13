@@ -2,6 +2,7 @@ import Phaser from "phaser"
 import LoadingInterface from "./common/scripts/LoadingInterface";
 import commonAtlas from "./common/atlas/common-textures.json"
 import uiAtlas from "./common/atlas/ui-textures.json"
+import DetectTouchScreen from "./common/scripts/DetectTouchScreen"
 import CONSTANTS from "./constants.json"
 
 export default class Preload extends Phaser.Scene {
@@ -12,7 +13,10 @@ export default class Preload extends Phaser.Scene {
   preload = () => {
     new LoadingInterface(this)
     this.load.atlas("common-atlas", new URL("./common/atlas/common-textures.png", import.meta.url).pathname, commonAtlas);
-    this.load.atlas("ui-atlas", new URL("./common/atlas/ui-textures.png", import.meta.url).pathname, uiAtlas);    this.load.image("pauseImage", new URL("./common/images/paused.jpg", import.meta.url).pathname);
+    this.load.atlas("ui-atlas", new URL("./common/atlas/ui-textures.png", import.meta.url).pathname, uiAtlas);    
+    this.load.image("pauseImage", new URL("./common/images/paused.jpg", import.meta.url).pathname);
+
+    window.localStorage.setItem("isTouch", DetectTouchScreen())
   }
 
   create = () => {
