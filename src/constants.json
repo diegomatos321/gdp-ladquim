@@ -8,5 +8,7 @@
   "FIM_MINI_GAME_QUIMICA_CONSERVACAO": "fim-quimica-conservacao",
   "QUIMICA_CONSERVACAO_GUI": "quimica-conservacao-gui",
   "SHOW_MODAL": "show-modal",
-  "VALUE_CHANGED": "value-changed"
+  "BACK_ARROW_CLICKED": "back-arrow-clicked",
+  "VALUE_CHANGED": "value-changed",
+  "PAUSED": "game-paused"
 }
