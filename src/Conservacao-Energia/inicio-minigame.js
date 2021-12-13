@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 import Button from "../common/scripts/Button";
+import LoadingInterface from "../common/scripts/LoadingInterface";
+import ShowInstrucoes from "../common/scripts/ShowInstrucoes";
 import CONSTANTS from "../constants.json"
 
 export default class InicioMinigame extends Phaser.Scene {
@@ -10,6 +12,10 @@ export default class InicioMinigame extends Phaser.Scene {
   init = () => {
     const GameManager = this.scene.get(CONSTANTS.GAME_MANAGER);
     GameManager.setCurrentScene(CONSTANTS.INICIO_MINI_GAME_QUIMICA_CONSERVACAO)
+  }
+
+  preload = () => {
+    new LoadingInterface(this)
   }
 
   create = () => {
@@ -27,19 +33,7 @@ export default class InicioMinigame extends Phaser.Scene {
     }
     this.txtTitle = this.add.text(0, this.modalFundo.getTopCenter().y + this.modalFundo.height/6, "Química e Conservação", titleStyle).setOrigin(0.5);
 
-    this.mobileInstrucoes = this.add.image(-this.modalFundo.width/6, 0, "common-atlas", "mobile-instrucoes")
-
-    const instrucoesStyle = {
-      fontSize: 33,
-      fontFamily: "Nunito-Black",
-      padding: {
-        left: 30
-      },
-      wordWrap: {
-        width: this.modalFundo.width/2
-      }
-    }
-    this.txtInstrucoes = this.add.text(this.mobileInstrucoes.x + this.mobileInstrucoes.width/2, this.mobileInstrucoes.y, "Pressione com o dedo e arraste para jogar", instrucoesStyle).setOrigin(0, 0.5)
+    this.instrucoes = new ShowInstrucoes(this, 0, 0);
 
     const commandStyle = {
       fontSize: 43,
@@ -49,7 +43,7 @@ export default class InicioMinigame extends Phaser.Scene {
     
     this.playBtn = new Button(this, this.modalFundo.width/4, this.voltarBtn.y, "Jogar", commandStyle)
     
-    this.modalContainer.add([this.modalFundo, this.txtTitle, this.mobileInstrucoes, this.txtInstrucoes, this.voltarBtn, this.playBtn]);
+    this.modalContainer.add([this.modalFundo, this.txtTitle, this.instrucoes, this.voltarBtn, this.playBtn]);
     
     this.playBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handlePlayBtn)
     this.voltarBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handleVoltarBtn)
