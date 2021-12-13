@@ -4,8 +4,8 @@ import MODAL_CONSTANTS from "../MODAL_CONSTANTS.json"
 import CONSTANTS from "../../constants.json"
 
 export default class MainMenuContainer extends Phaser.GameObjects.Container {
-  constructor(scene, x, y) {
-    super(scene, x, y);
+  constructor(scene) {
+    super(scene, 0, 0);
 
     this.scene.add.existing(this);
 

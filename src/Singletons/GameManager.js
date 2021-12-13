@@ -13,7 +13,7 @@ export default class GameManager extends Phaser.Scene {
     this.scene.bringToTop()
     
     this.checkOrientation = new CheckOrientation(this, this.game.config.width/2, 60);
-    this.pauseMiniGameContainer = new PauseMiniGameContainer(this, this.game.config.width/2, this.game.config.height/2);
+    this.pauseMiniGameContainer = new PauseMiniGameContainer(this);
   }
 
   setCurrentScene = (currentSceneKey) => {
