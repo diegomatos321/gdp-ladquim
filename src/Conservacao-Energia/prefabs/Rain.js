@@ -12,7 +12,7 @@ export default class Rain extends Phaser.Geom.Line {
   static CreateEmitter(particles, source, scene) {
     particles.createEmitter({
       speedY: 300,
-      gravityY: scene.game.config.physics.arcade.gravity.y,
+      gravityY: 1000,
       lifespan: 1000,
       quantity: 10,
       frequency: 20,
