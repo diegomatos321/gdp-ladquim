@@ -15,8 +15,8 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   init = () => {
-    const GameManager = this.scene.get(CONSTANTS.GAME_MANAGER);
-    GameManager.setCurrentScene(CONSTANTS.MAIN_MENU)
+    this.GameManager = this.scene.get(CONSTANTS.GAME_MANAGER);
+    this.GameManager.setCurrentScene(CONSTANTS.MAIN_MENU)
   }
 
   preload = () => {
@@ -62,7 +62,6 @@ export default class MenuScene extends Phaser.Scene {
   cleanEvents = (sys) => {
     console.log("Cleaning events from: Menu SCENE")
 
-    const GameManager = this.scene.get(CONSTANTS.GAME_MANAGER);
-    GameManager.setCurrentScene(null)
+    this.GameManager.setCurrentScene(null)
   }
 }

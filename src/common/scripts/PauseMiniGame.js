@@ -3,8 +3,8 @@ import ConfiguracoesContainer from "../modals/ConfiguracoesContainer";
 import CONSTANTS from "../../constants.json"
 
 export default class PauseMiniGameContainer extends Phaser.GameObjects.Container {
-  constructor(GameManager, x, y) {
-    super(GameManager, x, y);
+  constructor(scene, x, y) {
+    super(scene, x, y);
 
     this.scene.add.existing(this);
 
@@ -13,12 +13,8 @@ export default class PauseMiniGameContainer extends Phaser.GameObjects.Container
       [CONSTANTS.INICIO_MINI_GAME_QUIMICA_CONSERVACAO, "Inicio Conservacao Energia"],
       [CONSTANTS.FIM_MINI_GAME_QUIMICA_CONSERVACAO, "Fim Conservacao Energia"]
     ]));
-    
-    // this.pauseImage = this.scene.add.image(0, 0, "pauseImage").setVisible(false);
-    // this.add([this.pauseImage]);
 
-    this.pauseModal = new ConfiguracoesContainer(this.scene).setVisible(false);
-    this.add(this.pauseModal)
+    this.pauseModal = new ConfiguracoesContainer(this.scene, this.scene.game.config.width/2, this.scene.game.config.height/2).setVisible(false);
     
     this.scene.input.keyboard.on("keyup-" + "W", this.emitEvent);
     this.scene.events.on(CONSTANTS.PAUSED, this.pauseCurrentMiniGame);

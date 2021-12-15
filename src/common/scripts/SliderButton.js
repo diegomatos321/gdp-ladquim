@@ -54,6 +54,7 @@ export default class SliderButton extends Phaser.GameObjects.Container {
       frame: "slider-fundo",
       add: false
     })
+    
     const rangeMask = new Phaser.Display.Masks.BitmapMask(this.scene, rangeMaskShape)
     this.selectedRange.setMask(rangeMask)
   }
