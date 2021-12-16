@@ -20,14 +20,25 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
     this.fullScreenBtn = new FullScreenBtn(this.scene, this.fundo.width/2 - 120, -this.fundo.height/2 + 90).setOrigin(0.5)
     this.add(this.fullScreenBtn)
 
-    this.musicSlider = new SliderButton(this.scene, 0, -160, "Música")
-    this.add(this.musicSlider)
-    this.musicSlider.on(CONSTANTS.VALUE_CHANGED, this.handleMusicValueChanged)
+    /**
+     * Aqui nos deparamos com uma limitação do Phaser 3, de acordo com a documentação:
+     * 
+     * "Containers can have masks set on them and can be used as a mask too. However, Container 
+     * children cannot be masked. The masks do not 'stack up'. Only a Container on the root of 
+     * the display list will use its mask.""
+     * 
+     * Como os nossos slider buttons são um container que envolve toda funcionalidade deles, e eles
+     * contem uma máscara interna para a parte alaranjada da seleção, eles não podem ser adicionados
+     * como "filhos" desse container. Sendo assim, eu adiciono diretamente à cena e faço a posição relativa
+     * manualmente.
+     * 
+     * Nota: Caso o modal for mudar de posição/se mover, deve-se atualizar os slider buttons também.
+     */
+    this.musicSlider = new SliderButton(this.scene, this.x, this.y - 160, "Música").setVisible(this.visible)
     this.musicSlider.on(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleMusicValueChanged)
     
-    this.Sons = new SliderButton(this.scene, 0, -20, "Sons");
+    this.Sons = new SliderButton(this.scene, this.x, this.y - 20, "Sons").setVisible(this.visible);
     this.Sons.on(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleSonsChanged)
-    this.add(this.Sons)
 
     this.instrucoes = new ShowInstrucoes(this.scene, 0, 200);
     this.add(this.instrucoes)
@@ -47,6 +58,16 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
     console.log("Sons Changed: " + value)
   }
 
+  // Adicionando funcionalidade ao setVisible, para atuar tbm nos nossos slider buttons
+  setVisible = (value) => {
+    super.setVisible(value);
+
+    this.musicSlider.setVisible(value)
+    this.Sons.setVisible(value);
+
+    return this;
+  }
+  
   cleanEvents = () => {
     console.log("Cleaning Events from Configurações")
     this.backArrow.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleBackArrow)
