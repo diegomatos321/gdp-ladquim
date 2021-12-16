@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import CONSTANTS from "../../GLOBAL_CONSTANTS.json"
+import GLOBAL_CONSTANTS from "../../GLOBAL_CONSTANTS.json"
 import SliderButton from "../scripts/SliderButton";
 import FullScreenBtn from "../scripts/fullScreenBtn";
 import ShowInstrucoes from "../scripts/ShowInstrucoes";
@@ -23,9 +23,10 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
     this.musicSlider = new SliderButton(this.scene, 0, -160, "Música")
     this.add(this.musicSlider)
     this.musicSlider.on(CONSTANTS.VALUE_CHANGED, this.handleMusicValueChanged)
+    this.musicSlider.on(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleMusicValueChanged)
     
     this.Sons = new SliderButton(this.scene, 0, -20, "Sons");
-    this.Sons.on(CONSTANTS.VALUE_CHANGED, this.handleSonsChanged)
+    this.Sons.on(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleSonsChanged)
     this.add(this.Sons)
 
     this.instrucoes = new ShowInstrucoes(this.scene, 0, 200);
@@ -35,7 +36,7 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
   }
 
   handleBackArrow = () => {
-    this.emit(CONSTANTS.BACK_ARROW_CLICKED)
+    this.emit(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED)
   }
 
   handleMusicValueChanged = (value) => {

@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import CONSTANTS from "../../GLOBAL_CONSTANTS.json"
+import GLOBAL_CONSTANTS from "../../GLOBAL_CONSTANTS.json"
 
 export default class SliderButton extends Phaser.GameObjects.Container {
   constructor(scene, x, y, text, key) {
@@ -66,7 +66,7 @@ export default class SliderButton extends Phaser.GameObjects.Container {
     const distanteToBeginningOfStick = Math.abs(newPosition-this.minValue);
     const totalLength = this.maxValue - this.minValue
     this.value = distanteToBeginningOfStick/totalLength
-    this.emit(CONSTANTS.VALUE_CHANGED, this.value)
+    this.emit(GLOBAL_CONSTANTS.VALUE_CHANGED, this.value)
 
     this.updateSelectRangeShape()
    }

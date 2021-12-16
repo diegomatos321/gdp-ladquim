@@ -1,0 +1,8 @@
+{
+  "GAME-TIMER": "30000",
+  "PAUSE_SCENE": "quimica-conservacao-pause",
+  "GUI": "quimica-conservacao-gui",
+  "START_GAME_MODAL": "start-quimica-conservacao-modal",
+  "START_GAME": "start-game-quimica-conservacao",
+  "RETURN_TO_MENU": "return-to-menu"
+}

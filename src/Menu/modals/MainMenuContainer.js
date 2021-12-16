@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import Button from "../../common/scripts/Button"
 import MODAL_CONSTANTS from "../MODAL_CONSTANTS.json"
-import CONSTANTS from "../../GLOBAL_CONSTANTS.json"
+import GLOBAL_CONSTANTS from "../../GLOBAL_CONSTANTS.json"
 
 export default class MainMenuContainer extends Phaser.GameObjects.Container {
   constructor(scene) {
@@ -35,7 +35,7 @@ export default class MainMenuContainer extends Phaser.GameObjects.Container {
 
     const configuracoesBtn = new Button(this.scene, 0, 3 * stepY, "Configurações", buttonStyle);
     configuracoesBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
-      this.scene.events.emit(CONSTANTS.SHOW_MODAL, MODAL_CONSTANTS.CONFIGURACOES);
+      this.scene.events.emit(GLOBAL_CONSTANTS.SHOW_MODAL, MODAL_CONSTANTS.CONFIGURACOES);
     })
     containerBotoes.add(configuracoesBtn);
 
@@ -53,7 +53,7 @@ export default class MainMenuContainer extends Phaser.GameObjects.Container {
   changeScene = (event) => {
     event.preventDefault();
   
-    this.scene.scene.start(CONSTANTS[event.target.id]);
+    this.scene.scene.start(GLOBAL_CONSTANTS[event.target.id]);
   }
 
   cleanEvents = (sys) => {

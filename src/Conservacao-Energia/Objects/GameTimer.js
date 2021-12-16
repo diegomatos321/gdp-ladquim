@@ -1,5 +1,5 @@
 import Phaser from "phaser"
-import CONSTANTS from "../constants.json"
+import GAME_CONSTANTS from "../GAME_CONSTANTS.json"
 
 export default class GameTimer {
 
@@ -8,7 +8,7 @@ export default class GameTimer {
     this.graphics = scene.add.graphics({x: x,y: y})
     this.graphics.clear()
 
-    this.totalTime = CONSTANTS["GAME-TIMER"]
+    this.totalTime = GAME_CONSTANTS["GAME-TIMER"]
     this.hsv = Phaser.Display.Color.HSVColorWheel();
     this.timerEvent = scene.time.addEvent({ delay: this.totalTime, loop: false })
     this.hasEnded = false

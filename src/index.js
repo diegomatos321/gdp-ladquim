@@ -2,9 +2,8 @@ import Phaser from "phaser"
 import GameManager from "./Singletons/GameManager"
 import PreloadScene from "./preload"
 import MenuScene from "./Menu"
-import InicioConservacaoEnergiaScene from "./Conservacao-Energia/inicio-minigame"
-import ConservacaoEnergiaScene from "./Conservacao-Energia/minigame"
-import FimConservacaoEnergiaScene from "./Conservacao-Energia/fim-minigame"
+import ConservacaoEnergiaScene from "./Conservacao-Energia"
+import StartGameModal from "./Conservacao-Energia/Modals/startGameModal"
 import ConservacaoGUI from "./Conservacao-Energia/GUI"
 
 let config = {
@@ -36,7 +35,7 @@ let config = {
   },
   banner: true,
   url: "https://ladquim.iq.ufrj.br/",
-  scene: [PreloadScene, GameManager, MenuScene, InicioConservacaoEnergiaScene, ConservacaoEnergiaScene, FimConservacaoEnergiaScene, ConservacaoGUI]
+  scene: [PreloadScene, GameManager, MenuScene, ConservacaoEnergiaScene, StartGameModal, ConservacaoGUI]
 };
 
 document.addEventListener("DOMContentLoaded", () => new Phaser.Game(config))

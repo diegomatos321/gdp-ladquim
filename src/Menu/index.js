@@ -1,5 +1,5 @@
 import Phaser from "phaser"
-import CONSTANTS from "../GLOBAL_CONSTANTS.json"
+import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
 import MODAL_CONSTANTS from "./MODAL_CONSTANTS.json"
 import menuAtlas from "./atlas/menu-textures.json"
 import LoadingInterface from "../common/scripts/LoadingInterface"
@@ -8,7 +8,7 @@ import ConfiguracoesContainer from "../common/modals/ConfiguracoesContainer"
 
 export default class MenuScene extends Phaser.Scene {
   constructor() {
-    super({key: CONSTANTS.MAIN_MENU});
+    super({key: GLOBAL_CONSTANTS.MAIN_MENU});
 
     this.currentContainerKey = MODAL_CONSTANTS.MENU;
     this.mapOfModals = new Map();
@@ -16,8 +16,8 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   init = () => {
-    this.GameManager = this.scene.get(CONSTANTS.GAME_MANAGER);
-    this.GameManager.setCurrentScene(CONSTANTS.MAIN_MENU)
+    this.GameManager = this.scene.get(GLOBAL_CONSTANTS.GAME_MANAGER);
+    this.GameManager.setCurrentScene(this.scene.key)
   }
 
   preload = () => {
@@ -40,12 +40,12 @@ export default class MenuScene extends Phaser.Scene {
 
     let configuracoesContainer = new ConfiguracoesContainer(this, this.game.config.width/2, this.game.config.height/2);
     configuracoesContainer.setVisible(false)
-    configuracoesContainer.on(CONSTANTS.BACK_ARROW_CLICKED, this.goToMenu);
+    configuracoesContainer.on(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.goToMenu);
     this.mapOfModals.set(MODAL_CONSTANTS.CONFIGURACOES, configuracoesContainer);
     
     this.mapOfModals.get(this.currentContainerKey).setVisible(true);
     
-    this.events.on(CONSTANTS.SHOW_MODAL, this.changeModal)
+    this.events.on(GLOBAL_CONSTANTS.SHOW_MODAL, this.changeModal)
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
 
