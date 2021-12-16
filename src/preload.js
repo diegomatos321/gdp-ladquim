@@ -3,7 +3,7 @@ import LoadingInterface from "./common/scripts/LoadingInterface";
 import commonAtlas from "./common/atlas/common-textures.json"
 import uiAtlas from "./common/atlas/ui-textures.json"
 import DetectTouchScreen from "./common/scripts/DetectTouchScreen"
-import CONSTANTS from "./constants.json"
+import CONSTANTS from "./GLOBAL_CONSTANTS.json"
 
 export default class Preload extends Phaser.Scene {
   constructor() {

@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import Button from "../../common/scripts/Button"
 import MODAL_CONSTANTS from "../MODAL_CONSTANTS.json"
-import CONSTANTS from "../../constants.json"
+import CONSTANTS from "../../GLOBAL_CONSTANTS.json"
 
 export default class MainMenuContainer extends Phaser.GameObjects.Container {
   constructor(scene) {

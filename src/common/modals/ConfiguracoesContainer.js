@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import CONSTANTS from "../../constants.json"
+import CONSTANTS from "../../GLOBAL_CONSTANTS.json"
 import SliderButton from "../scripts/SliderButton";
 import FullScreenBtn from "../scripts/fullScreenBtn";
 import ShowInstrucoes from "../scripts/ShowInstrucoes";

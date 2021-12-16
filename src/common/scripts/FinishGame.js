@@ -1,4 +1,4 @@
-import CONSTANTS from '../../constants.json'
+import CONSTANTS from '../../GLOBAL_CONSTANTS.json'
 
 export default class FinishGame  {
   

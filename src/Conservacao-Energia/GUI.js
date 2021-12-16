@@ -2,7 +2,7 @@ import Phaser from "phaser"
 import ConfiguracoesContainer from "../common/modals/ConfiguracoesContainer"
 import GameTimer from "./prefabs/GameTimer"
 import FinishGame from "../common/scripts/FinishGame"
-import CONSTANTS from "../constants.json"
+import CONSTANTS from "../GLOBAL_CONSTANTS.json"
 
 export default class QuimicaConservacaoGUI extends Phaser.Scene {
   constructor() {

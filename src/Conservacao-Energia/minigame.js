@@ -1,5 +1,5 @@
 import Phaser from "phaser"
-import CONSTANTS from "../constants.json"
+import CONSTANTS from "../GLOBAL_CONSTANTS.json"
 
 import MesaBlank from "./prefabs/MesaBlank.js"
 import VasoAntigo from "./prefabs/VasoAntigo.js"

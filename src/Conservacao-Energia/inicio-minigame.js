@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import Button from "../common/scripts/Button";
 import LoadingInterface from "../common/scripts/LoadingInterface";
 import ShowInstrucoes from "../common/scripts/ShowInstrucoes";
-import CONSTANTS from "../constants.json"
+import CONSTANTS from "../GLOBAL_CONSTANTS.json"
 
 export default class InicioMinigame extends Phaser.Scene {
   constructor() {

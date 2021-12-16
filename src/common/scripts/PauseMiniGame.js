@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import ConfiguracoesContainer from "../modals/ConfiguracoesContainer";
-import CONSTANTS from "../../constants.json"
+import CONSTANTS from "../../GLOBAL_CONSTANTS.json"
 
 export default class PauseMiniGameContainer extends Phaser.GameObjects.Container {
   constructor(scene, x, y) {

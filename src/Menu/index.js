@@ -1,5 +1,5 @@
 import Phaser from "phaser"
-import CONSTANTS from "../constants.json"
+import CONSTANTS from "../GLOBAL_CONSTANTS.json"
 import MODAL_CONSTANTS from "./MODAL_CONSTANTS.json"
 import menuAtlas from "./atlas/menu-textures.json"
 import LoadingInterface from "../common/scripts/LoadingInterface"
