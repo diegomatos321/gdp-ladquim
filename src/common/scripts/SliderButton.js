@@ -2,12 +2,10 @@ import Phaser from "phaser";
 import GLOBAL_CONSTANTS from "../../GLOBAL_CONSTANTS.json"
 
 export default class SliderButton extends Phaser.GameObjects.Container {
-  constructor(scene, x, y, text, key) {
+  constructor(scene, x, y, text) {
     super(scene, x, y)
 
     this.scene.add.existing(this);
-
-    this.key = key;
     
     this.fundo = this.scene.add.image(0, 0, "common-atlas", "slider-background")
     this.add(this.fundo)
