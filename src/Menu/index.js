@@ -12,6 +12,7 @@ export default class MenuScene extends Phaser.Scene {
 
     this.currentContainerKey = MODAL_CONSTANTS.MENU;
     this.mapOfModals = new Map();
+    var music
   }
 
   init = () => {
@@ -23,11 +24,15 @@ export default class MenuScene extends Phaser.Scene {
     new LoadingInterface(this, this.game.config.width/2, this.game.config.height/2)
     this.load.atlas("menu-atlas", new URL("./atlas/menu-textures.png", import.meta.url).pathname, menuAtlas);
     this.load.html("ladquim-mapa", new URL("./DOMElements/mapa-laquim.html", import.meta.url).pathname);
+    this.load.audio('bossa-lofi', new URL("./sounds/BossaLofi.mp3", import.meta.url).pathname);
   }
 
   create = () => {
     this.add.image(this.game.config.width/2, this.game.config.height/2, "menu-atlas", "fundo");
     this.add.image(40, 50, "menu-atlas", "ladquim-logo").setOrigin(0, 0);
+
+    this.music = this.sound.add('bossa-lofi');
+    this.music.play();
 
     const mainMenuContainer = new MainMenuContainer(this);
     mainMenuContainer.setVisible(false);
@@ -63,5 +68,6 @@ export default class MenuScene extends Phaser.Scene {
     console.log("Cleaning events from: Menu SCENE")
 
     this.GameManager.setCurrentScene(null)
+    this.music.stop()
   }
 }
