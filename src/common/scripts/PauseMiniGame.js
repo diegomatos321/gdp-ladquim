@@ -28,21 +28,12 @@ export default class PauseMiniGameContainer extends Phaser.GameObjects.Container
     if (this.scene.currentSceneKey === null || this.getData("Blacklist").has(this.scene.currentSceneKey)) return
     
     const currentMiniGameScene = this.scene.scene.get(this.scene.currentSceneKey);
-    const currentGUIMiniGame = this.scene.scene.get(this.scene.currentSceneKey + "-gui")
 
     if(currentMiniGameScene.scene.isPaused()) {
       currentMiniGameScene.scene.resume();
-      if(currentGUIMiniGame != null) {
-        currentGUIMiniGame.scene.resume();
-      }
-
       this.pauseModal.setVisible(false);
     } else {
       currentMiniGameScene.scene.pause();
-      if(currentGUIMiniGame != null) {
-        currentGUIMiniGame.scene.pause();
-      }
-
       this.pauseModal.setVisible(true);
     }
   }
