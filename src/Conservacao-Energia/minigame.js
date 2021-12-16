@@ -109,8 +109,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     if (randomNumber < 1 && !this.isRaining) {
       this.isRaining = true
-      const target = this.grupoDeMesas.getFirstAlive();
-      let rainSource = new Rain(target, this, "raindrop");
+      let randomPos = Phaser.Math.Between(0, this.scale.baseSize.width - 400);
+      let rainSource = new Rain(randomPos, this, "raindrop");
       Rain.CreateEmitter(rainSource.raindropParticles, rainSource, this)
       this.rainSources.push(rainSource)
       this.grupoDeAreasDeEfeito.add(rainSource.rainHitArea, true);

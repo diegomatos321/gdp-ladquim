@@ -1,8 +1,8 @@
 import Phaser from "phaser"
 
 export default class Rain extends Phaser.Geom.Line {
-  constructor(target, scene, particle) {
-    super(target.x - target.body.width / 2, 0, (target.x + target.body.width / 2), 0);
+  constructor(posStart, scene, particle) {
+    super(posStart, 0, posStart + 400, 0);
     this.scene = scene
     this.raindropParticles = scene.add.particles(particle)
     this.rainHitArea = this.createRainHitArea(this, scene);
