@@ -13,7 +13,7 @@ export default class Rain extends Phaser.Geom.Line {
     particles.createEmitter({
       speedY: 300,
       gravityY: 1000,
-      lifespan: 1000,
+      lifespan: 100000,
       quantity: 10,
       frequency: 20,
       rotate: -15,
