@@ -1,6 +1,5 @@
 import Phaser from "phaser";
 import Button from "../../common/scripts/Button";
-import LoadingInterface from "../../common/scripts/LoadingInterface";
 import ShowInstrucoes from "../../common/scripts/ShowInstrucoes";
 import GAME_CONSTANTS from "../GAME_CONSTANTS.json"
 import GLOBAL_CONSTANTS from "../../GLOBAL_CONSTANTS.json"
@@ -18,9 +17,7 @@ export default class StartGameModal extends Phaser.Scene {
   }
 
   create = () => {
-    this.modalContainer = this.add.container(this.game.config.width / 2, this.game.config.height / 2);
-
-    this.modalFundo = this.add.image(0, 0, "common-atlas", "modal-fundo");
+    this.modalFundo = this.add.image(this.game.config.width/2, this.game.config.height/2, "common-atlas", "modal-fundo");
 
     const titleStyle = {
       fontSize: 50,
@@ -30,20 +27,18 @@ export default class StartGameModal extends Phaser.Scene {
         width: this.modalFundo.width/2
       }
     }
-    this.txtTitle = this.add.text(0, this.modalFundo.getTopCenter().y + this.modalFundo.height/6, "Química e Conservação", titleStyle).setOrigin(0.5);
+    this.txtTitle = this.add.text(this.game.config.width/2, this.modalFundo.getTopCenter().y + this.modalFundo.height/6, "Química e Conservação", titleStyle).setOrigin(0.5);
 
-    this.instrucoes = new ShowInstrucoes(this, 0, 0);
+    this.instrucoes = new ShowInstrucoes(this, this.game.config.width/2, this.game.config.height/2);
 
     const commandStyle = {
       fontSize: 43,
       fontFamily: "Nunito-Black",
     }
-    this.voltarBtn = new Button(this, -this.modalFundo.width/4, this.modalFundo.y + this.modalFundo.height/2 - 130, "Voltar", commandStyle)
+    this.voltarBtn = new Button(this, this.modalFundo.x - this.modalFundo.width/4, this.modalFundo.y + this.modalFundo.height/2 - 130, "Voltar", commandStyle)
     
-    this.playBtn = new Button(this, this.modalFundo.width/4, this.voltarBtn.y, "Jogar", commandStyle)
-    
-    this.modalContainer.add([this.modalFundo, this.txtTitle, this.instrucoes, this.voltarBtn, this.playBtn]);
-    
+    this.playBtn = new Button(this, this.modalFundo.x + this.modalFundo.width/4, this.voltarBtn.y, "Jogar", commandStyle)
+       
     this.playBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handlePlayBtn)
     this.voltarBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handleVoltarBtn)
     this.gameScene.events.on(GAME_CONSTANTS.START_GAME, this.cleanAndStop)
@@ -63,6 +58,7 @@ export default class StartGameModal extends Phaser.Scene {
 
     this.playBtn.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handlePlayBtn)
     this.voltarBtn.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handleVoltarBtn)
+    this.gameScene.events.removeListener(GAME_CONSTANTS.START_GAME, this.cleanAndStop)
 
     this.scene.stop();
   }
