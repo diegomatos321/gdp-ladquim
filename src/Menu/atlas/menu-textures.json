@@ -5,7 +5,7 @@
 			"format": "RGBA8888",
 			"size": {
 				"w": 1920,
-				"h": 1780
+				"h": 1412
 			},
 			"scale": 1,
 			"frames": [
@@ -15,40 +15,19 @@
 					"trimmed": false,
 					"sourceSize": {
 						"w": 1920,
-						"h": 1096
+						"h": 1080
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
 						"w": 1920,
-						"h": 1096
+						"h": 1080
 					},
 					"frame": {
 						"x": 0,
 						"y": 0,
 						"w": 1920,
-						"h": 1096
-					}
-				},
-				{
-					"filename": "mapa-ladquim-areas",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 773,
-						"h": 684
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 773,
-						"h": 684
-					},
-					"frame": {
-						"x": 0,
-						"y": 1096,
-						"w": 773,
-						"h": 684
+						"h": 1080
 					}
 				},
 				{
@@ -66,8 +45,8 @@
 						"h": 215
 					},
 					"frame": {
-						"x": 773,
-						"y": 1096,
+						"x": 0,
+						"y": 1080,
 						"w": 506,
 						"h": 215
 					}
@@ -87,8 +66,8 @@
 						"h": 117
 					},
 					"frame": {
-						"x": 1279,
-						"y": 1096,
+						"x": 0,
+						"y": 1295,
 						"w": 139,
 						"h": 117
 					}

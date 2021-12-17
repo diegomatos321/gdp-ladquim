@@ -1,9 +1,11 @@
 import Phaser from "phaser"
+import GameManager from "./Singletons/GameManager"
 import PreloadScene from "./preload"
 import MenuScene from "./Menu"
-import GUI from "./GUI"
 import ConservacaoEnergiaScene from "./Conservacao-Energia"
-import ConservacaoPauseScene from "./Conservacao-Energia/components/ConservacaoPauseScene"
+import StartGameModal from "./Conservacao-Energia/Modals/startGameModal"
+import FinishGameModal from "./Conservacao-Energia/Modals/finishGameModal"
+import ConservacaoGUI from "./Conservacao-Energia/GUI"
 
 let config = {
   title: "LADQUIM - Conservação e Restauração",
@@ -28,13 +30,13 @@ let config = {
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 1200 },
+      gravity: { y: 0 },
       debug: true
     }
   },
   banner: true,
   url: "https://ladquim.iq.ufrj.br/",
-  scene: [PreloadScene, GUI, MenuScene, ConservacaoEnergiaScene, ConservacaoPauseScene]
+  scene: [PreloadScene, GameManager, MenuScene, ConservacaoEnergiaScene, StartGameModal, FinishGameModal, ConservacaoGUI]
 };
 
 document.addEventListener("DOMContentLoaded", () => new Phaser.Game(config))

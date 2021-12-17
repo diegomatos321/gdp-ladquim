@@ -1,4 +1,4 @@
-import CONSTANTS from '../../constants.json'
+import CONSTANTS from '../../GLOBAL_CONSTANTS.json'
 
 export default class FinishGame  {
   
@@ -6,11 +6,11 @@ export default class FinishGame  {
     scene.scene.start(CONSTANTS['MAIN_MENU']);
   }
 
-  static FinishToLeaderBoard(scene) {
+  static FinishToLeaderBoard = (scene) => {
 
   }
 
-  static FinishToCredits(scene) {
+  static FinishToCredits = () => {
 
   }
 }

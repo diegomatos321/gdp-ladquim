@@ -1,0 +1,10 @@
+{
+  "MAIN_MENU": "main-menu",
+  "PRELOAD": "preload",
+  "GAME_MANAGER": "game-manager",
+  "MINI_GAME_QUIMICA_CONSERVACAO": "quimica-conservacao",
+  "SHOW_MODAL": "show-modal",
+  "BACK_ARROW_CLICKED": "back-arrow-clicked",
+  "VALUE_CHANGED": "value-changed",
+  "PAUSED": "game-paused"
+}

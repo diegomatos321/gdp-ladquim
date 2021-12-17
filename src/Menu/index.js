@@ -1,54 +1,73 @@
 import Phaser from "phaser"
-import CONSTANTS from "../constants.json"
+import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
+import MODAL_CONSTANTS from "./MODAL_CONSTANTS.json"
 import menuAtlas from "./atlas/menu-textures.json"
-import Button from "../common/scripts/Button"
 import LoadingInterface from "../common/scripts/LoadingInterface"
+import MainMenuContainer from "./modals/MainMenuContainer"
+import ConfiguracoesContainer from "../common/modals/ConfiguracoesContainer"
 
 export default class MenuScene extends Phaser.Scene {
   constructor() {
-    super({key: CONSTANTS.MAIN_MENU});
+    super({key: GLOBAL_CONSTANTS.MAIN_MENU});
+
+    this.currentContainerKey = MODAL_CONSTANTS.MENU;
+    this.mapOfModals = new Map();
+    var music
   }
 
-  preload() {
+  init = () => {
+    this.GameManager = this.scene.get(GLOBAL_CONSTANTS.GAME_MANAGER);
+    this.GameManager.setCurrentScene(this.scene.key)
+  }
+
+  preload = () => {
     new LoadingInterface(this, this.game.config.width/2, this.game.config.height/2)
     this.load.atlas("menu-atlas", new URL("./atlas/menu-textures.png", import.meta.url).pathname, menuAtlas);
     this.load.html("ladquim-mapa", new URL("./DOMElements/mapa-laquim.html", import.meta.url).pathname);
+    this.load.audio('bossa-lofi', new URL("./sounds/BossaLofi.mp3", import.meta.url).pathname);
   }
 
-  create() {
+  create = () => {
     this.add.image(this.game.config.width/2, this.game.config.height/2, "menu-atlas", "fundo");
     this.add.image(40, 50, "menu-atlas", "ladquim-logo").setOrigin(0, 0);
 
-    const label = ["O Projeto", "Leaderboard", "Créditos", "Configurações"], stepY = 150;
-    const containerBotoes = this.add.container(520, 450)
-    for (let index = 0; index < 4; index++) {
-      const botao = new Button(this, 0, index * stepY, label[index], {fontFamily: "Nunito-Black", fontSize: "43px", })
-      containerBotoes.add(botao)
-    }
+    this.music = this.sound.add('bossa-lofi');
+    this.music.play();
 
-    this.add.image(containerBotoes.x, 215, "menu-atlas", "ladquim-title");
+    const mainMenuContainer = new MainMenuContainer(this);
+    mainMenuContainer.setVisible(false);
+    this.mapOfModals.set(MODAL_CONSTANTS.MENU, mainMenuContainer)
+
+    let configuracoesContainer = new ConfiguracoesContainer(this, this.game.config.width/2, this.game.config.height/2);
+    configuracoesContainer.setVisible(false)
+    configuracoesContainer.on(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.goToMenu);
+    this.mapOfModals.set(MODAL_CONSTANTS.CONFIGURACOES, configuracoesContainer);
     
-    this.ladquimArea = this.createLadquimMap(1300, 550);
-    this.add.text(this.ladquimArea.x, this.ladquimArea.y + this.ladquimArea.displayHeight/2 + 200, "Selecione um Mini-Jogo!", {fontFamily: "Nunito-Black", fontSize: "43px"}).setOrigin(0.5, 0.5);
+    this.mapOfModals.get(this.currentContainerKey).setVisible(true);
+    
+    this.events.on(GLOBAL_CONSTANTS.SHOW_MODAL, this.changeModal)
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
-  
-  createLadquimMap(x, y) {
-    let ladquimArea = this.add.dom(x, y).createFromCache("ladquim-mapa");
-    ladquimArea.addListener(Phaser.Input.Events.POINTER_UP);
-    ladquimArea.on(Phaser.Input.Events.POINTER_UP, this.changeScene);
-    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
 
-    return ladquimArea;
+  goToMenu = () => {
+    console.log("FOI")
+    this.changeModal(MODAL_CONSTANTS.MENU)
   }
-  
-  changeScene = (event) => {
-    event.preventDefault();
-  
-    this.scene.start(CONSTANTS[event.target.id]);
+
+  changeModal = (modalName) => {
+    const currentContainer = this.mapOfModals.get(this.currentContainerKey);
+    const containerToShow = this.mapOfModals.get(modalName);
+
+    currentContainer?.setVisible(false);
+    containerToShow?.setVisible(true);
+
+    this.currentContainerKey = modalName;
   }
 
   cleanEvents = (sys) => {
-    console.log("Cleaning events from: Menu")
-    sys.scene.ladquimArea.removeListener(Phaser.Input.Events.POINTER_UP, this.changeScene)
+    console.log("Cleaning events from: Menu SCENE")
+
+    this.GameManager.setCurrentScene(null)
+    this.music.stop()
   }
 }
