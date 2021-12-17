@@ -199,10 +199,14 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   cleanEvents = (sys) => {
+    console.log("Cleaning Events from Conservacao Energia Minigame")
     this.GameManager.setCurrentScene(null)
 
     this.GameManager.events.removeListener(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene)
-    this.events.removeListener(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu)
-    this.events.removeListener(GAME_CONSTANTS.START_GAME, this.handleStartGame)
+    sys.scene.events.removeListener(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu)
+    sys.scene.events.removeListener(GAME_CONSTANTS.START_GAME, this.handleStartGame)
+    sys.scene.events.removeListener(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame)
+    sys.scene.events.removeListener(GAME_CONSTANTS.RESTART_GAME, this.handleRestartGame)
+    sys.scene.events.removeListener(GAME_CONSTANTS.SHOW_INSTRUCOES, this.handleShowInstrucoes)
   }
 }
