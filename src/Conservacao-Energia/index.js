@@ -144,7 +144,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   handleStartGame = () => {
     this.scene.resume(this.scene.key);
     this.scene.resume(this.scene.key + "-gui");
-    // this.GameManager.setCurrentScene(this.scene.key)
+    this.GameManager.setCurrentScene(this.scene.key)
   }
 
   handleRestartGame = () => {
