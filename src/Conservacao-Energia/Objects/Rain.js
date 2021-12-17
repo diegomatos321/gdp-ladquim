@@ -10,8 +10,6 @@ export default class Rain extends Phaser.Geom.Line {
   }
 
   static CreateEmitter(particles, source, scene) {
-    console.log("aaa")
-    console.log(source)
     particles.createEmitter({
       speedY: 300,
       gravityY: 1000,
