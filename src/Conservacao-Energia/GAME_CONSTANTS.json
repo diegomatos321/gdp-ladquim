@@ -1,8 +1,12 @@
 {
-  "GAME-TIMER": "30000",
+  "GAME-TIMER": "3000",
   "PAUSE_SCENE": "quimica-conservacao-pause",
   "GUI": "quimica-conservacao-gui",
   "START_GAME_MODAL": "start-quimica-conservacao-modal",
+  "FINISH_GAME_MODAL": "finish-quimica-conservacao-modal",
   "START_GAME": "start-game-quimica-conservacao",
+  "RESTART_GAME": "start-game-quimica-conservacao",
+  "GAME_FINISHED": "finished-game-quimica-conservacao",
+  "SHOW_INSTRUCOES": "show-game-instrucoes",
   "RETURN_TO_MENU": "return-to-menu"
 }
