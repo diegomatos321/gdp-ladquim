@@ -5,8 +5,7 @@
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "private": true,
   "scripts": {
-    "start": "parcel serve src/index.html --open",
-    "dev": "parcel serve src/index.html --dist-dir ./dev --open",
+    "start": "parcel serve src/index.html --dist-dir ./dev --open",
     "build": "parcel build src/index.html --public-url ./"
   },
   "author": "",
