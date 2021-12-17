@@ -50,6 +50,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
       
       if (this.currentState === STATES.START) {
         this.scene.launch(GAME_CONSTANTS.START_GAME_MODAL);
+      } else if (this.currentState === STATES.FINISHED) {
+        this.scene.launch(GAME_CONSTANTS.FINISH_GAME_MODAL);
       }
     } else if (this.currentState === STATES.PLAYING) {
       this.scene.resume(this.scene.key);
@@ -69,6 +71,9 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.GameManager.events.on(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene)
     this.events.on(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu)
     this.events.on(GAME_CONSTANTS.START_GAME, this.handleStartGame)
+    this.events.on(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame)
+    this.events.on(GAME_CONSTANTS.RESTART_GAME, this.handleRestartGame)
+    this.events.on(GAME_CONSTANTS.SHOW_INSTRUCOES, this.handleShowInstrucoes)
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
@@ -139,7 +144,27 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   handleStartGame = () => {
     this.scene.resume(this.scene.key);
     this.scene.resume(this.scene.key + "-gui");
-    this.GameManager.setCurrentScene(this.scene.key)
+    // this.GameManager.setCurrentScene(this.scene.key)
+  }
+
+  handleRestartGame = () => {
+    this.scene.restart(this.scene.key);
+    this.scene.restart(this.scene.key + "-gui");
+  }
+
+  handleFinishedGame = () => {
+    this.pauseGame();
+    this.scene.launch(GAME_CONSTANTS.FINISH_GAME_MODAL);
+  }
+
+  handleShowInstrucoes = () => {
+    this.pauseGame();
+    this.scene.launch(GAME_CONSTANTS.START_GAME_MODAL)
+  }
+
+  pauseGame = () => {
+    this.scene.pause(this.scene.key);
+    this.scene.pause(this.scene.key + "-gui");
   }
 
   createRainHitArea = (rainSource) => {
