@@ -50,7 +50,6 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   goToMenu = () => {
-    console.log("FOI")
     this.changeModal(MODAL_CONSTANTS.MENU)
   }
 
