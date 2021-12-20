@@ -1,5 +1,6 @@
 import Phaser from "phaser"
 import GameManager from "./Singletons/GameManager"
+import AudioManager from "./Singletons/AudioManager"
 import PreloadScene from "./preload"
 import MenuScene from "./Menu"
 import ConservacaoEnergiaScene from "./Conservacao-Energia"
@@ -36,7 +37,7 @@ let config = {
   },
   banner: true,
   url: "https://ladquim.iq.ufrj.br/",
-  scene: [PreloadScene, GameManager, MenuScene, ConservacaoEnergiaScene, StartGameModal, FinishGameModal, ConservacaoGUI]
+  scene: [PreloadScene, GameManager, AudioManager, MenuScene, ConservacaoEnergiaScene, StartGameModal, FinishGameModal, ConservacaoGUI]
 };
 
 document.addEventListener("DOMContentLoaded", () => new Phaser.Game(config))
