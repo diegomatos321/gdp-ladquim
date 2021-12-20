@@ -11,19 +11,19 @@ export default class SliderButton extends Phaser.GameObjects.Container {
     this.add(this.fundo)
     
     this.sliderFundo = this.scene.add.image(100, 0, "common-atlas", "slider-fundo")
-    this.sliderBorder = this.scene.add.image(this.sliderFundo.x, 0, "common-atlas", "slider-border")
-    this.add([this.sliderFundo, this.sliderBorder])
+    this.add(this.sliderFundo)
     
-    this.sliderStick = this.scene.add.image(this.sliderFundo.x, 0, "common-atlas", "slider-stick").setInteractive({
-      draggable: true
-    });
-    this.add(this.sliderStick)
-
     this.minValue = this.sliderFundo.x - this.sliderFundo.width / 2;
     this.maxValue = this.sliderFundo.x + this.sliderFundo.width / 2;
-    this.value = (this.sliderStick.x - this.minValue) / (this.maxValue - this.minValue);
-
+    this.value = 0.5
+    
     this.createMaskedRangeSelect();
+    
+    this.sliderBorder = this.scene.add.image(this.sliderFundo.x, 0, "common-atlas", "slider-border")
+    this.sliderStick = this.scene.add.image(this.sliderFundo.x - this.sliderFundo.width/2 + this.value * (this.maxValue - this.minValue), 0, "common-atlas", "slider-stick").setInteractive({
+      draggable: true
+    });
+    this.add([this.sliderBorder, this.sliderStick])
 
     const paddingLeft = 150;
     const textStyle = {
@@ -42,8 +42,6 @@ export default class SliderButton extends Phaser.GameObjects.Container {
     this.updateSelectRangeShape();
 
     this.add(this.selectedRange);
-    this.moveDown(this.selectedRange)
-    this.moveDown(this.selectedRange)
 
     const rangeMaskShape = this.scene.make.image({
       x: this.x + this.sliderFundo.x,
@@ -63,7 +61,8 @@ export default class SliderButton extends Phaser.GameObjects.Container {
 
     const distanteToBeginningOfStick = Math.abs(newPosition-this.minValue);
     const totalLength = this.maxValue - this.minValue
-    this.value = distanteToBeginningOfStick/totalLength
+    this.value = distanteToBeginningOfStick/totalLength;
+
     this.emit(GLOBAL_CONSTANTS.VALUE_CHANGED, this.value)
 
     this.updateSelectRangeShape()
@@ -77,5 +76,15 @@ export default class SliderButton extends Phaser.GameObjects.Container {
     this.selectedRange.beginPath();
     this.selectedRange.fillRect(offSetX, -this.sliderFundo.height/2, this.sliderFundo.width * this.value, this.sliderFundo.height);
     this.selectedRange.closePath();
+  }
+
+  setValue = (newValue) => {
+    if(this.value === newValue) return
+
+    this.value = newValue;
+    this.sliderStick.setPosition(this.sliderFundo.x - this.sliderFundo.width/2 + this.value * (this.maxValue - this.minValue), this.sliderStick.y);
+    this.updateSelectRangeShape();
+
+    this.emit(GLOBAL_CONSTANTS.VALUE_CHANGED, this.value)
   }
 }

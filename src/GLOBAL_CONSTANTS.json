@@ -6,5 +6,13 @@
   "SHOW_MODAL": "show-modal",
   "BACK_ARROW_CLICKED": "back-arrow-clicked",
   "VALUE_CHANGED": "value-changed",
-  "PAUSED": "game-paused"
+  "PAUSED": "game-paused",
+  "AUDIO_MANAGER": "audio-manager",
+  "PLAY_BACKGROUND_MUSIC": "play-background-music",
+  "STOP_BACKGROUND_MUSIC": "stop-background-music",
+  "PLAY_AUDIO": "play-audio",
+  "MUSIC_SETTINGS_CHANGED": "music-settings-changed",
+  "AUDIO_SETTINGS_CHANGED": "audio-settings-changed",
+  "GET_MUSIC_SETTINGS": "get-music-settings",
+  "RESPONSE_GET_MUSIC_SETTINGS": "response-music-settings"
 }

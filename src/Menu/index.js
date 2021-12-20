@@ -5,6 +5,7 @@ import menuAtlas from "./atlas/menu-textures.json"
 import LoadingInterface from "../common/scripts/LoadingInterface"
 import MainMenuContainer from "./modals/MainMenuContainer"
 import ConfiguracoesContainer from "../common/modals/ConfiguracoesContainer"
+import CrossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
 
 export default class MenuScene extends Phaser.Scene {
   constructor() {
@@ -31,8 +32,9 @@ export default class MenuScene extends Phaser.Scene {
     this.add.image(this.game.config.width/2, this.game.config.height/2, "menu-atlas", "fundo");
     this.add.image(40, 50, "menu-atlas", "ladquim-logo").setOrigin(0, 0);
 
-    this.music = this.sound.add('bossa-lofi');
-    this.music.play();
+    // this.music = this.sound.add('bossa-lofi');
+    // this.music.play();
+    CrossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_BACKGROUND_MUSIC, "bossa-lofi")
 
     const mainMenuContainer = new MainMenuContainer(this);
     mainMenuContainer.setVisible(false);
@@ -40,11 +42,11 @@ export default class MenuScene extends Phaser.Scene {
 
     let configuracoesContainer = new ConfiguracoesContainer(this, this.game.config.width/2, this.game.config.height/2);
     configuracoesContainer.setVisible(false)
-    configuracoesContainer.on(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.goToMenu);
     this.mapOfModals.set(MODAL_CONSTANTS.CONFIGURACOES, configuracoesContainer);
     
     this.mapOfModals.get(this.currentContainerKey).setVisible(true);
     
+    configuracoesContainer.on(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.goToMenu);
     this.events.on(GLOBAL_CONSTANTS.SHOW_MODAL, this.changeModal)
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
@@ -67,6 +69,10 @@ export default class MenuScene extends Phaser.Scene {
     console.log("Cleaning events from: Menu SCENE")
 
     this.GameManager.setCurrentScene(null)
-    this.music.stop()
+
+    const configuracoesContainer = this.mapOfModals.get(MODAL_CONSTANTS.CONFIGURACOES)
+    configuracoesContainer.removeListener(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.goToMenu);
+    this.events.removeListener(GLOBAL_CONSTANTS.SHOW_MODAL, this.changeModal)
+    // this.music.stop()
   }
 }
