@@ -16,13 +16,6 @@ export default class AudioManager extends Phaser.Scene {
 
     this.currentBackgroundMusic = null;
     this.listOfAudioElements = []
-
-    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.PLAY_BACKGROUND_MUSIC, this.playBackgroundMusic)
-    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.STOP_BACKGROUND_MUSIC, this.stopBackgroundMusic)
-    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.PLAY_AUDIO, this.playAudio)
-    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.MUSIC_SETTINGS_CHANGED, this.musicSettingsChanged);
-    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.GET_MUSIC_SETTINGS, this.handleGetMusicSettings);
-    // CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.AUDIO_SETTING_CHANGED, this.audioSettingsChanged);
   }
 
   init = () => {
@@ -40,6 +33,16 @@ export default class AudioManager extends Phaser.Scene {
     } else {
       window.localStorage.setItem("localAudioConfig", JSON.stringify(this.audioConfig));
     }
+  }
+
+  create = () => {
+    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.PLAY_BACKGROUND_MUSIC, this.playBackgroundMusic)
+    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.STOP_BACKGROUND_MUSIC, this.stopBackgroundMusic)
+    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.PLAY_AUDIO, this.playAudio)
+    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.MUSIC_SETTINGS_CHANGED, this.musicSettingsChanged);
+    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.GET_MUSIC_SETTINGS, this.handleGetMusicSettings);
+    // CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.AUDIO_SETTING_CHANGED, this.audioSettingsChanged);
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
 
   playBackgroundMusic = (key) => {
@@ -90,5 +93,13 @@ export default class AudioManager extends Phaser.Scene {
         audioElement[key] = value
       }
     }
+  }
+
+  cleanEvents = () => {
+    CrossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.PLAY_BACKGROUND_MUSIC, this.playBackgroundMusic)
+    CrossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.STOP_BACKGROUND_MUSIC, this.stopBackgroundMusic)
+    CrossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.PLAY_AUDIO, this.playAudio)
+    CrossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.MUSIC_SETTINGS_CHANGED, this.musicSettingsChanged);
+    CrossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.GET_MUSIC_SETTINGS, this.handleGetMusicSettings);
   }
 }
