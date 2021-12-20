@@ -49,6 +49,7 @@ export default class MenuScene extends Phaser.Scene {
     configuracoesContainer.on(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.goToMenu);
     this.events.on(GLOBAL_CONSTANTS.SHOW_MODAL, this.changeModal)
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.stopBackgroundMusic);
   }
 
   goToMenu = () => {
@@ -63,6 +64,10 @@ export default class MenuScene extends Phaser.Scene {
     containerToShow?.setVisible(true);
 
     this.currentContainerKey = modalName;
+  }
+
+  stopBackgroundMusic = () => {
+    CrossSceneEventEmitter.emit(GLOBAL_CONSTANTS.STOP_BACKGROUND_MUSIC)
   }
 
   cleanEvents = (sys) => {
