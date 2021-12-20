@@ -71,6 +71,7 @@ export default class AudioManager extends Phaser.Scene {
   musicSettingsChanged = (key, value) => {
     if (this.musicConfig[key] != value) {
       this.musicConfig[key] = value
+      window.localStorage.setItem("localMusicConfig", JSON.stringify(this.musicConfig));
 
       if(this.currentBackgroundMusic) {
         this.currentBackgroundMusic.currentConfig[key] = value;
@@ -82,6 +83,7 @@ export default class AudioManager extends Phaser.Scene {
   audioVolumeChanged = (key, value) => {
     if (this.audioConfig[key] != value) {
       this.audioConfig[key] = value
+      window.localStorage.setItem("localAudioConfig", JSON.stringify(this.musicConfig));
 
       for (let audioElement of this.listOfAudioElements) {
         audioElement.currentConfig[key] = value;
