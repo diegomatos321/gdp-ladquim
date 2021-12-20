@@ -7,9 +7,12 @@ export default class AudioManager extends Phaser.Scene {
     super({key: GLOBAL_CONSTANTS.AUDIO_MANAGER})
 
     this.musicConfig = {
-      loop: true
+      loop: true,
+      volume: 0.5
     };
-    this.audioConfig = null;
+    this.audioConfig = {
+      volume: 0.5
+    };
 
     this.currentBackgroundMusic = null;
     this.listOfAudioElements = []
