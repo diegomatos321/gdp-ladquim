@@ -20,6 +20,7 @@ export default class Preload extends Phaser.Scene {
 
   create = () => {
     this.scene.launch(GLOBAL_CONSTANTS.GAME_MANAGER)
+    this.scene.run(GLOBAL_CONSTANTS.AUDIO_MANAGER)
 
     this.scene.start(GLOBAL_CONSTANTS.MAIN_MENU)
   }
