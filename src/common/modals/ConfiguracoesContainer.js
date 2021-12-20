@@ -3,6 +3,7 @@ import GLOBAL_CONSTANTS from "../../GLOBAL_CONSTANTS.json"
 import SliderButton from "../scripts/SliderButton";
 import FullScreenBtn from "../scripts/fullScreenBtn";
 import ShowInstrucoes from "../scripts/ShowInstrucoes";
+import CrossSceneEventEmitter from "../../Singletons/CrossSceneEventEmitter";
 
 export default class ConfiguracoesContainer extends Phaser.GameObjects.Container {
   constructor(scene, x, y) {
@@ -35,10 +36,13 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
      * Nota: Caso o modal for mudar de posição/se mover, deve-se atualizar os slider buttons também.
      */
     this.musicSlider = new SliderButton(this.scene, this.x, this.y - 160, "Música").setVisible(this.visible)
-    this.musicSlider.on(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleMusicValueChanged)
+    this.musicSlider.on(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleMusicVolume)
+    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.RESPONSE_GET_MUSIC_SETTINGS, this.setMusicSliderValue) 
+    CrossSceneEventEmitter.emit(GLOBAL_CONSTANTS.GET_MUSIC_SETTINGS) // Get music setting from Audio Manager
     
     this.Sons = new SliderButton(this.scene, this.x, this.y - 20, "Sons").setVisible(this.visible);
     this.Sons.on(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleSonsChanged)
+    // this.Sons.emit(GLOBAL_CONSTANTS.VALUE_CHANGED, this.Sons.value) // Update music Volume on start
 
     this.instrucoes = new ShowInstrucoes(this.scene, 0, 200);
     this.add(this.instrucoes)
@@ -50,12 +54,21 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
     this.emit(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED)
   }
 
-  handleMusicValueChanged = (value) => {
+  handleMusicVolume = (value) => {
     console.log("Musica Changed: " + value)
+    CrossSceneEventEmitter.emit(GLOBAL_CONSTANTS.MUSIC_SETTINGS_CHANGED, "volume", value)
   }
 
   handleSonsChanged = (value) => {
     console.log("Sons Changed: " + value)
+    CrossSceneEventEmitter.emit(GLOBAL_CONSTANTS.AUDIO_SETTINGS_CHANGED, "volume", value)
+  }
+
+  setMusicSliderValue = ({volume}) => {
+    console.log("Response from Audio Manager: " + volume)
+    if(volume === null || volume === undefined) return
+
+    this.musicSlider.setValue(volume)
   }
 
   // Adicionando funcionalidade ao setVisible, para atuar tbm nos nossos slider buttons
@@ -63,6 +76,7 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
     super.setVisible(value);
 
     this.musicSlider.setVisible(value)
+    CrossSceneEventEmitter.emit(GLOBAL_CONSTANTS.GET_MUSIC_SETTINGS)
     this.Sons.setVisible(value);
 
     return this;
@@ -70,6 +84,10 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
   
   cleanEvents = () => {
     console.log("Cleaning Events from Configurações")
+    
     this.backArrow.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleBackArrow)
+    this.musicSlider.removeListener(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleMusicVolume)
+    CrossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.GET_MUSIC_SETTINGS, this.setMusicSliderValue)
+    this.Sons.removeListener(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleSonsChanged)
   }
 }
