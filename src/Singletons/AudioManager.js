@@ -29,9 +29,16 @@ export default class AudioManager extends Phaser.Scene {
     const localMusicConfig = window.localStorage.getItem("localMusicConfig");
     const localAudioConfig = window.localStorage.getItem("localAudioConfig");
 
-    if (localMusicConfig !== null) {
+    if (localMusicConfig) {
       this.musicConfig = JSON.parse(localMusicConfig);
+    } else {
+      window.localStorage.setItem("localMusicConfig", JSON.stringify(this.musicConfig));
+    }
+    
+    if(localAudioConfig) {
       this.audioConfig = JSON.parse(localAudioConfig);
+    } else {
+      window.localStorage.setItem("localAudioConfig", JSON.stringify(this.audioConfig));
     }
   }
 
