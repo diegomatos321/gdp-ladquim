@@ -37,12 +37,12 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
      */
     this.musicSlider = new SliderButton(this.scene, this.x, this.y - 160, "Música").setVisible(this.visible)
     this.musicSlider.on(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleMusicVolume)
-    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.RESPONSE_GET_MUSIC_SETTINGS, this.setMusicSliderValue) 
-    CrossSceneEventEmitter.emit(GLOBAL_CONSTANTS.GET_MUSIC_SETTINGS) // Get music setting from Audio Manager
+    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.RESPONSE_GET_MUSIC_SETTINGS, this.setMusicSliderValue)
     
     this.Sons = new SliderButton(this.scene, this.x, this.y - 20, "Sons").setVisible(this.visible);
     this.Sons.on(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleSonsChanged)
-    // this.Sons.emit(GLOBAL_CONSTANTS.VALUE_CHANGED, this.Sons.value) // Update music Volume on start
+    
+    this.updateModalState();
 
     this.instrucoes = new ShowInstrucoes(this.scene, 0, 200);
     this.add(this.instrucoes)
@@ -69,6 +69,12 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
     if(volume === null || volume === undefined) return
 
     this.musicSlider.setValue(volume)
+  }
+
+  updateModalState = () => {
+    // Update music Volume on start
+    CrossSceneEventEmitter.emit(GLOBAL_CONSTANTS.GET_MUSIC_SETTINGS)
+    CrossSceneEventEmitter.emit(GLOBAL_CONSTANTS.GET_AUDIO_SETTINGS)
   }
 
   // Adicionando funcionalidade ao setVisible, para atuar tbm nos nossos slider buttons
