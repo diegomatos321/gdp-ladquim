@@ -1,52 +1,83 @@
 import Phaser from "phaser"
-import CONSTANTS from "../constants.json"
-
-import fullScreenBtnComponent from "../components/fullScreenBtn"
+import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
+import MODAL_CONSTANTS from "./MODAL_CONSTANTS.json"
+import menuAtlas from "./atlas/menu-textures.json"
+import LoadingInterface from "../common/scripts/LoadingInterface"
+import MainMenuContainer from "./modals/MainMenuContainer"
+import ConfiguracoesContainer from "../common/modals/ConfiguracoesContainer"
+import CrossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
 
 export default class MenuScene extends Phaser.Scene {
   constructor() {
-    super({key: CONSTANTS.MAIN_MENU});
+    super({key: GLOBAL_CONSTANTS.MAIN_MENU});
+
+    this.currentContainerKey = MODAL_CONSTANTS.MENU;
+    this.mapOfModals = new Map();
+    var music
   }
 
-  preload() {
-    this.load.image("menu-fundo", new URL("./images/menu-fundo.png", import.meta.url).pathname);
-    this.load.image("menu-botao", new URL("./images/menu-botao.png", import.meta.url).pathname);
-    this.load.image("menu-botao-hover", new URL("./images/menu-botao-hover.png", import.meta.url).pathname);
-    this.load.image("menu-logo", new URL("./images/menu-logo_old.png", import.meta.url).pathname);
-    this.load.image("menu-title", new URL("./images/menu-title.png", import.meta.url).pathname);
+  init = () => {
+    this.GameManager = this.scene.get(GLOBAL_CONSTANTS.GAME_MANAGER);
+    this.GameManager.setCurrentScene(this.scene.key)
+  }
 
+  preload = () => {
+    new LoadingInterface(this, this.game.config.width/2, this.game.config.height/2)
+    this.load.atlas("menu-atlas", new URL("./atlas/menu-textures.png", import.meta.url).pathname, menuAtlas);
     this.load.html("ladquim-mapa", new URL("./DOMElements/mapa-laquim.html", import.meta.url).pathname);
-    this.load.spritesheet("fullscreen-icon", new URL("../ui/fullscreen.png", import.meta.url).pathname, {      frameWidth: 64,
-      frameHeight: 64
-    });
+    this.load.audio('bossa-lofi', new URL("./sounds/BossaLofi.mp3", import.meta.url).pathname);
   }
 
-  create() {
-    this.add.image(this.game.config.width/2, this.game.config.height/2, "menu-fundo");
-    this.add.image(40, 50, "menu-logo").setOrigin(0, 0);
+  create = () => {
+    this.add.image(this.game.config.width/2, this.game.config.height/2, "menu-atlas", "fundo");
+    this.add.image(40, 50, "menu-atlas", "ladquim-logo").setOrigin(0, 0);
 
-    const label = ["O Projeto", "Leaderboard", "Créditos", "Configurações"]
-    const initX = 1440, initY = 400, stepY = 150;
-    for (let index = 0; index < 4; index++) {
-      const botao = this.add.image(initX + (350/2), (400 + 97/2) + (index * stepY), "menu-botao");
-      this.add.text(botao.x, botao.y, label[index], {fontSize: "34px"}).setOrigin(0.5, 0.5);
-    }
+    // this.music = this.sound.add('bossa-lofi');
+    // this.music.play();
+    CrossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_BACKGROUND_MUSIC, "bossa-lofi")
+
+    const mainMenuContainer = new MainMenuContainer(this);
+    mainMenuContainer.setVisible(false);
+    this.mapOfModals.set(MODAL_CONSTANTS.MENU, mainMenuContainer)
+
+    let configuracoesContainer = new ConfiguracoesContainer(this, this.game.config.width/2, this.game.config.height/2);
+    configuracoesContainer.setVisible(false)
+    this.mapOfModals.set(MODAL_CONSTANTS.CONFIGURACOES, configuracoesContainer);
     
-    this.ladquimArea = this.createLadquimMap();
-    fullScreenBtnComponent(this);
+    this.mapOfModals.get(this.currentContainerKey).setVisible(true);
+    
+    configuracoesContainer.on(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.goToMenu);
+    this.events.on(GLOBAL_CONSTANTS.SHOW_MODAL, this.changeModal)
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.stopBackgroundMusic);
   }
-  
-  createLadquimMap() {
-    let ladquimArea = this.add.dom(this.game.config.width / 2, this.game.config.height / 2).createFromCache("ladquim-mapa");
-    ladquimArea.addListener(Phaser.Input.Events.POINTER_UP);
-    ladquimArea.on(Phaser.Input.Events.POINTER_UP, this.changeScene);
 
-    return ladquimArea;
+  goToMenu = () => {
+    this.changeModal(MODAL_CONSTANTS.MENU)
   }
-  
-  changeScene = (event) => {
-    event.preventDefault();
-  
-    this.scene.start(CONSTANTS[event.target.id]);
+
+  changeModal = (modalName) => {
+    const currentContainer = this.mapOfModals.get(this.currentContainerKey);
+    const containerToShow = this.mapOfModals.get(modalName);
+
+    currentContainer?.setVisible(false);
+    containerToShow?.setVisible(true);
+
+    this.currentContainerKey = modalName;
+  }
+
+  stopBackgroundMusic = () => {
+    CrossSceneEventEmitter.emit(GLOBAL_CONSTANTS.STOP_BACKGROUND_MUSIC)
+  }
+
+  cleanEvents = (sys) => {
+    console.log("Cleaning events from: Menu SCENE")
+
+    this.GameManager.setCurrentScene(null)
+
+    const configuracoesContainer = this.mapOfModals.get(MODAL_CONSTANTS.CONFIGURACOES)
+    configuracoesContainer.removeListener(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.goToMenu);
+    this.events.removeListener(GLOBAL_CONSTANTS.SHOW_MODAL, this.changeModal)
+    // this.music.stop()
   }
 }

@@ -5,18 +5,16 @@
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "private": true,
   "scripts": {
-    "prebuild": "rmdir dist /s /q",
-    "start": "parcel serve src/index.html --open",
+    "start": "parcel serve src/index.html --dist-dir ./dev --open",
     "build": "parcel build src/index.html --public-url ./"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@swc/helpers": "^0.2.13",
     "phaser": "^3.55.2"
   },
   "devDependencies": {
-    "@parcel/transformer-image": "^2.0.0-rc.0",
-    "parcel": "^2.0.0-rc.0"
+    "parcel": "^2.0.0",
+    "sharp": "^0.29.2"
   }
 }
