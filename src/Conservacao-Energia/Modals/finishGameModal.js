@@ -20,7 +20,8 @@ export default class FinishGameModal extends Phaser.Scene {
 
     const titleStyle = {
       fontSize: 50,
-      fontFamily: "Nunito-Black",
+      fontFamily: "Nunito",
+      fontStyle: "bold",
       align: "center",
       wordWrap: {
         width: this.modalFundo.width/2
@@ -31,7 +32,8 @@ export default class FinishGameModal extends Phaser.Scene {
 
     const commandStyle = {
       fontSize: 43,
-      fontFamily: "Nunito-Black",
+      fontFamily: "Nunito",
+      fontStyle: "bold",
     }
     this.playAgainBtn = new Button(this, this.modalFundo.x, this.modalFundo.y - 70, "Jogar Novamente", commandStyle)
     this.sairBtn = new Button(this, this.modalFundo.x, this.modalFundo.y + 70, "Sair", commandStyle)

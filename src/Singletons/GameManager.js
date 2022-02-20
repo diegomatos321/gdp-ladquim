@@ -36,9 +36,10 @@ export default class GameManager extends Phaser.Scene {
 
   showWarningMessage = (message) => {
     const textStyle = {
-      fontFamily: "Nunito-Black", 
+      fontFamily: "Nunito", 
+      fontStyle: "bold",
       fontSize: "43px", 
-      backgroundColor: "#ad1403", 
+      backgroundColor: "#ffc60a", 
       padding: 30
     };
 

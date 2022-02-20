@@ -16,7 +16,7 @@ export default class MainMenuContainer extends Phaser.GameObjects.Container {
     this.add(this.ladquimTitle)
 
     this.ladquimArea = this.createLadquimMap(1300, 550)
-    this.bottomMapText = this.scene.add.text(this.ladquimArea.x, this.ladquimArea.y + this.ladquimArea.height / 2 + 43, "Selecione um Mini-Jogo!", { fontFamily: "Nunito-Black", fontSize: "43px" }).setOrigin(0.5, 0.5)
+    this.bottomMapText = this.scene.add.text(this.ladquimArea.x, this.ladquimArea.y + this.ladquimArea.height / 2 + 43, "Selecione um Mini-Jogo!", { fontFamily: "Nunito", fontStyle: "bold", fontSize: "43px" }).setOrigin(0.5, 0.5)
     this.add([this.ladquimArea, this.bottomMapText])
 
     this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
@@ -24,7 +24,11 @@ export default class MainMenuContainer extends Phaser.GameObjects.Container {
 
   createButtons = () => {
     const labels = [MODAL_CONSTANTS.O_PROJETO, MODAL_CONSTANTS.LEADERBOARD, MODAL_CONSTANTS.CREDITOS], stepY = 150
-    const buttonStyle = { fontFamily: "Nunito-Black", fontSize: "43px" }
+    const buttonStyle = { 
+        fontFamily: "Nunito",
+        fontStyle: "bold",
+        fontSize: "43px" 
+    }
     const containerBotoes = this.scene.add.container(520, 450)
 
     for (let index = 0; index < labels.length; index++) {

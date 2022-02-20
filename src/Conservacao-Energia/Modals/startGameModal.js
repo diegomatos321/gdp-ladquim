@@ -21,7 +21,8 @@ export default class StartGameModal extends Phaser.Scene {
 
     const titleStyle = {
       fontSize: 50,
-      fontFamily: "Nunito-Black",
+      fontFamily: "Nunito",
+      fontStyle: "bold",
       align: "center",
       wordWrap: {
         width: this.modalFundo.width/2
@@ -33,7 +34,8 @@ export default class StartGameModal extends Phaser.Scene {
 
     const commandStyle = {
       fontSize: 43,
-      fontFamily: "Nunito-Black",
+      fontFamily: "Nunito",
+      fontStyle: "bold",
     }
     this.voltarBtn = new Button(this, this.modalFundo.x - this.modalFundo.width/4, this.modalFundo.y + this.modalFundo.height/2 - 130, "Voltar", commandStyle)
     
