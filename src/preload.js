@@ -40,6 +40,6 @@ export default class Preload extends Phaser.Scene {
   }
 
   ShowErrorMessage = (message) => {
-    crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.SHOW_ERROR_MESSAGES, message)
+    crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.SHOW_ERROR_MESSAGE, message)
   }
 }
