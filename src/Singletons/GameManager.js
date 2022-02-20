@@ -1,5 +1,4 @@
 import Phaser from "phaser"
-import CheckOrientation from "../common/scripts/CheckOrientation"
 import PauseMiniGameContainer from "../common/scripts/PauseMiniGame"
 import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
 import crossSceneEventEmitter from "./CrossSceneEventEmitter";
