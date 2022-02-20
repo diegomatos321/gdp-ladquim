@@ -5,6 +5,9 @@ import uiAtlas from "./common/atlas/ui-textures.json"
 import DetectTouchScreen from "./common/scripts/DetectTouchScreen"
 import GLOBAL_CONSTANTS from "./GLOBAL_CONSTANTS.json"
 
+import WebFont from "webfontloader";
+import crossSceneEventEmitter from "./Singletons/CrossSceneEventEmitter";
+
 export default class Preload extends Phaser.Scene {
   constructor() {
     super({key: GLOBAL_CONSTANTS.PRELOAD});
@@ -22,6 +25,21 @@ export default class Preload extends Phaser.Scene {
     this.scene.launch(GLOBAL_CONSTANTS.GAME_MANAGER)
     this.scene.run(GLOBAL_CONSTANTS.AUDIO_MANAGER)
 
+    WebFont.load({
+      google: {
+        families: ["Nunito"]
+      },
+      active: this.StartGame,
+      inactive: () => this.ShowErrorMessage("Seu navegador não suporta Web Fonts"),
+      fontinactive: () => this.ShowErrorMessage("Não foi possível carregar a fonte.")
+    })
+  }
+
+  StartGame = () => {
     this.scene.start(GLOBAL_CONSTANTS.MAIN_MENU)
+  }
+
+  ShowErrorMessage = (message) => {
+    crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.SHOW_ERROR_MESSAGES, message)
   }
 }
