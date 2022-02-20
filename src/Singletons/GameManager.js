@@ -16,10 +16,10 @@ export default class GameManager extends Phaser.Scene {
     this.pauseMiniGameContainer = new PauseMiniGameContainer(this, this.game.config.width/2, this.game.config.height/2);
 
     // Verifica a orientação do dispositivo no início do Jogo
-    this.handleChangeOrientation(this.scene.scale.orientation);
+    this.handleChangeOrientation(this.scale.orientation);
 
     this.scale.on(Phaser.Scale.Events.ORIENTATION_CHANGE, this.handleChangeOrientation);
-    this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
     crossSceneEventEmitter.on(GLOBAL_CONSTANTS.SHOW_ERROR_MESSAGE, this.showErrorMessage)
   }
 
