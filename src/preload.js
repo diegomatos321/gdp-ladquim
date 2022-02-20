@@ -27,7 +27,7 @@ export default class Preload extends Phaser.Scene {
 
     WebFont.load({
       google: {
-        families: ["Nunito"]
+        families: ["Nunito:b,bi,extrabold,extrabolditalic"]
       },
       active: this.StartGame,
       inactive: () => this.ShowErrorMessage("Seu navegador não suporta Web Fonts"),

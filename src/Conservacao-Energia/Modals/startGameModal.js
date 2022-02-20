@@ -22,10 +22,10 @@ export default class StartGameModal extends Phaser.Scene {
     const titleStyle = {
       fontSize: 50,
       fontFamily: "Nunito",
-      fontStyle: "bold",
+      fontStyle: "normal 800",
       align: "center",
       wordWrap: {
-        width: this.modalFundo.width/2
+        width: this.modalFundo.width * 0.8
       }
     }
     this.txtTitle = this.add.text(this.game.config.width/2, this.modalFundo.getTopCenter().y + this.modalFundo.height/6, "Química e Conservação", titleStyle).setOrigin(0.5);
@@ -35,7 +35,7 @@ export default class StartGameModal extends Phaser.Scene {
     const commandStyle = {
       fontSize: 43,
       fontFamily: "Nunito",
-      fontStyle: "bold",
+      fontStyle: "normal 800",
     }
     this.voltarBtn = new Button(this, this.modalFundo.x - this.modalFundo.width/4, this.modalFundo.y + this.modalFundo.height/2 - 130, "Voltar", commandStyle)
     

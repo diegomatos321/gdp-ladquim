@@ -28,7 +28,7 @@ export default class SliderButton extends Phaser.GameObjects.Container {
     const paddingLeft = 150;
     const textStyle = {
       fontFamily: "Nunito",
-      fontStyle: "bold",
+      fontStyle: "normal 800",
       fontSize: "43px"
     }
     this.text = this.scene.add.text(-this.fundo.width/2 + paddingLeft, 0, text, textStyle).setOrigin(0.5)
