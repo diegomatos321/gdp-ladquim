@@ -42,7 +42,7 @@ export default class GameManager extends Phaser.Scene {
       padding: 30
     };
 
-    let tempWarningMessage = this.add.text(this.game.config.width/2, 60, message, textStyle);
+    let tempWarningMessage = this.add.text(this.game.config.width/2, 60, message, textStyle).setOrigin(0.5);
 
     this.warningTween = this.tweens.add({
       targets: tempWarningMessage,
@@ -67,7 +67,7 @@ export default class GameManager extends Phaser.Scene {
       padding: 30
     };
 
-    let tempErrorMessage = this.add.text(this.game.config.width/2, 60, message, textStyle);
+    let tempErrorMessage = this.add.text(this.game.config.width/2, 60, message, textStyle).setOrigin(0.5);
 
     this.errorTween = this.tweens.add({
       targets: tempErrorMessage,
