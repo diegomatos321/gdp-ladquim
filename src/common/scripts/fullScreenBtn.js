@@ -13,8 +13,16 @@ export default class FullScreenBtn extends Phaser.GameObjects.Image {
   }
 
   handleFullScreenMode = () => {
-    this.scene.scale.isFullscreen ? this.setTexture("ui-atlas", "fullscreen") : this.setTexture("ui-atlas", "fullscreen-clicked")
     this.scene.scale.toggleFullscreen();
+
+    // Por algum motivo o estado de tela cheia ainda não foi atualizado. Então eu só faço o contrário
+    // do método sync
+    this.scene.scale.isFullscreen ? this.setTexture("ui-atlas", "fullscreen") : this.setTexture("ui-atlas", "fullscreen-clicked");
+  }
+
+  syncTextureWithFullscreenState = () => {
+    console.log("Is Fullscreen: " + this.scene.scale.isFullscreen);
+    this.scene.scale.isFullscreen ? this.setTexture("ui-atlas", "fullscreen-clicked") : this.setTexture("ui-atlas", "fullscreen");
   }
 
   handleFullScreenUnsupported = () => {

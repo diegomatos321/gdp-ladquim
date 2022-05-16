@@ -84,6 +84,7 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
     this.musicSlider.setVisible(value)
     CrossSceneEventEmitter.emit(GLOBAL_CONSTANTS.GET_MUSIC_SETTINGS)
     this.Sons.setVisible(value);
+    this.fullScreenBtn.syncTextureWithFullscreenState();
 
     return this;
   }
