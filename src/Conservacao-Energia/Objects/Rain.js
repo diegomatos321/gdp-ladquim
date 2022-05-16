@@ -28,7 +28,7 @@ export default class Rain extends Phaser.Geom.Line {
     let widthOfRainHitArea = Phaser.Geom.Line.Length(rainSource);
     let heightOfRainHitArea = scene.game.config.height - rainSource.y1;
     let rainHitArea = scene.add.rectangle(rainSource.x1 + widthOfRainHitArea / 2, rainSource.y1 + heightOfRainHitArea / 2, widthOfRainHitArea, heightOfRainHitArea);
-    rainHitArea.setData("power", 0.1);
+    rainHitArea.setData("power", 0.5);
     return rainHitArea;
   }
 
