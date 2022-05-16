@@ -61,6 +61,7 @@ export default class StartGameModal extends Phaser.Scene {
     this.playBtn.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handlePlayBtn)
     this.voltarBtn.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handleVoltarBtn)
     this.gameScene.events.removeListener(GAME_CONSTANTS.START_GAME, this.cleanAndStop)
+    this.gameScene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanAndStop)
 
     this.scene.stop();
   }

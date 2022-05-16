@@ -15,7 +15,6 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
     this.add(this.fundo)
 
     this.backArrow = this.scene.add.image(-this.fundo.width/2 + 100, -this.fundo.height/2 + 90, "ui-atlas", "back-arrow").setInteractive();
-    this.backArrow.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleBackArrow)
     this.add(this.backArrow)
 
     this.fullScreenBtn = new FullScreenBtn(this.scene, this.fundo.width/2 - 120, -this.fundo.height/2 + 90).setOrigin(0.5)
@@ -36,17 +35,18 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
      * Nota: Caso o modal for mudar de posição/se mover, deve-se atualizar os slider buttons também.
      */
     this.musicSlider = new SliderButton(this.scene, this.x, this.y - 160, "Música").setVisible(this.visible)
-    this.musicSlider.on(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleMusicVolume)
-    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.RESPONSE_GET_MUSIC_SETTINGS, this.setMusicSliderValue)
     
     this.Sons = new SliderButton(this.scene, this.x, this.y - 20, "Sons").setVisible(this.visible);
-    this.Sons.on(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleSonsChanged)
     
     this.updateModalState();
-
+    
     this.instrucoes = new ShowInstrucoes(this.scene, 0, 200);
     this.add(this.instrucoes)
-
+    
+    this.Sons.on(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleSonsChanged)
+    this.backArrow.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleBackArrow)
+    this.musicSlider.on(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleMusicVolume)
+    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.RESPONSE_GET_MUSIC_SETTINGS, this.setMusicSliderValue)
     this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
@@ -88,12 +88,13 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
     return this;
   }
   
-  cleanEvents = () => {
+  cleanEvents = (sys) => {
     console.log("Cleaning Events from Configurações")
     
     this.backArrow.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleBackArrow)
     this.musicSlider.removeListener(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleMusicVolume)
     CrossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.GET_MUSIC_SETTINGS, this.setMusicSliderValue)
     this.Sons.removeListener(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleSonsChanged)
+    sys.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 }

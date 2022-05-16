@@ -9,7 +9,7 @@ export default class FullScreenBtn extends Phaser.GameObjects.Image {
 
     this.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handleFullScreenMode);
     this.on(Phaser.Scale.Events.FULLSCREEN_UNSUPPORTED, this.handleFullScreenUnsupported);
-    this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
+    this.on(Phaser.GameObjects.Events.DESTROY, this.cleanEvents)
   }
 
   handleFullScreenMode = () => {
@@ -25,5 +25,6 @@ export default class FullScreenBtn extends Phaser.GameObjects.Image {
     console.log("Cleaning events from FullScreenBtn")
     this.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handleFullScreenMode);
     this.removeListener(Phaser.Scale.Events.FULLSCREEN_UNSUPPORTED, this.handleFullScreenUnsupported)
+    this.removeListener(Phaser.GameObjects.Events.DESTROY, this.cleanEvents)
   }
 }

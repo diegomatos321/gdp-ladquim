@@ -48,8 +48,8 @@ export default class MenuScene extends Phaser.Scene {
     
     configuracoesContainer.on(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.goToMenu);
     this.events.on(GLOBAL_CONSTANTS.SHOW_MODAL, this.changeModal)
-    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.stopBackgroundMusic);
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
 
   goToMenu = () => {
@@ -77,7 +77,8 @@ export default class MenuScene extends Phaser.Scene {
 
     const configuracoesContainer = this.mapOfModals.get(MODAL_CONSTANTS.CONFIGURACOES)
     configuracoesContainer.removeListener(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.goToMenu);
-    this.events.removeListener(GLOBAL_CONSTANTS.SHOW_MODAL, this.changeModal)
+    sys.scene.events.removeListener(GLOBAL_CONSTANTS.SHOW_MODAL, this.changeModal)
+    sys.scene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.stopBackgroundMusic);
     // this.music.stop()
   }
 }

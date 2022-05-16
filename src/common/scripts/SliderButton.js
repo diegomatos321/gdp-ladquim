@@ -35,6 +35,7 @@ export default class SliderButton extends Phaser.GameObjects.Container {
     this.add(this.text)
 
     this.sliderStick.on(Phaser.Input.Events.DRAG, this.handleDrag);
+    this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
 
   createMaskedRangeSelect = () => {  
@@ -87,5 +88,9 @@ export default class SliderButton extends Phaser.GameObjects.Container {
     this.updateSelectRangeShape();
 
     this.emit(GLOBAL_CONSTANTS.VALUE_CHANGED, this.value)
+  }
+
+  cleanEvents = (sys) => {
+    this.sliderStick.removeListener(Phaser.Input.Events.DRAG, this.handleDrag);
   }
 }

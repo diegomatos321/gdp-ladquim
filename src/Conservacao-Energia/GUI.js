@@ -43,6 +43,7 @@ export default class QuimicaConservacaoGUI extends Phaser.Scene {
   cleanAndStop = () => {
     this.settingsButton.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSettingsClicked)
     this.GameManager.events.removeListener(GLOBAL_CONSTANTS.PAUSED, this.toogleSettingsButton);
+    this.gameScene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanAndStop);
     this.scene.stop();
   }
 }

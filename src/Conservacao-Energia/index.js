@@ -208,5 +208,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     sys.scene.events.removeListener(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame)
     sys.scene.events.removeListener(GAME_CONSTANTS.RESTART_GAME, this.handleRestartGame)
     sys.scene.events.removeListener(GAME_CONSTANTS.SHOW_INSTRUCOES, this.handleShowInstrucoes)
+    sys.scene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 }

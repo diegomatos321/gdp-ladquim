@@ -58,6 +58,7 @@ export default class FinishGameModal extends Phaser.Scene {
     this.playAgainBtn.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handlePlayAgainBtn)
     this.sairBtn.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handleSairBtn)
     this.gameScene.events.removeListener(GAME_CONSTANTS.START_GAME, this.cleanAndStop)
+    this.gameScene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanAndStop)
 
     this.scene.stop();
   }

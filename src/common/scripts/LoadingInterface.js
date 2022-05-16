@@ -63,5 +63,6 @@ export default class LoadingInterface extends Phaser.GameObjects.Container {
     sys.scene.load.removeListener(Phaser.Loader.Events.COMPLETE, this.handleCompleteProgressBar);
     sys.scene.load.removeListener(Phaser.Loader.Events.FILE_LOAD_ERROR, this.handleProgressError);
     sys.scene.events.removeListener(Phaser.Scenes.Events.CREATE, this.handleSceneStart);
+    sys.scene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
 }

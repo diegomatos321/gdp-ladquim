@@ -40,6 +40,11 @@ export default class PauseMiniGameContainer extends Phaser.GameObjects.Container
 
   cleanEvents = (sys) => {
     console.log("Cleaning Events from PauseMiniGameContainer")
-    sys.scene.input.keyboard.on("keyup-" + "W", this.pauseCurrentMiniGame)
+
+    sys.scene.input.keyboard.removeListener("keyup-" + "W", this.emitEvent);
+    sys.scene.events.removeListener(GLOBAL_CONSTANTS.PAUSED, this.pauseCurrentMiniGame);
+    sys.pauseModal.removeListener(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.emitEvent)
+    sys.scene.input.keyboard.removeListener("keyup-" + "W", this.pauseCurrentMiniGame)
+    sys.scene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
 }
