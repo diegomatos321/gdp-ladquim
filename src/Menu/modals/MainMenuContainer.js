@@ -56,6 +56,8 @@ export default class MainMenuContainer extends Phaser.GameObjects.Container {
 
   changeScene = (event) => {
     event.preventDefault();
+
+    if (event.target.id === null || event.target.id === undefined || event.target.id.trim() === "") return;
   
     this.scene.scene.start(GLOBAL_CONSTANTS[event.target.id]);
   }
