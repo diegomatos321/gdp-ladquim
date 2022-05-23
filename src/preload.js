@@ -18,7 +18,7 @@ export default class Preload extends Phaser.Scene {
     this.load.atlas("common-atlas", new URL("./common/atlas/common-textures.png", import.meta.url).pathname, commonAtlas);
     this.load.atlas("ui-atlas", new URL("./common/atlas/ui-textures.png", import.meta.url).pathname, uiAtlas);    
 
-    window.localStorage.setItem("isTouch", DetectTouchScreen())
+    window.localStorage.setItem("isMobile", DetectTouchScreen())
   }
 
   create = () => {
