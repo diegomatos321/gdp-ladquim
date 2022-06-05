@@ -13,7 +13,7 @@ export default class PauseMiniGame extends Phaser.GameObjects.Container {
       [GLOBAL_CONSTANTS.MAIN_MENU, "Menu Principal"]
     ]));
 
-    this.pauseModal = new PauseModal(this.scene, 0, 0).setVisible(false);
+    this.pauseModal = new PauseModal(this.scene, this.scene.game.config.width/2, this.scene.game.config.height/2).setVisible(false);
 
     this.add(this.pauseModal);
     
