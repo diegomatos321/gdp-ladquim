@@ -1,8 +1,9 @@
 import Phaser from "phaser";
-import ConfiguracoesContainer from "../modals/ConfiguracoesContainer";
+import PauseModal from "../modals/PauseModal";
 import GLOBAL_CONSTANTS from "../../GLOBAL_CONSTANTS.json"
+import crossSceneEventEmitter from "../../Singletons/CrossSceneEventEmitter";
 
-export default class PauseMiniGameContainer extends Phaser.GameObjects.Container {
+export default class PauseMiniGame extends Phaser.GameObjects.Container {
   constructor(scene, x, y) {
     super(scene, x, y);
 
@@ -12,16 +13,12 @@ export default class PauseMiniGameContainer extends Phaser.GameObjects.Container
       [GLOBAL_CONSTANTS.MAIN_MENU, "Menu Principal"]
     ]));
 
-    this.pauseModal = new ConfiguracoesContainer(this.scene, this.scene.game.config.width/2, this.scene.game.config.height/2).setVisible(false);
-    
-    this.scene.input.keyboard.on("keyup-" + "W", this.emitEvent);
-    this.scene.events.on(GLOBAL_CONSTANTS.PAUSED, this.pauseCurrentMiniGame);
-    this.pauseModal.on(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.emitEvent)
-    this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
-  }
+    this.pauseModal = new PauseModal(this.scene, 0, 0).setVisible(false);
 
-  emitEvent = () => {
-    this.scene.events.emit(GLOBAL_CONSTANTS.PAUSED)
+    this.add(this.pauseModal);
+    
+    crossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSED, this.pauseCurrentMiniGame);
+    this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
 
   pauseCurrentMiniGame = () => {
@@ -41,10 +38,7 @@ export default class PauseMiniGameContainer extends Phaser.GameObjects.Container
   cleanEvents = (sys) => {
     console.log("Cleaning Events from PauseMiniGameContainer")
 
-    sys.scene.input.keyboard.removeListener("keyup-" + "W", this.emitEvent);
     sys.scene.events.removeListener(GLOBAL_CONSTANTS.PAUSED, this.pauseCurrentMiniGame);
-    sys.pauseModal.removeListener(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.emitEvent)
-    sys.scene.input.keyboard.removeListener("keyup-" + "W", this.pauseCurrentMiniGame)
     sys.scene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
 }

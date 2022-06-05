@@ -17,5 +17,6 @@
   "GET_MUSIC_SETTINGS": "get-music-settings",
   "GET_AUDIO_SETTINGS": "get-audio-settings",
   "RESPONSE_GET_MUSIC_SETTINGS": "response-music-settings",
-  "SHOW_ERROR_MESSAGE": "show-error-message"
+  "SHOW_ERROR_MESSAGE": "show-error-message",
+  "RETURN_TO_MENU": "return-to-menu"
 }

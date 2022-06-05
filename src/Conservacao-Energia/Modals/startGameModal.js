@@ -3,6 +3,7 @@ import Button from "../../common/scripts/Button";
 import ShowInstrucoes from "../../common/scripts/ShowInstrucoes";
 import GAME_CONSTANTS from "../GAME_CONSTANTS.json"
 import GLOBAL_CONSTANTS from "../../GLOBAL_CONSTANTS.json"
+import crossSceneEventEmitter from "../../Singletons/CrossSceneEventEmitter";
 
 export default class StartGameModal extends Phaser.Scene {
   constructor() {
@@ -43,26 +44,30 @@ export default class StartGameModal extends Phaser.Scene {
        
     this.playBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handlePlayBtn)
     this.voltarBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handleVoltarBtn)
-    this.gameScene.events.on(GAME_CONSTANTS.START_GAME, this.cleanAndStop)
-    this.gameScene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanAndStop)
+    this.gameScene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.shutdownModal)
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
 
   handleVoltarBtn = () => {
-    this.gameScene.events.emit(GAME_CONSTANTS.RETURN_TO_MENU);
+    // this.gameScene.events.emit(GAME_CONSTANTS.RETURN_TO_MENU);
+    crossSceneEventEmitter.emit(GAME_CONSTANTS.RETURN_TO_MENU)
   }
 
   handlePlayBtn = () => {
     this.gameScene.events.emit(GAME_CONSTANTS.START_GAME);
+    this.shutdownModal();
   }
 
-  cleanAndStop = () => {
+  shutdownModal = () => {
+    this.scene.stop();
+  }
+
+  cleanEvents = () => {
     console.log("Cleaning Events from Inicio Minigame")
 
     this.playBtn.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handlePlayBtn)
     this.voltarBtn.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handleVoltarBtn)
-    this.gameScene.events.removeListener(GAME_CONSTANTS.START_GAME, this.cleanAndStop)
-    this.gameScene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanAndStop)
-
-    this.scene.stop();
+    this.gameScene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.shutdownModal)
+    this.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
 }

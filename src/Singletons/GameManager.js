@@ -1,5 +1,5 @@
 import Phaser from "phaser"
-import PauseMiniGameContainer from "../common/scripts/PauseMiniGame"
+import PauseMiniGame from "../common/scripts/PauseMiniGame"
 import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
 import crossSceneEventEmitter from "./CrossSceneEventEmitter";
 
@@ -12,7 +12,7 @@ export default class GameManager extends Phaser.Scene {
   create() {
     this.scene.bringToTop()
     
-    this.pauseMiniGameContainer = new PauseMiniGameContainer(this, this.game.config.width/2, this.game.config.height/2);
+    this.PauseMiniGame = new PauseMiniGame(this, this.game.config.width/2, this.game.config.height/2);
 
     // Verifica a orientação do dispositivo no início do Jogo
     this.handleChangeOrientation(this.scale.orientation);

@@ -36,6 +36,7 @@ export default class Preload extends Phaser.Scene {
   }
 
   StartGame = () => {
+    this.sound.pauseOnBlur = false;
     this.scene.start(GLOBAL_CONSTANTS.MAIN_MENU)
   }
 

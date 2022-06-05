@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import GAME_CONSTANTS from "../GAME_CONSTANTS.json"
 import GLOBAL_CONSTANTS from "../../GLOBAL_CONSTANTS.json"
 import Button from "../../common/scripts/Button";
+import crossSceneEventEmitter from "../../Singletons/CrossSceneEventEmitter";
 
 export default class FinishGameModal extends Phaser.Scene {
   constructor() {
@@ -40,8 +41,9 @@ export default class FinishGameModal extends Phaser.Scene {
 
     this.playAgainBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handlePlayAgainBtn)
     this.sairBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handleSairBtn)
-    this.gameScene.events.on(GAME_CONSTANTS.RESTART_GAME, this.cleanAndStop)
-    this.gameScene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanAndStop)
+    this.gameScene.events.on(GAME_CONSTANTS.RESTART_GAME, this.shutdownModal)
+    this.gameScene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.shutdownModal)
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
   handlePlayAgainBtn = () => {
@@ -49,17 +51,21 @@ export default class FinishGameModal extends Phaser.Scene {
   }
 
   handleSairBtn = () => {
-    this.gameScene.events.emit(GAME_CONSTANTS.RETURN_TO_MENU);
+    crossSceneEventEmitter.emit(GAME_CONSTANTS.RETURN_TO_MENU);
+    this.shutdownModal();
   }
 
-  cleanAndStop = () => {
+  shutdownModal = () => {
+    this.scene.stop()
+  }
+
+  cleanEvents = () => {
     console.log("Cleaning Events from Fim Minigame")
 
     this.playAgainBtn.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handlePlayAgainBtn)
     this.sairBtn.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handleSairBtn)
-    this.gameScene.events.removeListener(GAME_CONSTANTS.START_GAME, this.cleanAndStop)
-    this.gameScene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanAndStop)
-
-    this.scene.stop();
+    this.gameScene.events.removeListener(GAME_CONSTANTS.RESTART_GAME, this.shutdownModal)
+    this.gameScene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.shutdownModal)
+    this.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 }

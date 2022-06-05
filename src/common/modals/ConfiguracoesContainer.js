@@ -92,10 +92,10 @@ export default class ConfiguracoesContainer extends Phaser.GameObjects.Container
   cleanEvents = (sys) => {
     console.log("Cleaning Events from Configurações")
     
+    this.Sons.removeListener(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleSonsChanged)
     this.backArrow.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleBackArrow)
     this.musicSlider.removeListener(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleMusicVolume)
-    CrossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.GET_MUSIC_SETTINGS, this.setMusicSliderValue)
-    this.Sons.removeListener(GLOBAL_CONSTANTS.VALUE_CHANGED, this.handleSonsChanged)
-    sys.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
+    CrossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.RESPONSE_GET_MUSIC_SETTINGS, this.setMusicSliderValue)
+    sys.scene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 }
