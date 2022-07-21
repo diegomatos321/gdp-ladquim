@@ -35,6 +35,9 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.GameManager = this.scene.get(GLOBAL_CONSTANTS.GAME_MANAGER);
     this.GameManager.setCurrentScene(this.scene.key)
 
+    this.GAME_WIDTH = Number(this.game.config.width);
+    this.GAME_HEIGHT = Number(this.game.config.height);
+
     this.isRaining = false
     this.rainSources = []
     this.currentState = STATES.START;
