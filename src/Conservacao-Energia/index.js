@@ -4,8 +4,6 @@ import GAME_CONSTANTS from "./GAME_CONSTANTS.json"
 import ESTATUA_CONSTANTS from "./Objects/constants/ESTATUA_CONSTANTS.json"
 import CrossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
 
-
-import MesaBlank from "./Objects/MesaBlank.js"
 import EstatuaMadeira from "./Objects/EstatuaMadeira.js"
 import EstatuaBronze from "./Objects/EstatuaBronze"
 import EstatuaMarmore from "./Objects/EstatuaMarmore"
@@ -28,7 +26,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     var rainSources
     var isRaining
-    var grupoDeMesas
     var grupoDeAreasDeEfeito
     var grupoDeVerniz
     var pauseGame
@@ -69,11 +66,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     
     this.carregarElementosDoJogo();
 
-    // Colisoes
-    this.physics.add.collider(this.gruposDeEstatuas, this.grupoDeMesas);
-
     // Overlap
-    this.physics.add.overlap(this.gruposDeEstatuas, this.grupoDeMesas, this.repositionStatue);
     this.physics.add.overlap(this.gruposDeEstatuas, this.grupoDeAreasDeEfeito, this.damageItem);
     this.physics.add.overlap(this.gruposDeEstatuas, this.grupoDeVerniz, this.vernizCollideEstatua);
 
@@ -105,7 +98,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.load.image("estatua-bronze", new URL("./images/estatua-bronze.png?quality=75&width=75", import.meta.url).pathname);
     this.load.image("estatua-marmore", new URL("./images/estatua-marmore.png?quality=75&width=75", import.meta.url).pathname);
     this.load.image("verniz", new URL("./images/verniz.png?quality=100&width=100", import.meta.url).pathname);
-    this.load.image("mesa", new URL("./images/desk-sprite.png?quality=75&width=300", import.meta.url).pathname);
     this.load.image("raindrop", new URL("./images/raindrop-2d-sprite.png?quality=75&width=8", import.meta.url).pathname);
 
     this.load.image('background', new URL("./images/background.jpg", import.meta.url).pathname)
@@ -133,10 +125,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     // Configurando bordas de colisoes do mundo
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
-
-    // Grupo estatico de mesas
-    this.grupoDeMesas = this.physics.add.staticGroup({ classType: MesaBlank });
-    this.grupoDeMesas.get(this.game.config.width - 1150, this.game.config.height - 280);
 
     // Grupos de itens
     this.gruposDeEstatuas = this.physics.add.group({ collideWorldBounds: true });
@@ -251,19 +239,9 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     }
   }
 
-  // Estátua
-
-  repositionStatue = (item, mesa) => {
-    if (item.state == "dragend") {
-      item.setPosition(item.x, mesa.body.center.y - mesa.body.height / 2 - item.body.height / 2);
-    }
-  }
-
   damageItem = (item, damageSource) => {
     item.damageItem(damageSource.getData("power"))
   }
-
-  // Eventos
 
   cleanEvents = (sys) => {
     console.log("Cleaning Events from Conservacao Energia Minigame")
