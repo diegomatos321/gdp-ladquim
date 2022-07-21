@@ -4,13 +4,11 @@ import GAME_CONSTANTS from "./GAME_CONSTANTS.json"
 import ESTATUA_CONSTANTS from "./Objects/constants/ESTATUA_CONSTANTS.json"
 import CrossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
 
-import EstatuaMadeira from "./Objects/EstatuaMadeira.js"
-import EstatuaBronze from "./Objects/EstatuaBronze"
-import EstatuaMarmore from "./Objects/EstatuaMarmore"
 import Verniz from "./Objects/Verniz.js"
 import LoadingInterface from "../common/scripts/LoadingInterface"
 import Rain from "./Objects/Rain"
 import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
+import BaseObject from "./Objects/BaseObject"
 
 const STATES = {
   START: 0,
@@ -26,8 +24,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     var rainSources
     var isRaining
-    var grupoDeAreasDeEfeito
-    var grupoDeVerniz
     var pauseGame
   }
 
@@ -70,8 +66,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.carregarElementosDoJogo();
 
     // Overlap
-    this.physics.add.overlap(this.gruposDeEstatuas, this.grupoDeAreasDeEfeito, this.damageItem);
-    this.physics.add.overlap(this.gruposDeEstatuas, this.grupoDeVerniz, this.vernizCollideEstatua);
+    this.physics.add.overlap(this.objectsGroup, this.adversityGroup, this.damageItem);
+    this.physics.add.overlap(this.objectsGroup, this.collectableItemsGroup, this.vernizCollideEstatua);
 
     // Eventos
     crossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene)
@@ -120,34 +116,21 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   carregarElementosDoJogo = () => {
-    //Carregando variáveis
-    this.grupoDeAreasDeEfeito = this.physics.add.staticGroup();
-
-    //Adicionando background
-    this.add.image(this.game.config.width/2, this.game.config.height/2,"background")
+    this.add.image(this.game.config.width/2, this.game.config.height/2, "background")
 
     // Configurando bordas de colisoes do mundo
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
     // Grupos de itens
-    this.gruposDeEstatuas = this.physics.add.group({ collideWorldBounds: true });
-    this.grupoDeVerniz = this.physics.add.group({ collideWorldBounds: true });
+    this.adversityGroup = this.physics.add.staticGroup();
+    this.objectsGroup = this.physics.add.group(/* { collideWorldBounds: true } */);
+    this.collectableItemsGroup = this.physics.add.group(/* { collideWorldBounds: true } */);
 
+    let estatuaMadeira = new BaseObject(this, (this.GAME_WIDTH / 2) - 300, this.GAME_HEIGHT / 2, "estatua-madeira").setData("tipo-estatus", ESTATUA_CONSTANTS.MADEIRA);
+    let estatuaMarmore = new BaseObject(this, this.GAME_WIDTH / 2, this.GAME_HEIGHT / 2, "estatua-marmore").setData("tipo-estatua", ESTATUA_CONSTANTS.MARMORE);
+    let estatuaBronze = new BaseObject(this, (this.GAME_WIDTH / 2) + 300, this.GAME_HEIGHT / 2, "estatua-bronze").setData("tipo-estatua", ESTATUA_CONSTANTS.BRONZE);
 
-    // Criando vasos
-    for (let index = 0; index < 1; index++) {
-      const mesa = this.grupoDeMesas.getFirstAlive();
-      const stepX = (mesa.displayWidth / 2 * index);
-
-      let estatuaMadeira = new EstatuaMadeira(this, (mesa.x - mesa.displayWidth / 4) + stepX, this.game.config.height / 2);
-      this.gruposDeEstatuas.add(estatuaMadeira, true);
-
-      let estatuaBronze = new EstatuaBronze(this, (mesa.x - mesa.displayWidth / 4) + stepX + 100, this.game.config.height / 2);
-      this.gruposDeEstatuas.add(estatuaBronze, true);
-
-      let estatuaMarmore = new EstatuaMarmore(this, (mesa.x - mesa.displayWidth / 4) + stepX - 100, this.game.config.height / 2);
-      this.gruposDeEstatuas.add(estatuaMarmore, true);
-    };    
+    this.objectsGroup.addMultiple([estatuaMadeira, estatuaMarmore, estatuaBronze], true);
   }
 
   // Event Handlers
@@ -200,7 +183,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     if (randomNumber < 1) {
       let verniz = new Verniz(this, (this.game.config.width / 2) + 200, (this.game.config.height / 3 ) + randomNumber);
-      this.grupoDeVerniz.add(verniz, true)
+      this.collectableItemsGroup.add(verniz, true)
     }
   }
 
@@ -238,7 +221,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
       let rainSource = new Rain(randomPos, this, "raindrop");
       Rain.CreateEmitter(rainSource.raindropParticles, rainSource, this)
       this.rainSources.push(rainSource)
-      this.grupoDeAreasDeEfeito.add(rainSource.rainHitArea, true);
+      this.adversityGroup.add(rainSource.rainHitArea, true);
     }
   }
 
