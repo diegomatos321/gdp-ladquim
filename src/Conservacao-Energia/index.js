@@ -200,16 +200,25 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     if (randomNumber < 1 && !this.isRaining) {
       this.isRaining = true
-      let randomPos = Phaser.Math.Between(0, this.scale.baseSize.width - 400);
-      let rainSource = new Rain(randomPos, this, "raindrop");
-      Rain.CreateEmitter(rainSource.raindropParticles, rainSource, this)
+      let randomPos = Phaser.Math.Between(0, this.GAME_WIDTH - 400);
+
+      let rainSource = new Rain(this, randomPos, "raindrop", this.rainSources.length);
+      Rain.CreateEmitter(rainSource.raindropParticles, rainSource)
+
+      console.log(rainSource.hitArea)
       this.rainSources.push(rainSource)
-      this.adversityGroup.add(rainSource.rainHitArea, true);
+      this.adversityGroup.add(rainSource.hitArea, true);
     }
   }
 
-  damageItem = (item, damageSource) => {
-    item.damageItem(damageSource.getData("power"))
+  damageItem = (object, adversity) => {
+    if (adversity.getData("tipo") === "chuva") {
+        this.rainSources[adversity.getData("index")].dealsDamage(object);
+
+        return;
+    }
+
+    adversity.dealsDamage(object);
   }
 
   cleanEvents = (sys) => {
