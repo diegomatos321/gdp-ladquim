@@ -1,6 +1,5 @@
 import Phaser from "phaser";
 import HealthBar from "../../common/scripts/HealthBar";
-import ESTATUA_CONSTANTS from "./constants/ESTATUA_CONSTANTS.json"
 
 export default class BaseObject extends Phaser.GameObjects.Container {
     constructor(scene, x, y, texture) {
@@ -10,9 +9,11 @@ export default class BaseObject extends Phaser.GameObjects.Container {
         this.scene.physics.add.existing(this);
 
         this.textura = this.scene.add.image(0, 0, texture);
+
         this.healthBar = new HealthBar(this.scene, -this.textura.displayWidth / 2, -this.textura.displayHeight, this.textura.displayWidth);
         this.body.setOffset(-this.textura.displayWidth / 2, -this.textura.displayHeight / 2);
         this.body.setSize(this.textura.displayWidth, this.textura.displayHeight);
+        
         this.add([this.textura, this.healthBar]);
 
         this.setState("isDragging", false);
@@ -26,11 +27,6 @@ export default class BaseObject extends Phaser.GameObjects.Container {
         })
 
         this.setDepth(10);
-
-        this.on(Phaser.Input.Events.DRAG_START, this.handleDragStart);
-        this.on(Phaser.Input.Events.DRAG, this.handleDrag);
-        this.on(Phaser.Input.Events.DRAG_END, this.handleDragEnd);
-        this.on(Phaser.GameObjects.Events.DESTROY, this.cleanEvents)
     }
 
     handleDamage = (damageValue = 0.1) => {
@@ -70,28 +66,5 @@ export default class BaseObject extends Phaser.GameObjects.Container {
         const colorNumber = Phaser.Display.Color.GetColor(colorObject.r, colorObject.g, colorObject.b);
 
         this.textura.setTint(colorNumber);
-    }
-
-    handleDragStart = () => {
-        this.setState("dragstart");
-        this.body.moves = false;
-        this.body.setVelocityY(0);
-    }
-
-    handleDrag = (pointer, dragX, dragY) => {
-        this.setPosition(dragX, dragY);
-    }
-
-    handleDragEnd = () => {
-        this.setState("dragend", true);
-        this.body.moves = true;
-    }
-
-    cleanEvents = (sys) => {
-        console.log("Cleaning events from EstatuaBronze")
-        this.removeListener("dragstart", this.handleDragStart);
-        this.removeListener("drag", this.handleDrag);
-        this.removeListener("dragend", this.handleDragEnd);
-        this.removeListener(Phaser.GameObjects.Events.DESTROY, this.cleanEvents)
     }
 }
