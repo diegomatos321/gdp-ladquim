@@ -1,14 +1,13 @@
 import Phaser from "phaser"
 import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
 import GAME_CONSTANTS from "./GAME_CONSTANTS.json"
-import ESTATUA_CONSTANTS from "./Objects/constants/ESTATUA_CONSTANTS.json"
-import CrossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
+import ESTATUA_CONSTANTS from "./ESTATUA_CONSTANTS.json"
 
-import Verniz from "./Objects/Verniz.js"
 import LoadingInterface from "../common/scripts/LoadingInterface"
 import Rain from "./Objects/Rain"
 import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
 import BaseObject from "./Objects/BaseObject"
+import CollectableItemFactory from "./Factories/CollectableItemFactory"
 
 const STATES = {
   START: 0,
@@ -67,7 +66,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     // Overlap
     this.physics.add.overlap(this.objectsGroup, this.adversityGroup, this.damageItem);
-    this.physics.add.overlap(this.objectsGroup, this.collectableItemsGroup, this.vernizCollideEstatua);
+    this.physics.add.overlap(this.objectsGroup, this.collectableItemsGroup, this.handleCollectableOverlap);
 
     // Eventos
     crossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene)
@@ -84,7 +83,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
       this.isRaining = e.updateRain();
     })
     this.generateRandomRainArea();
-    this.generateRandomVerniz();
+    this.generateRandomCollectable();
   }
 
   /**
@@ -123,10 +122,10 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     // Grupos de itens
     this.adversityGroup = this.physics.add.staticGroup();
-    this.objectsGroup = this.physics.add.group(/* { collideWorldBounds: true } */);
-    this.collectableItemsGroup = this.physics.add.group(/* { collideWorldBounds: true } */);
+    this.objectsGroup = this.physics.add.group({ collideWorldBounds: true });
+    this.collectableItemsGroup = this.physics.add.group({ collideWorldBounds: true });
 
-    let estatuaMadeira = new BaseObject(this, (this.GAME_WIDTH / 2) - 300, this.GAME_HEIGHT / 2, "estatua-madeira").setData("tipo-estatus", ESTATUA_CONSTANTS.MADEIRA);
+    let estatuaMadeira = new BaseObject(this, (this.GAME_WIDTH / 2) - 300, this.GAME_HEIGHT / 2, "estatua-madeira").setData("tipo-estatua", ESTATUA_CONSTANTS.MADEIRA);
     let estatuaMarmore = new BaseObject(this, this.GAME_WIDTH / 2, this.GAME_HEIGHT / 2, "estatua-marmore").setData("tipo-estatua", ESTATUA_CONSTANTS.MARMORE);
     let estatuaBronze = new BaseObject(this, (this.GAME_WIDTH / 2) + 300, this.GAME_HEIGHT / 2, "estatua-bronze").setData("tipo-estatua", ESTATUA_CONSTANTS.BRONZE);
 
@@ -176,33 +175,24 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.scene.pause(this.scene.key + "-gui");
   }
 
-  generateRandomVerniz = () => {
+  generateRandomCollectable = () => {
     let randomNumber = Phaser.Math.Between(0, 500);
 
     if (randomNumber < 1) {
-      let verniz = new Verniz(this, (this.game.config.width / 2) + 200, (this.game.config.height / 3 ) + randomNumber);
-      this.collectableItemsGroup.add(verniz, true)
+        const itemWidth = 75;
+        const itemHeight = 88;
+        const randomPos = {
+            x: Phaser.Math.Between(itemWidth, this.GAME_WIDTH - itemWidth),
+            y: Phaser.Math.Between(itemHeight, this.GAME_HEIGHT - itemHeight)
+        }
+
+        let collectableItem = CollectableItemFactory(this, randomPos.x, randomPos.y);
+        this.collectableItemsGroup.add(collectableItem, true);
     }
   }
 
-  vernizCollideEstatua = (estatua, vernizItem) => {
-    if(estatua.getData("tipo-estatua") == ESTATUA_CONSTANTS.MADEIRA) {
-      estatua.healItem(vernizItem.getData("power"))
-      CrossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_AUDIO, "heal-sfx")
-    } else {
-      estatua.damageItem(vernizItem.getData("power"))
-      CrossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_AUDIO, "damage-sfx")
-    }
-
-    vernizItem.destroy()
-  }
-
-  createRainHitArea = (rainSource) => {
-    let widthOfRainHitArea = Phaser.Geom.Line.Length(rainSource);
-    let heightOfRainHitArea = this.game.config.height - rainSource.y1;
-    let rainHitArea = this.add.rectangle(rainSource.x1 + widthOfRainHitArea / 2, rainSource.y1 + heightOfRainHitArea / 2, widthOfRainHitArea, heightOfRainHitArea);
-    rainHitArea.setData("power", 0.1);
-    return rainHitArea;
+  handleCollectableOverlap = (object, collectable) => {
+    collectable.usedBy(object);
   }
 
   generateRandomRainArea = () => {
