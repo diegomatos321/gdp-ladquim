@@ -176,8 +176,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.scene.pause(this.scene.key + "-gui");
   }
 
-  // Verniz
-
   generateRandomVerniz = () => {
     let randomNumber = Phaser.Math.Between(0, 500);
 
@@ -197,12 +195,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     }
 
     vernizItem.destroy()
-    
   }
-
-
-
-  // Chuva
 
   createRainHitArea = (rainSource) => {
     let widthOfRainHitArea = Phaser.Geom.Line.Length(rainSource);
