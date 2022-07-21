@@ -14,7 +14,8 @@ export default class Button extends Phaser.GameObjects.Container {
     this.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, this.normalButton)
     this.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.downButton)
     this.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.upButton)
-    this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
+    // this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
+    this.on(Phaser.GameObjects.Events.DESTROY, this.cleanEvents)
   }
 
   hoverButton = () => {

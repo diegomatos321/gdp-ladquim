@@ -12,6 +12,7 @@ import EstatuaMarmore from "./Objects/EstatuaMarmore"
 import Verniz from "./Objects/Verniz.js"
 import LoadingInterface from "../common/scripts/LoadingInterface"
 import Rain from "./Objects/Rain"
+import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
 
 const STATES = {
   START: 0,
@@ -24,7 +25,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   constructor() {
     super({ key: GLOBAL_CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO });
 
-    this.currentState = STATES.START;
 
     var rainSources
     var isRaining
@@ -40,6 +40,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     this.isRaining = false
     this.rainSources = []
+    this.currentState = STATES.START;
   }
 
   preload = () => {
@@ -77,8 +78,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.physics.add.overlap(this.gruposDeEstatuas, this.grupoDeVerniz, this.vernizCollideEstatua);
 
     // Eventos
-    this.GameManager.events.on(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene)
-    this.events.on(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu)
+    crossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene)
+    crossSceneEventEmitter.on(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu)
     this.events.on(GAME_CONSTANTS.START_GAME, this.handleStartGame)
     this.events.on(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame)
     this.events.on(GAME_CONSTANTS.RESTART_GAME, this.handleRestartGame)
@@ -162,7 +163,13 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
   handlePauseScene = () => {
     this.currentState = STATES.PAUSED;
-    this.scene.isPaused() ? this.scene.get(GAME_CONSTANTS.GUI).scene.resume() : this.scene.get(GAME_CONSTANTS.GUI).scene.pause()
+    const guiScene = this.scene.get(GAME_CONSTANTS.GUI);
+
+    if (guiScene.scene.isPaused()) {
+      guiScene.scene.resume();
+    } else {
+      guiScene.scene.pause();
+    }
   }
 
   handleReturnToMenu = () => {
@@ -268,5 +275,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     sys.scene.events.removeListener(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame)
     sys.scene.events.removeListener(GAME_CONSTANTS.RESTART_GAME, this.handleRestartGame)
     sys.scene.events.removeListener(GAME_CONSTANTS.SHOW_INSTRUCOES, this.handleShowInstrucoes)
+    sys.scene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 }

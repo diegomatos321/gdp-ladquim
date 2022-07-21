@@ -29,7 +29,7 @@ export default class EstatuaBronze extends Phaser.GameObjects.Container {
     this.on(Phaser.Input.Events.DRAG_START, this.handleDragStart);
     this.on(Phaser.Input.Events.DRAG, this.handleDrag);
     this.on(Phaser.Input.Events.DRAG_END, this.handleDragEnd);
-    this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
+    this.on(Phaser.GameObjects.Events.DESTROY, this.cleanEvents)
   }
 
   damageItem = (damageValue = 0.1) => {
@@ -100,5 +100,6 @@ export default class EstatuaBronze extends Phaser.GameObjects.Container {
     this.removeListener("dragstart", this.handleDragStart);
     this.removeListener("drag", this.handleDrag);
     this.removeListener("dragend", this.handleDragEnd);
+    this.removeListener(Phaser.GameObjects.Events.DESTROY, this.cleanEvents)
   }
 }

@@ -1,7 +1,7 @@
 import Phaser from "phaser"
-import CheckOrientation from "../common/scripts/CheckOrientation"
-import PauseMiniGameContainer from "../common/scripts/PauseMiniGame"
+import PauseMiniGame from "../common/scripts/PauseMiniGame"
 import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
+import crossSceneEventEmitter from "./CrossSceneEventEmitter";
 
 export default class GameManager extends Phaser.Scene {
   constructor() {
@@ -12,13 +12,14 @@ export default class GameManager extends Phaser.Scene {
   create() {
     this.scene.bringToTop()
     
-    this.pauseMiniGameContainer = new PauseMiniGameContainer(this, this.game.config.width/2, this.game.config.height/2);
+    this.PauseMiniGame = new PauseMiniGame(this, 0, 0);
 
     // Verifica a orientação do dispositivo no início do Jogo
-    this.handleChangeOrientation(this.scene.scale.orientation);
+    this.handleChangeOrientation(this.scale.orientation);
 
     this.scale.on(Phaser.Scale.Events.ORIENTATION_CHANGE, this.handleChangeOrientation);
-    this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
+    crossSceneEventEmitter.on(GLOBAL_CONSTANTS.SHOW_ERROR_MESSAGE, this.showErrorMessage)
   }
 
   handleChangeOrientation = (scaleOrientation) => {
@@ -34,13 +35,14 @@ export default class GameManager extends Phaser.Scene {
 
   showWarningMessage = (message) => {
     const textStyle = {
-      fontFamily: "Nunito-Black", 
+      fontFamily: "Nunito", 
+      fontStyle: "bold",
       fontSize: "43px", 
-      backgroundColor: "#ad1403", 
+      backgroundColor: "#ffc60a", 
       padding: 30
     };
 
-    let tempWarningMessage = this.add.text(this.game.config.width/2, 60, message, textStyle);
+    let tempWarningMessage = this.add.text(this.game.config.width/2, 60, message, textStyle).setOrigin(0.5);
 
     this.warningTween = this.tweens.add({
       targets: tempWarningMessage,
@@ -52,18 +54,33 @@ export default class GameManager extends Phaser.Scene {
       ease: Phaser.Math.Easing.Cubic.InOut,
       onComplete: (tween, targets, param) => {
         targets.forEach((target) => target.destroy);
-        tween
       }
     })
   }
 
-  showErrorMessage = () => {
+  showErrorMessage = (message) => {
     const textStyle = {
-      fontFamily: "Nunito-Black", 
+      fontFamily: "Nunito", 
+      fontStyle: "bold",
       fontSize: "43px", 
       backgroundColor: "#ad1403", 
       padding: 30
     };
+
+    let tempErrorMessage = this.add.text(this.game.config.width/2, 60, message, textStyle).setOrigin(0.5);
+
+    this.errorTween = this.tweens.add({
+      targets: tempErrorMessage,
+      alpha: {
+        from: 1,
+        to: 0
+      },
+      duration: 10_000,
+      ease: Phaser.Math.Easing.Cubic.InOut,
+      onComplete: (tween, targets, param) => {
+        targets.forEach((target) => target.destroy);
+      }
+    })
   }
 
   cleanEvents = () => {

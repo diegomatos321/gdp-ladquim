@@ -2,6 +2,7 @@ import Phaser from "phaser"
 import GameTimer from "./Objects/GameTimer"
 import GAME_CONSTANTS from "./GAME_CONSTANTS.json"
 import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
+import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
 
 export default class QuimicaConservacaoGUI extends Phaser.Scene {
   constructor() {
@@ -21,7 +22,7 @@ export default class QuimicaConservacaoGUI extends Phaser.Scene {
     this.gameTimer = new GameTimer(this, 240, 36)
     
     this.settingsButton.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSettingsClicked)
-    this.GameManager.events.on(GLOBAL_CONSTANTS.PAUSED, this.toogleSettingsButton);
+    crossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSED, this.toogleSettingsButton);
     this.gameScene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanAndStop);
   }
 
@@ -33,7 +34,7 @@ export default class QuimicaConservacaoGUI extends Phaser.Scene {
   }
 
   handleSettingsClicked = () => {
-    this.GameManager.events.emit(GLOBAL_CONSTANTS.PAUSED)
+    crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PAUSED)
   }
 
   toogleSettingsButton = () => {
@@ -43,6 +44,7 @@ export default class QuimicaConservacaoGUI extends Phaser.Scene {
   cleanAndStop = () => {
     this.settingsButton.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSettingsClicked)
     this.GameManager.events.removeListener(GLOBAL_CONSTANTS.PAUSED, this.toogleSettingsButton);
+    this.gameScene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanAndStop);
     this.scene.stop();
   }
 }

@@ -27,13 +27,15 @@ export default class SliderButton extends Phaser.GameObjects.Container {
 
     const paddingLeft = 150;
     const textStyle = {
-      fontFamily: "Nunito-Bold", 
+      fontFamily: "Nunito",
+      fontStyle: "normal 800",
       fontSize: "43px"
     }
     this.text = this.scene.add.text(-this.fundo.width/2 + paddingLeft, 0, text, textStyle).setOrigin(0.5)
     this.add(this.text)
 
     this.sliderStick.on(Phaser.Input.Events.DRAG, this.handleDrag);
+    this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
 
   createMaskedRangeSelect = () => {  
@@ -86,5 +88,9 @@ export default class SliderButton extends Phaser.GameObjects.Container {
     this.updateSelectRangeShape();
 
     this.emit(GLOBAL_CONSTANTS.VALUE_CHANGED, this.value)
+  }
+
+  cleanEvents = (sys) => {
+    this.sliderStick.removeListener(Phaser.Input.Events.DRAG, this.handleDrag);
   }
 }

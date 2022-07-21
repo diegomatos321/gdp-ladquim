@@ -7,7 +7,8 @@ export default class ShowInstrucoes extends Phaser.GameObjects.Container {
     this.scene.add.existing(this)
 
     const textStyle = { 
-      fontFamily: "Nunito-Regular", 
+      fontFamily: "Nunito", 
+      fontStyle: "bold",
       fontSize: "30px",
       wordWrap: {
         width: 400
