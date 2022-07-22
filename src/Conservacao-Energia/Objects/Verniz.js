@@ -15,7 +15,7 @@ export default class Verniz extends BaseCollectableItem {
   usedBy = (object) => {
     if (object.getData("tipo-estatua") === ESTATUA_CONSTANTS.MADEIRA) {
         crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_AUDIO, "heal-sfx");
-        object.handleHeals(this.getData("power"));
+        object.handleHeal(this.getData("power"));
     } else {
         crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_AUDIO, "damage-sfx");
         object.handleDamage(this.getData("power"));
