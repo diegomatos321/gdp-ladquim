@@ -71,6 +71,10 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // Eventos
     crossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene)
     crossSceneEventEmitter.on(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu)
+
+    this.input.on(Phaser.Input.Events.DRAG_START, this.handleDragStart);
+    this.input.on(Phaser.Input.Events.DRAG, this.handleDrag);
+    this.input.on(Phaser.Input.Events.DRAG_END, this.handleDragEnd);
     this.events.on(GAME_CONSTANTS.START_GAME, this.handleStartGame)
     this.events.on(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame)
     this.events.on(GAME_CONSTANTS.RESTART_GAME, this.handleRestartGame)
@@ -168,6 +172,21 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   handleShowInstrucoes = () => {
     this.pauseGame();
     this.scene.launch(GAME_CONSTANTS.START_GAME_MODAL)
+  }
+
+  handleDragStart = (pointer, gameObject) => {
+    gameObject.setState("dragstart");
+    // this.body.moves = false;
+    // this.body.setVelocityY(0);
+  }
+
+  handleDrag = (pointer, gameObject, dragX, dragY) => {
+    gameObject.setPosition(dragX, dragY);
+  }
+
+  handleDragEnd = (pointer, gameObject) => {
+    gameObject.setState("dragend", true);
+    // gameObject.body.moves = true;
   }
 
   pauseGame = () => {
