@@ -6,12 +6,9 @@ import ESTATUA_CONSTANTS from "../ESTATUA_CONSTANTS.json";
 
 export default class Verniz extends BaseCollectableItem {
   constructor(scene, x, y) {
-    super(scene, x, y);
+    super(scene, x, y, "verniz");
     this.textura = this.scene.add.image(0, 0, "verniz");
 
-    this.setInteractive({
-        draggable: true
-    });
     this.setData("power", 50);
   }
 
