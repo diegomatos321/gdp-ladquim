@@ -18,7 +18,6 @@ export default class BaseObject extends Phaser.GameObjects.Container {
 
         this.setState("isDragging", false);
         this.setData("health", 100);
-        // this.setData("tipo-estatua", ESTATUA_CONSTANTS.BRONZE);
 
         this.setInteractive({
             hitArea: new Phaser.Geom.Rectangle(-this.textura.displayWidth / 2, -this.textura.displayHeight / 2, this.textura.displayWidth, this.textura.displayHeight),
