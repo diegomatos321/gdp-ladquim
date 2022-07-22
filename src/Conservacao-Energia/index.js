@@ -4,7 +4,7 @@ import GAME_CONSTANTS from "./GAME_CONSTANTS.json"
 import ESTATUA_CONSTANTS from "./ESTATUA_CONSTANTS.json"
 
 import LoadingInterface from "../common/scripts/LoadingInterface"
-import Rain from "./Objects/Rain"
+import Rain from "./Objects/AdversityRain"
 import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
 import BaseObject from "./Objects/BaseObject"
 import CollectableItemFactory from "./Factories/CollectableItemFactory"
@@ -82,10 +82,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
-  update = () => {    
-    this.rainSources.forEach((e) => {
-      this.isRaining = e.updateRain();
-    })
+  update = () => {   
     this.generateRandomRainArea();
     this.generateRandomCollectable();
   }
@@ -125,7 +122,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
     // Grupos de itens
-    this.adversityGroup = this.physics.add.staticGroup();
+    this.adversityGroup = this.add.group();
     this.objectsGroup = this.physics.add.group({ collideWorldBounds: true });
     this.collectableItemsGroup = this.physics.add.group({ collideWorldBounds: true });
 
@@ -176,8 +173,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
   handleDragStart = (pointer, gameObject) => {
     gameObject.setState("dragstart");
-    // this.body.moves = false;
-    // this.body.setVelocityY(0);
   }
 
   handleDrag = (pointer, gameObject, dragX, dragY) => {
@@ -186,7 +181,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
   handleDragEnd = (pointer, gameObject) => {
     gameObject.setState("dragend", true);
-    // gameObject.body.moves = true;
   }
 
   pauseGame = () => {
@@ -221,22 +215,13 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
       this.isRaining = true
       let randomPos = Phaser.Math.Between(0, this.GAME_WIDTH - 400);
 
-      let rainSource = new Rain(this, randomPos, "raindrop", this.rainSources.length);
-      Rain.CreateEmitter(rainSource.raindropParticles, rainSource)
+      const rain = new Rain(this, randomPos, this.GAME_HEIGHT / 2);
 
-      console.log(rainSource.hitArea)
-      this.rainSources.push(rainSource)
-      this.adversityGroup.add(rainSource.hitArea, true);
+      this.adversityGroup.add(rain, true);
     }
   }
 
-  damageItem = (object, adversity) => {
-    if (adversity.getData("tipo") === "chuva") {
-        this.rainSources[adversity.getData("index")].dealsDamage(object);
-
-        return;
-    }
-
+  damageItem = (adversity, object) => {
     adversity.dealsDamage(object);
   }
 
