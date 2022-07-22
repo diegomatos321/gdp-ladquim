@@ -20,5 +20,7 @@ export default class Verniz extends BaseCollectableItem {
         crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_AUDIO, "damage-sfx");
         object.handleDamage(this.getData("power"));
     }
+
+    this.destroy();
   }
 }
