@@ -48,7 +48,7 @@ export default class BaseObject extends Phaser.GameObjects.Container {
         }
 
         if (this.getData("health") > 0.01) {
-            this.interpolateObjectColor("#ff0000", "#ffffff");
+            this.interpolateObjectColor();
         }
     }
 
