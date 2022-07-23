@@ -1,0 +1,30 @@
+name: Deploy para github pages
+
+on:
+  push: 
+    branches: [ "area-desenvolvimento" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache: "npm"
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Build Project
+        run: npm run build
+      
+      - name: Deploy to Github Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
