@@ -1,4 +1,4 @@
-export default class BaseCollectableItem extends Phaser.GameObjects.Image {
+export default class BaseUsableItem extends Phaser.GameObjects.Image {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture);
 

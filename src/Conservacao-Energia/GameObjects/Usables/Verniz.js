@@ -1,10 +1,10 @@
 import Phaser from "phaser"
-import crossSceneEventEmitter from "../../Singletons/CrossSceneEventEmitter";
-import BaseCollectableItem from "./BaseCollectableItem";
-import GLOBAL_CONSTANTS from "../../GLOBAL_CONSTANTS.json";
-import ESTATUA_CONSTANTS from "../ESTATUA_CONSTANTS.json";
+import crossSceneEventEmitter from "../../../Singletons/CrossSceneEventEmitter";
+import BaseUsableItem from "./BaseUsableItem";
+import GLOBAL_CONSTANTS from "../../../GLOBAL_CONSTANTS.json";
+import ESTATUA_CONSTANTS from "../../ESTATUA_CONSTANTS.json";
 
-export default class Verniz extends BaseCollectableItem {
+export default class Verniz extends BaseUsableItem {
   constructor(scene, x, y) {
     super(scene, x, y, "verniz");
     this.textura = this.scene.add.image(0, 0, "verniz");

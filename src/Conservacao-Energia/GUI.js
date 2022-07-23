@@ -1,5 +1,5 @@
 import Phaser from "phaser"
-import GameTimer from "./Objects/GameTimer"
+import GameTimer from "./GameObjects/GameTimer"
 import GAME_CONSTANTS from "./GAME_CONSTANTS.json"
 import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
 import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"

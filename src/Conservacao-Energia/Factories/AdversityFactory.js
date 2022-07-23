@@ -1,5 +1,5 @@
-import AdversityRain from "../Objects/AdversityRain";
-import AdversitySun from "../Objects/AdversitySun";
+import AdversityRain from "../GameObjects/Adversities/AdversityRain";
+import AdversitySun from "../GameObjects/Adversities/AdversitySun";
 
 export default function AdversityFactory(scene, x, y) {
     const adversityList = [

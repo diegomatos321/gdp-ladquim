@@ -4,10 +4,9 @@ import GAME_CONSTANTS from "./GAME_CONSTANTS.json"
 import ESTATUA_CONSTANTS from "./ESTATUA_CONSTANTS.json"
 
 import LoadingInterface from "../common/scripts/LoadingInterface"
-import Rain from "./Objects/AdversityRain"
 import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
-import BaseObject from "./Objects/BaseObject"
-import CollectableItemFactory from "./Factories/CollectableItemFactory"
+import BaseObject from "./GameObjects/BaseObject"
+import UsableItemFactory from "./Factories/UsableItemFactory"
 import AdversityFactory from "./Factories/AdversityFactory"
 
 const STATES = {
@@ -65,7 +64,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     // Overlap
     this.physics.add.overlap(this.objectsGroup, this.adversityGroup, this.damageItem);
-    this.physics.add.overlap(this.objectsGroup, this.collectableItemsGroup, this.handleCollectableOverlap);
+    this.physics.add.overlap(this.objectsGroup, this.collectableItemsGroup, this.handleUsableOverlap);
 
     // Eventos
     crossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene)
@@ -83,7 +82,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
   update = () => {   
     this.generateRandomAdversityArea();
-    this.generateRandomCollectable();
+    this.generateRandomUsable();
   }
 
   /**
@@ -187,7 +186,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.scene.pause(this.scene.key + "-gui");
   }
 
-  generateRandomCollectable = () => {
+  generateRandomUsable = () => {
     let randomNumber = Phaser.Math.Between(0, 500);
 
     if (randomNumber < 1) {
@@ -198,12 +197,12 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
             y: Phaser.Math.Between(itemHeight, this.GAME_HEIGHT - itemHeight)
         }
 
-        let collectableItem = CollectableItemFactory(this, randomPos.x, randomPos.y);
+        let collectableItem = UsableItemFactory(this, randomPos.x, randomPos.y);
         this.collectableItemsGroup.add(collectableItem, true);
     }
   }
 
-  handleCollectableOverlap = (object, collectable) => {
+  handleUsableOverlap = (object, collectable) => {
     collectable.usedBy(object);
   }
 
