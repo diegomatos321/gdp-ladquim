@@ -23,7 +23,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
 
     var rainSources
-    var isRaining
     var pauseGame
   }
 
@@ -34,7 +33,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.GAME_WIDTH = Number(this.game.config.width);
     this.GAME_HEIGHT = Number(this.game.config.height);
 
-    this.isRaining = false
     this.rainSources = []
     this.currentState = STATES.START;
   }
