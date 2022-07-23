@@ -2,38 +2,53 @@ import Phaser from "phaser"
 import GAME_CONSTANTS from "../GAME_CONSTANTS.json"
 
 export default class GameTimer {
+    constructor(scene, x, y) {
+        this.scene = scene;
+        this.x = x;
+        this.y = y;
+        this.radius = 70;
+        this.max = 100;
+        this.current = 0;
 
-  constructor(scene, x, y) {
+        this.graphics = this.scene.add.graphics();
+        this.graphics.fillStyle(0xffffff);
+        this.graphics.fillCircle(this.x, this.y, this.radius);
 
-    this.graphics = scene.add.graphics({x: x,y: y})
-    this.graphics.clear()
+        this.maskShape = this.scene.make.graphics();
+        this.maskShape.fillCircle(this.x, this.y, this.radius);
 
-    this.totalTime = GAME_CONSTANTS["GAME-TIMER"]
-    this.hsv = Phaser.Display.Color.HSVColorWheel();
-    this.timerEvent = scene.time.addEvent({ delay: this.totalTime, loop: false })
-    this.hasEnded = false
+        this.graphics.setMask(this.maskShape.createGeometryMask());
 
-    scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
-  }
+        this.totalTime = GAME_CONSTANTS["GAME-TIMER"];
 
-  /**
-   * 
-   * Functions
-   * 
-   */
+        this.timerEvent = this.scene.time.addEvent({ delay: 1_000, loop: true, callback: this.handleClock });
 
-  updateTimer = () => {
-    this.graphics.clear()
-
-    this.graphics.fillStyle(this.hsv[8].color, 1)
-    this.graphics.fillRect(0, 16, 1400 * this.timerEvent.getProgress(), 24)
-    if(this.timerEvent.getProgress() == 1) {
-      this.hasEnded = true
+        this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
     }
-  }
 
-  cleanEvents = (sys) => {
-    console.log("Cleaning events from GameTimer")
-    sys.scene.time.removeEvent(this.timerEvent);
-  }
+    /**
+     * 
+     * Functions
+     * 
+     */
+
+    handleClock = () => {
+        this.current++;
+
+        this.maskShape.clear();
+        this.maskShape.beginPath();
+
+        this.maskShape.moveTo(this.x, this.y);
+
+        const startRadiansAngle = Math.PI + Math.PI / 2;
+        const endRadiansAngle = startRadiansAngle + (Math.PI * 2 * (this.current / 100));
+        this.maskShape.arc(this.x, this.y, this.radius, startRadiansAngle, endRadiansAngle, true);
+
+        this.maskShape.fillPath();
+    }
+
+    cleanEvents = (sys) => {
+        console.log("Cleaning events from GameTimer")
+        sys.scene.time.removeEvent(this.timerEvent);
+    }
 }
