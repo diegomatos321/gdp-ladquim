@@ -1,0 +1,34 @@
+export default class AdversitySun extends Phaser.GameObjects.Rectangle {
+    constructor(scene, x, y) {
+        super(scene, x, y);
+
+        this.scene.physics.add.existing(this);
+
+        this.setDisplaySize(400, this.scene.game.config.height);
+        this.drawYellowArea();
+
+        this.timerEvent = this.scene.time.addEvent({
+            delay: 10000,
+            loop: false,
+            callback: this.destroySun
+        })
+
+        this.setData("power", 0.3);
+        this.setData("tipo", "sol-forte");
+    }
+
+    drawYellowArea = () => {
+        this.yellowArea = this.scene.add.graphics();
+        this.yellowArea.fillStyle(0xffff00, 0.3);
+        this.yellowArea.fillRect(this.x - this.displayWidth / 2, this.y - this.displayHeight / 2, 400, this.displayHeight);
+    }
+
+    destroySun = () => {
+        this.timerEvent.destroy();
+        this.destroy();
+    }
+
+    dealsDamage = (object) => {
+        object.handleDamage(this.getData("power"));
+    }
+}
