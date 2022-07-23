@@ -8,6 +8,7 @@ import Rain from "./Objects/AdversityRain"
 import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
 import BaseObject from "./Objects/BaseObject"
 import CollectableItemFactory from "./Factories/CollectableItemFactory"
+import AdversityFactory from "./Factories/AdversityFactory"
 
 const STATES = {
   START: 0,
@@ -83,7 +84,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   update = () => {   
-    this.generateRandomRainArea();
+    this.generateRandomAdversityArea();
     this.generateRandomCollectable();
   }
 
@@ -208,16 +209,16 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     collectable.usedBy(object);
   }
 
-  generateRandomRainArea = () => {
+  generateRandomAdversityArea = () => {
     let randomNumber = Phaser.Math.Between(0, 500);
 
-    if (randomNumber < 1 && !this.isRaining) {
-      this.isRaining = true
-      let randomPos = Phaser.Math.Between(0, this.GAME_WIDTH - 400);
+    if (randomNumber < 1) {
+      let randomPosX = Phaser.Math.Between(0, this.GAME_WIDTH - 400);
+      let randomPosY = Phaser.Math.Between(0, this.GAME_HEIGHT);
 
-      const rain = new Rain(this, randomPos, this.GAME_HEIGHT / 2);
+      const adversity = AdversityFactory(this, randomPosX, randomPosY);
 
-      this.adversityGroup.add(rain, true);
+      this.adversityGroup.add(adversity, true);
     }
   }
 
