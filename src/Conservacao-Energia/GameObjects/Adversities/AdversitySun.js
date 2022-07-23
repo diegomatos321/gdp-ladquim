@@ -15,6 +15,8 @@ export default class AdversitySun extends Phaser.GameObjects.Rectangle {
 
         this.setData("power", 0.3);
         this.setData("tipo", "sol-forte");
+
+        this.addListener(Phaser.GameObjects.Events.DESTROY, this.cleanEvents);
     }
 
     drawYellowArea = () => {
@@ -30,5 +32,9 @@ export default class AdversitySun extends Phaser.GameObjects.Rectangle {
 
     dealsDamage = (object) => {
         object.handleDamage(this.getData("power"));
+    }
+
+    cleanEvents = (sys) => {
+        sys.scene.time.removeEvent(this.timerEvent);
     }
 }

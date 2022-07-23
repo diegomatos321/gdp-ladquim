@@ -15,6 +15,8 @@ export default class AdversityRain extends Phaser.GameObjects.Rectangle {
 
         this.setData("power", 0.5);
         this.setData("tipo", "chuva");
+
+        this.addListener(Phaser.GameObjects.Events.DESTROY, this.cleanEvents);
     }
 
     createRainParticles = () => {
@@ -45,5 +47,9 @@ export default class AdversityRain extends Phaser.GameObjects.Rectangle {
     dealsDamage = (object) => {
         // toca sfx
         object.handleDamage(this.getData("power"));
+    }
+
+    cleanEvents = (sys) => {
+        sys.scene.time.removeEvent(this.timerEvent);
     }
 }
