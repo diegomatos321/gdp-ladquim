@@ -1,6 +1,6 @@
 import Phaser from "phaser"
 
-export default class Rain extends Phaser.GameObjects.Rectangle {
+export default class AdversityRain extends Phaser.GameObjects.Rectangle {
     constructor(scene, x, y) {
         super(scene, x, y);
 
