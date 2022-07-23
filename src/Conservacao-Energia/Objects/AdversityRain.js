@@ -37,14 +37,13 @@ export default class AdversityRain extends Phaser.GameObjects.Rectangle {
     }
 
     destroyRain = () => {
-        console.dir(this.rainDropParticles);
         this.rainDropParticles.destroy()
         this.timerEvent.destroy()
         this.destroy()
     }
 
     dealsDamage = (object) => {
-        // toca musica
+        // toca sfx
         object.handleDamage(this.getData("power"));
     }
 }
