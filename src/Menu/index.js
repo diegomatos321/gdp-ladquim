@@ -5,6 +5,7 @@ import menuAtlas from "./atlas/menu-textures.json"
 import LoadingInterface from "../common/scripts/LoadingInterface"
 import MainMenuContainer from "./modals/MainMenuContainer"
 import ConfiguracoesContainer from "../common/modals/ConfiguracoesContainer"
+import CreditosContainer from "../common/modals/CreditosContainer"
 import CrossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
 
 export default class MenuScene extends Phaser.Scene {
@@ -42,11 +43,17 @@ export default class MenuScene extends Phaser.Scene {
 
     let configuracoesContainer = new ConfiguracoesContainer(this, this.game.config.width/2, this.game.config.height/2);
     configuracoesContainer.setVisible(false)
+
+    let creditosContainer = new CreditosContainer(this, this.game.config.width/2, this.game.config.height/2);
+    creditosContainer.setVisible(false)
+
     this.mapOfModals.set(MODAL_CONSTANTS.CONFIGURACOES, configuracoesContainer);
+    this.mapOfModals.set(MODAL_CONSTANTS.CREDITOS, creditosContainer);
     
     this.mapOfModals.get(this.currentContainerKey).setVisible(true);
     
     configuracoesContainer.on(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.goToMenu);
+    creditosContainer.on(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.goToMenu);
     this.events.on(GLOBAL_CONSTANTS.SHOW_MODAL, this.changeModal)
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.stopBackgroundMusic);
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
@@ -76,7 +83,9 @@ export default class MenuScene extends Phaser.Scene {
     this.GameManager.setCurrentScene(null)
 
     const configuracoesContainer = this.mapOfModals.get(MODAL_CONSTANTS.CONFIGURACOES)
+    const creditosContainer = this.mapOfModals.get(MODAL_CONSTANTS.CREDITOS)
     configuracoesContainer.removeListener(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.goToMenu);
+    creditosContainer.removeListener(GLOBAL_CONSTANTS.BACK_ARROW_CLICKED, this.goToMenu);
     sys.scene.events.removeListener(GLOBAL_CONSTANTS.SHOW_MODAL, this.changeModal)
     sys.scene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.stopBackgroundMusic);
     // this.music.stop()

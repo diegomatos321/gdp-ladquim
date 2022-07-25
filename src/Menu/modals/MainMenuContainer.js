@@ -23,7 +23,7 @@ export default class MainMenuContainer extends Phaser.GameObjects.Container {
   }
 
   createButtons = () => {
-    const labels = [MODAL_CONSTANTS.O_PROJETO, MODAL_CONSTANTS.LEADERBOARD, MODAL_CONSTANTS.CREDITOS], stepY = 150
+    const labels = [MODAL_CONSTANTS.O_PROJETO], stepY = 150
     const buttonStyle = { 
         fontFamily: "Nunito",
         fontStyle: "normal 800",
@@ -37,7 +37,13 @@ export default class MainMenuContainer extends Phaser.GameObjects.Container {
       containerBotoes.add(botao)
     }
 
-    const configuracoesBtn = new Button(this.scene, 0, 3 * stepY, "Configurações", buttonStyle);
+    const creditosBtn = new Button(this.scene, 0, 1 * stepY, "Créditos", buttonStyle);
+    creditosBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
+      this.scene.events.emit(GLOBAL_CONSTANTS.SHOW_MODAL, MODAL_CONSTANTS.CREDITOS);
+    })
+    containerBotoes.add(creditosBtn);
+
+    const configuracoesBtn = new Button(this.scene, 0, 2 * stepY, "Configurações", buttonStyle);
     configuracoesBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
       this.scene.events.emit(GLOBAL_CONSTANTS.SHOW_MODAL, MODAL_CONSTANTS.CONFIGURACOES);
     })
