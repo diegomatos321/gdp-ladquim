@@ -80,8 +80,12 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
-  update = () => {   
-    this.generateRandomAdversityArea();
+  update = () => {
+    // Paleativo para não gerar + de 1 adversidade
+    if (this.adversityGroup.children.entries.length >= 1) {
+    } else {
+      this.generateRandomAdversityArea();
+    }
     this.generateRandomUsable();
   }
 
@@ -117,6 +121,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   loadSounds = () => {
     this.load.audio('heal-sfx', new URL("./sounds/heal-sfx.mp3", import.meta.url).pathname);
     this.load.audio('damage-sfx', new URL("./sounds/damage-sfx.mp3", import.meta.url).pathname);
+    this.load.audio('rain-sfx', new URL("./sounds/rain-sfx.mp3", import.meta.url).pathname);
+    this.load.audio('sun-birds-sfx', new URL("./sounds/sun-birds-sfx.mp3", import.meta.url).pathname);
   }
 
   carregarElementosDoJogo = () => {

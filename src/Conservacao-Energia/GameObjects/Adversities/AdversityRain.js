@@ -1,11 +1,15 @@
 import Phaser from "phaser"
+import GLOBAL_CONSTANTS from "../../../GLOBAL_CONSTANTS.json";
+import crossSceneEventEmitter from "../../../Singletons/CrossSceneEventEmitter"
 
 export default class AdversityRain extends Phaser.GameObjects.Rectangle {
-    constructor(scene, x, y, image) {
+    constructor(scene, x, y, image, audio) {
         super(scene, x, y);
 
         // this.scene.add.existing(this);
         this.imagem = this.scene.add.image(this.x, this.displayHeight, image)
+        this.audioSFX = audio
+        crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_AUDIO, this.audioSFX);
         this.scene.physics.add.existing(this);
 
         this.setDisplaySize(400, this.scene.game.config.height);
@@ -43,6 +47,7 @@ export default class AdversityRain extends Phaser.GameObjects.Rectangle {
         this.imagem.destroy();
         this.rainDropParticles.destroy()
         this.timerEvent.destroy()
+        crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.STOP_AUDIO, this.audioSFX);
         this.destroy()
     }
 
