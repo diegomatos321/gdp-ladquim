@@ -96,8 +96,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.load.image("estatua-marmore", new URL("./images/estatua-marmore.png?quality=75&width=75", import.meta.url).pathname);
     this.load.image("verniz", new URL("./images/verniz.png?quality=100&width=100", import.meta.url).pathname);
     this.load.image("raindrop", new URL("./images/gota-chuva.png?quality=75&width=8", import.meta.url).pathname);
-    this.load.image("sol", new URL("./images/sol.png?quality=75&width=200", import.meta.url).pathname);
-    this.load.image("nuvem", new URL("./images/nuvem.png?quality=75&width=8", import.meta.url).pathname);
+    this.load.image("sol", new URL("./images/sol.png?quality=75&width=400", import.meta.url).pathname);
+    this.load.image("nuvem", new URL("./images/nuvem.png?quality=75&width=400", import.meta.url).pathname);
 
 
     this.load.image('background', new URL("./images/background.jpg", import.meta.url).pathname)

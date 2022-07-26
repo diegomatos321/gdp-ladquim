@@ -11,9 +11,9 @@ export default function AdversityFactory(scene, x, y) {
 
     switch (randomAdversity) {
         case "rain":
-            return new AdversityRain(scene, x, scene.game.config.height / 2);
+            return new AdversityRain(scene, x, scene.game.config.height / 2, "nuvem");
     
         case "strong-sun":
-            return new AdversitySun(scene, x, scene.game.config.height / 2);
+            return new AdversitySun(scene, x, scene.game.config.height / 2, "sol");
     }
 }

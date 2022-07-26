@@ -1,10 +1,11 @@
 import Phaser from "phaser"
 
 export default class AdversityRain extends Phaser.GameObjects.Rectangle {
-    constructor(scene, x, y) {
+    constructor(scene, x, y, image) {
         super(scene, x, y);
 
         // this.scene.add.existing(this);
+        this.imagem = this.scene.add.image(this.x, this.displayHeight, image)
         this.scene.physics.add.existing(this);
 
         this.setDisplaySize(400, this.scene.game.config.height);
@@ -39,6 +40,7 @@ export default class AdversityRain extends Phaser.GameObjects.Rectangle {
     }
 
     destroyRain = () => {
+        this.imagem.destroy();
         this.rainDropParticles.destroy()
         this.timerEvent.destroy()
         this.destroy()

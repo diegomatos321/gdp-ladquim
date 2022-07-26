@@ -1,8 +1,9 @@
 export default class AdversitySun extends Phaser.GameObjects.Rectangle {
-    constructor(scene, x, y) {
+    constructor(scene, x, y, image) {
         super(scene, x, y);
 
         this.scene.physics.add.existing(this);
+        this.imagem = this.scene.add.image(this.x, this.displayHeight, image)
 
         this.setDisplaySize(400, this.scene.game.config.height);
         this.drawYellowArea();
@@ -26,7 +27,9 @@ export default class AdversitySun extends Phaser.GameObjects.Rectangle {
     }
 
     destroySun = () => {
+        this.imagem.destroy();  
         this.timerEvent.destroy();
+        this.yellowArea.destroy();
         this.destroy();
     }
 
