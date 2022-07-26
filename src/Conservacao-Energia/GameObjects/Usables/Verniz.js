@@ -2,7 +2,7 @@ import Phaser from "phaser"
 import crossSceneEventEmitter from "../../../Singletons/CrossSceneEventEmitter";
 import BaseUsableItem from "./BaseUsableItem";
 import GLOBAL_CONSTANTS from "../../../GLOBAL_CONSTANTS.json";
-import ESTATUA_CONSTANTS from "../../ESTATUA_CONSTANTS.json";
+import GAME_OBJECT_CONSTANTS from "../../GAME_OBJECT_CONSTANTS.json";
 
 export default class Verniz extends BaseUsableItem {
   constructor(scene, x, y) {
@@ -13,7 +13,7 @@ export default class Verniz extends BaseUsableItem {
   }
 
   usedBy = (object) => {
-    if (object.getData("tipo-estatua") === ESTATUA_CONSTANTS.MADEIRA) {
+    if (object.getData("tipo-estatua") === GAME_OBJECT_CONSTANTS.MADEIRA) {
         crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_AUDIO, "heal-sfx");
         object.handleHeal(this.getData("power"));
     } else {

@@ -1,7 +1,7 @@
 import Phaser from "phaser"
 import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
 import GAME_CONSTANTS from "./GAME_CONSTANTS.json"
-import ESTATUA_CONSTANTS from "./ESTATUA_CONSTANTS.json"
+import GAME_OBJECT_CONSTANTS from "./GAME_OBJECT_CONSTANTS.json"
 
 import LoadingInterface from "../common/scripts/LoadingInterface"
 import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
@@ -94,6 +94,9 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.load.image("estatua-madeira", new URL("./images/estatua-madeira.png?quality=75&width=75", import.meta.url).pathname);
     this.load.image("estatua-bronze", new URL("./images/estatua-bronze.png?quality=75&width=75", import.meta.url).pathname);
     this.load.image("estatua-marmore", new URL("./images/estatua-marmore.png?quality=75&width=75", import.meta.url).pathname);
+    this.load.image("quadro-sorriso-1", new URL("./images/quadro-sorriso-2.png?quality=75&width=75", import.meta.url).pathname);
+    this.load.image("quadro-sorriso-2", new URL("./images/quadro-sorriso-2-2.png?quality=75&width=75", import.meta.url).pathname);
+    this.load.image("quadro-sorriso-3", new URL("./images/quadro-sorriso-2-3.png?quality=75&width=75", import.meta.url).pathname);
     this.load.image("verniz", new URL("./images/verniz.png?quality=100&width=100", import.meta.url).pathname);
     this.load.image("raindrop", new URL("./images/gota-chuva.png?quality=75&width=8", import.meta.url).pathname);
     this.load.image("sol", new URL("./images/sol.png?quality=75&width=400", import.meta.url).pathname);
@@ -127,11 +130,14 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.objectsGroup = this.physics.add.group({ collideWorldBounds: true });
     this.collectableItemsGroup = this.physics.add.group({ collideWorldBounds: true });
 
-    let estatuaMadeira = new BaseObject(this, (this.GAME_WIDTH / 2) - 300, this.GAME_HEIGHT / 2, "estatua-madeira").setData("tipo-estatua", ESTATUA_CONSTANTS.MADEIRA);
-    let estatuaMarmore = new BaseObject(this, this.GAME_WIDTH / 2, this.GAME_HEIGHT / 2, "estatua-marmore").setData("tipo-estatua", ESTATUA_CONSTANTS.MARMORE);
-    let estatuaBronze = new BaseObject(this, (this.GAME_WIDTH / 2) + 300, this.GAME_HEIGHT / 2, "estatua-bronze").setData("tipo-estatua", ESTATUA_CONSTANTS.BRONZE);
+    let estatuaMadeira = new BaseObject(this, (this.GAME_WIDTH / 2) - 300, this.GAME_HEIGHT / 2, "estatua-madeira").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MADEIRA);
+    let estatuaMarmore = new BaseObject(this, this.GAME_WIDTH / 2, this.GAME_HEIGHT / 2, "estatua-marmore").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MARMORE);
+    let estatuaBronze = new BaseObject(this, (this.GAME_WIDTH / 2) + 300, this.GAME_HEIGHT / 2, "estatua-bronze").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.BRONZE);
+    let quadro1 = new BaseObject(this, (this.GAME_WIDTH / 2) - 450, this.GAME_HEIGHT / 2, "quadro-sorriso-1").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MADEIRA);
+    let quadro2 = new BaseObject(this, (this.GAME_WIDTH / 2) + 450, this.GAME_HEIGHT / 2, "quadro-sorriso-2").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MADEIRA);
+    let quadro3 = new BaseObject(this, (this.GAME_WIDTH / 2) + 600, this.GAME_HEIGHT / 2, "quadro-sorriso-3").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MADEIRA);
 
-    this.objectsGroup.addMultiple([estatuaMadeira, estatuaMarmore, estatuaBronze], true);
+    this.objectsGroup.addMultiple([estatuaMadeira, estatuaMarmore, estatuaBronze,quadro1,quadro2,quadro3], true);
   }
 
   // Event Handlers
