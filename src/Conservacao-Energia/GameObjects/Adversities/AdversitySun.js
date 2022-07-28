@@ -35,7 +35,7 @@ export default class AdversitySun extends Phaser.GameObjects.Rectangle {
 
     destroySun = () => {
         this.imagem.destroy();  
-        this.timerEvent.destroy();
+        this.timerEvent.remove();
         this.yellowArea.destroy();
         crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.STOP_AUDIO, this.audioSFX);
         this.destroy();

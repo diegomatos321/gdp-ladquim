@@ -1,4 +1,5 @@
 import Phaser from "phaser"
+import crossSceneEventEmitter from "../../Singletons/CrossSceneEventEmitter";
 import GAME_CONSTANTS from "../GAME_CONSTANTS.json"
 
 export default class GameTimer {
@@ -33,7 +34,15 @@ export default class GameTimer {
      */
 
     handleClock = () => {
-        this.current++;
+        this.current += this.max / this.totalTime; // Inversamente proporcional ao tempo em segundos, ou seja, quanto mais tempo levar mais devagar deve ir.
+
+        if (this.current >= this.max) {
+            this.maskShape.clear();
+            crossSceneEventEmitter.emit(GAME_CONSTANTS.GAME_FINISHED);
+            this.timerEvent.remove();
+            return;
+        }
+        
 
         this.maskShape.clear();
         this.maskShape.beginPath();

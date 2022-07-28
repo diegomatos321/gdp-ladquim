@@ -69,6 +69,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // Eventos
     crossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene)
     crossSceneEventEmitter.on(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu)
+    crossSceneEventEmitter.on(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame)
 
     this.input.on(Phaser.Input.Events.DRAG_START, this.handleDragStart);
     this.input.on(Phaser.Input.Events.DRAG, this.handleDrag);
