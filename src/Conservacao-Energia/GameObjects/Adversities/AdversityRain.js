@@ -46,7 +46,7 @@ export default class AdversityRain extends Phaser.GameObjects.Rectangle {
     destroyRain = () => {
         this.imagem.destroy();
         this.rainDropParticles.destroy()
-        this.timerEvent.destroy()
+        this.timerEvent.remove()
         crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.STOP_AUDIO, this.audioSFX);
         this.destroy()
     }
