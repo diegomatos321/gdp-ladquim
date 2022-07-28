@@ -1,12 +1,13 @@
 import Phaser from "phaser"
 import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
 import GAME_CONSTANTS from "./GAME_CONSTANTS.json"
+import GAME_OBJECT_CONSTANTS from "./GAME_OBJECT_CONSTANTS.json"
 
-import MesaBlank from "./Objects/MesaBlank.js"
-import VasoAntigo from "./Objects/VasoAntigo.js"
 import LoadingInterface from "../common/scripts/LoadingInterface"
-import Rain from "./Objects/Rain"
 import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
+import BaseObject from "./GameObjects/BaseObject"
+import UsableItemFactory from "./Factories/UsableItemFactory"
+import AdversityFactory from "./Factories/AdversityFactory"
 
 const STATES = {
   START: 0,
@@ -21,9 +22,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
 
     var rainSources
-    var isRaining
-    var grupoDeMesas
-    var grupoDeAreasDeEfeito
     var pauseGame
   }
 
@@ -31,7 +29,9 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.GameManager = this.scene.get(GLOBAL_CONSTANTS.GAME_MANAGER);
     this.GameManager.setCurrentScene(this.scene.key)
 
-    this.isRaining = false
+    this.GAME_WIDTH = Number(this.game.config.width);
+    this.GAME_HEIGHT = Number(this.game.config.height);
+
     this.rainSources = []
     this.currentState = STATES.START;
   }
@@ -39,6 +39,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   preload = () => {
     new LoadingInterface(this, this.game.config.width / 2, this.game.config.height / 2)
     this.loadImages();
+    this.loadSounds();
   }
 
   create = () => {
@@ -61,16 +62,17 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     
     this.carregarElementosDoJogo();
 
-    // Colisoes
-    this.physics.add.collider(this.grupoDeItems, this.grupoDeMesas);
-
     // Overlap
-    this.physics.add.overlap(this.grupoDeItems, this.grupoDeMesas, this.repositionVase);
-    this.physics.add.overlap(this.grupoDeItems, this.grupoDeAreasDeEfeito, this.damageItem);
+    this.physics.add.overlap(this.objectsGroup, this.adversityGroup, this.damageItem);
+    this.physics.add.overlap(this.objectsGroup, this.collectableItemsGroup, this.handleUsableOverlap);
 
     // Eventos
     crossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene)
     crossSceneEventEmitter.on(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu)
+
+    this.input.on(Phaser.Input.Events.DRAG_START, this.handleDragStart);
+    this.input.on(Phaser.Input.Events.DRAG, this.handleDrag);
+    this.input.on(Phaser.Input.Events.DRAG_END, this.handleDragEnd);
     this.events.on(GAME_CONSTANTS.START_GAME, this.handleStartGame)
     this.events.on(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame)
     this.events.on(GAME_CONSTANTS.RESTART_GAME, this.handleRestartGame)
@@ -78,11 +80,13 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
   }
 
-  update = () => {    
-    this.rainSources.forEach((e) => {
-      this.isRaining = e.updateRain();
-    })
-    this.generateRandomRainArea();
+  update = () => {
+    // Paleativo para não gerar + de 1 adversidade
+    if (this.adversityGroup.children.entries.length >= 1) {
+    } else {
+      this.generateRandomAdversityArea();
+    }
+    this.generateRandomUsable();
   }
 
   /**
@@ -91,9 +95,17 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
    * 
    */
   loadImages = () => {
-    this.load.image("vaso", new URL("./images/vaso-grego-antigo.png?quality=75&width=75", import.meta.url).pathname);
-    this.load.image("mesa", new URL("./images/desk-sprite.png?quality=75&width=300", import.meta.url).pathname);
-    this.load.image("raindrop", new URL("./images/raindrop-2d-sprite.png?quality=75&width=8", import.meta.url).pathname);
+    this.load.image("estatua-madeira", new URL("./images/estatua-madeira.png?quality=75&width=75", import.meta.url).pathname);
+    this.load.image("estatua-bronze", new URL("./images/estatua-bronze.png?quality=75&width=75", import.meta.url).pathname);
+    this.load.image("estatua-marmore", new URL("./images/estatua-marmore.png?quality=75&width=75", import.meta.url).pathname);
+    this.load.image("quadro-sorriso-1", new URL("./images/quadro-sorriso-2.png?quality=75&width=75", import.meta.url).pathname);
+    this.load.image("quadro-sorriso-2", new URL("./images/quadro-sorriso-2-2.png?quality=75&width=75", import.meta.url).pathname);
+    this.load.image("quadro-sorriso-3", new URL("./images/quadro-sorriso-2-3.png?quality=75&width=75", import.meta.url).pathname);
+    this.load.image("verniz", new URL("./images/verniz.png?quality=100&width=100", import.meta.url).pathname);
+    this.load.image("raindrop", new URL("./images/gota-chuva.png?quality=75&width=8", import.meta.url).pathname);
+    this.load.image("sol", new URL("./images/sol.png?quality=75&width=400", import.meta.url).pathname);
+    this.load.image("nuvem", new URL("./images/nuvem.png?quality=75&width=400", import.meta.url).pathname);
+
 
     this.load.image('background', new URL("./images/background.jpg", import.meta.url).pathname)
 
@@ -106,32 +118,35 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.load.image('right-cap-shadow', new URL("./images/uipack-space/barHorizontal_shadow_right.png", import.meta.url).pathname)
   }
 
-  carregarElementosDoJogo = () => {
-    //Carregando variáveis
-    this.grupoDeAreasDeEfeito = this.physics.add.staticGroup();
+  loadSounds = () => {
+    this.load.audio('heal-sfx', new URL("./sounds/heal-sfx.mp3", import.meta.url).pathname);
+    this.load.audio('damage-sfx', new URL("./sounds/damage-sfx.mp3", import.meta.url).pathname);
+    this.load.audio('rain-sfx', new URL("./sounds/rain-sfx.mp3", import.meta.url).pathname);
+    this.load.audio('sun-birds-sfx', new URL("./sounds/sun-birds-sfx.mp3", import.meta.url).pathname);
+  }
 
-    //Adicionando background
-    this.add.image(this.game.config.width/2, this.game.config.height/2,"background")
+  carregarElementosDoJogo = () => {
+    this.add.image(this.game.config.width/2, this.game.config.height/2, "background")
 
     // Configurando bordas de colisoes do mundo
     this.physics.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
 
-    // Grupo estatico de mesas
-    this.grupoDeMesas = this.physics.add.staticGroup({ classType: MesaBlank });
-    this.grupoDeMesas.get(this.game.config.width - 1150, this.game.config.height - 280);
+    // Grupos de itens
+    this.adversityGroup = this.add.group();
+    this.objectsGroup = this.physics.add.group({ collideWorldBounds: true });
+    this.collectableItemsGroup = this.physics.add.group({ collideWorldBounds: true });
 
-    // Grupo de vasos
-    this.grupoDeItems = this.physics.add.group({ collideWorldBounds: true });
+    let estatuaMadeira = new BaseObject(this, (this.GAME_WIDTH / 2) - 300, this.GAME_HEIGHT / 2, "estatua-madeira").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MADEIRA);
+    let estatuaMarmore = new BaseObject(this, this.GAME_WIDTH / 2, this.GAME_HEIGHT / 2, "estatua-marmore").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MARMORE);
+    let estatuaBronze = new BaseObject(this, (this.GAME_WIDTH / 2) + 300, this.GAME_HEIGHT / 2, "estatua-bronze").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.BRONZE);
+    let quadro1 = new BaseObject(this, (this.GAME_WIDTH / 2) - 450, this.GAME_HEIGHT / 2, "quadro-sorriso-1").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MADEIRA);
+    let quadro2 = new BaseObject(this, (this.GAME_WIDTH / 2) + 450, this.GAME_HEIGHT / 2, "quadro-sorriso-2").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MADEIRA);
+    let quadro3 = new BaseObject(this, (this.GAME_WIDTH / 2) + 600, this.GAME_HEIGHT / 2, "quadro-sorriso-3").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MADEIRA);
 
-    // Criando vasos
-    for (let index = 0; index < 1; index++) {
-      const mesa = this.grupoDeMesas.getFirstAlive();
-      const stepX = (mesa.displayWidth / 2 * index);
-
-      let vasoAntigo = new VasoAntigo(this, (mesa.x - mesa.displayWidth / 4) + stepX, this.game.config.height / 2);
-      this.grupoDeItems.add(vasoAntigo, true);
-    };    
+    this.objectsGroup.addMultiple([estatuaMadeira, estatuaMarmore, estatuaBronze,quadro1,quadro2,quadro3], true);
   }
+
+  // Event Handlers
 
   handlePauseScene = () => {
     this.currentState = STATES.PAUSED;
@@ -169,48 +184,70 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.scene.launch(GAME_CONSTANTS.START_GAME_MODAL)
   }
 
+  handleDragStart = (pointer, gameObject) => {
+    gameObject.setState("dragstart");
+  }
+
+  handleDrag = (pointer, gameObject, dragX, dragY) => {
+    gameObject.setPosition(dragX, dragY);
+  }
+
+  handleDragEnd = (pointer, gameObject) => {
+    gameObject.setState("dragend", true);
+  }
+
   pauseGame = () => {
     this.scene.pause(this.scene.key);
     this.scene.pause(this.scene.key + "-gui");
   }
 
-  createRainHitArea = (rainSource) => {
-    let widthOfRainHitArea = Phaser.Geom.Line.Length(rainSource);
-    let heightOfRainHitArea = this.game.config.height - rainSource.y1;
-    let rainHitArea = this.add.rectangle(rainSource.x1 + widthOfRainHitArea / 2, rainSource.y1 + heightOfRainHitArea / 2, widthOfRainHitArea, heightOfRainHitArea);
-    rainHitArea.setData("power", 0.1);
-    return rainHitArea;
-  }
-
-  generateRandomRainArea = () => {
+  generateRandomUsable = () => {
     let randomNumber = Phaser.Math.Between(0, 500);
 
-    if (randomNumber < 1 && !this.isRaining) {
-      this.isRaining = true
-      let randomPos = Phaser.Math.Between(0, this.scale.baseSize.width - 400);
-      let rainSource = new Rain(randomPos, this, "raindrop");
-      Rain.CreateEmitter(rainSource.raindropParticles, rainSource, this)
-      this.rainSources.push(rainSource)
-      this.grupoDeAreasDeEfeito.add(rainSource.rainHitArea, true);
+    if (randomNumber < 1) {
+        const itemWidth = 75;
+        const itemHeight = 88;
+        const randomPos = {
+            x: Phaser.Math.Between(itemWidth, this.GAME_WIDTH - itemWidth),
+            y: Phaser.Math.Between(itemHeight, this.GAME_HEIGHT - itemHeight)
+        }
+
+        let collectableItem = UsableItemFactory(this, randomPos.x, randomPos.y);
+        this.collectableItemsGroup.add(collectableItem, true);
     }
   }
 
-  repositionVase = (item, mesa) => {
-    if (item.state == "dragend") {
-      item.setPosition(item.x, mesa.body.center.y - mesa.body.height / 2 - item.body.height / 2);
+  handleUsableOverlap = (object, collectable) => {
+    collectable.usedBy(object);
+  }
+
+  generateRandomAdversityArea = () => {
+    let randomNumber = Phaser.Math.Between(0, 500);
+
+    if (randomNumber < 1) {
+      let randomPosX = Phaser.Math.Between(0, this.GAME_WIDTH - 400);
+      let randomPosY = Phaser.Math.Between(0, this.GAME_HEIGHT);
+
+      const adversity = AdversityFactory(this, randomPosX, randomPosY);
+
+      this.adversityGroup.add(adversity, true);
     }
   }
 
-  damageItem = (item, damageSource) => {
-    item.damageItem(damageSource.getData("power"))
+  damageItem = (adversity, object) => {
+    adversity.dealsDamage(object);
   }
 
   cleanEvents = (sys) => {
     console.log("Cleaning Events from Conservacao Energia Minigame")
     this.GameManager.setCurrentScene(null)
 
-    this.GameManager.events.removeListener(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene)
-    sys.scene.events.removeListener(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu)
+    crossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene)
+    crossSceneEventEmitter.removeListener(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu)
+
+    sys.scene.input.removeListener(Phaser.Input.Events.DRAG_START, this.handleDragStart);
+    sys.scene.input.removeListener(Phaser.Input.Events.DRAG, this.handleDrag);
+    sys.scene.input.removeListener(Phaser.Input.Events.DRAG_END, this.handleDragEnd);
     sys.scene.events.removeListener(GAME_CONSTANTS.START_GAME, this.handleStartGame)
     sys.scene.events.removeListener(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame)
     sys.scene.events.removeListener(GAME_CONSTANTS.RESTART_GAME, this.handleRestartGame)

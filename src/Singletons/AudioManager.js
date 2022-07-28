@@ -74,6 +74,7 @@ export default class AudioManager extends Phaser.Scene {
 
   stopAudio = (key) => {
     console.log("Stop Audio: " + key);
+    this.sound.stopByKey(key)
   }
 
   musicSettingsChanged = (key, value) => {

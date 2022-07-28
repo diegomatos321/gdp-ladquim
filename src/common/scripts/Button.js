@@ -1,7 +1,10 @@
+import MODAL_CONSTANTS from "../../Menu/MODAL_CONSTANTS.json"
+
 export default class Button extends Phaser.GameObjects.Container {
   constructor(scene, x, y, text, textConfig) {
     super(scene, x, y);
 
+    this.name = text
     this.scene.add.existing(this)
     this.textura = this.scene.add.image(0, 0, "common-atlas", "botao-normal")
     this.add(this.textura)
@@ -29,6 +32,9 @@ export default class Button extends Phaser.GameObjects.Container {
   downButton = () => {
     console.log("GAMEOBJECT_POINTER_DOWN")
     this.textura.setTexture("common-atlas", "botao-down")
+    if(this.name == MODAL_CONSTANTS.O_PROJETO) {
+      window.open("https://ladquim.iq.ufrj.br", '_blank')
+    }
   }
 
   upButton = () => {
