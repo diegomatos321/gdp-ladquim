@@ -82,7 +82,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   update = () => {
-    // Paleativo para não gerar + de 1 adversidade
     if (this.adversityGroup.children.entries.length >= 1) {
     } else {
       this.generateRandomAdversityArea();

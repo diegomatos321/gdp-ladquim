@@ -5,7 +5,9 @@ import Lixo from "../GameObjects/Usables/Lixo"
 
 export default function UsableItemFactory(scene, x, y) {
     const collectableList = [
-        
+        "verniz",
+        "espanador",
+        "limpeza",
         "lixo"
     ];
     const randomUsable = Phaser.Utils.Array.GetRandom(collectableList);
