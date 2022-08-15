@@ -168,8 +168,10 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     const guiScene = this.scene.get(GAME_CONSTANTS.GUI);
 
     if (guiScene.scene.isPaused()) {
+      crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.RESUME_ALL_AUDIO);
       guiScene.scene.resume();
     } else {
+      crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PAUSE_ALL_AUDIO);
       guiScene.scene.pause();
     }
   }
