@@ -12,6 +12,7 @@
   "STOP_BACKGROUND_MUSIC": "stop-background-music",
   "PLAY_AUDIO": "play-audio",
   "STOP_AUDIO": "stop-audio",
+  "STOP_ALL_AUDIO": "stop-all-audio",
   "MUSIC_SETTINGS_CHANGED": "music-settings-changed",
   "AUDIO_SETTINGS_CHANGED": "audio-settings-changed",
   "GET_MUSIC_SETTINGS": "get-music-settings",

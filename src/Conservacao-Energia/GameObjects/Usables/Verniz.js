@@ -13,14 +13,31 @@ export default class Verniz extends BaseUsableItem {
   }
 
   usedBy = (object) => {
-    if (object.getData("tipo-estatua") === GAME_OBJECT_CONSTANTS.MADEIRA) {
-        crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_AUDIO, "heal-sfx");
-        object.handleHeal(this.getData("power"));
-    } else {
+
+    if(object.getData("tipo-estatua")) {
+
+      if (object.getData("tipo-estatua") === GAME_OBJECT_CONSTANTS.MADEIRA) {
         crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_AUDIO, "damage-sfx");
         object.handleDamage(this.getData("power"));
+        this.destroy();
+        return;
+      }
+
+      crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_AUDIO, "heal-sfx");
+      object.handleHeal(this.getData("power"));
+      this.destroy();
+      return;
     }
 
+    if(object.getData("tipo-quadro")) { 
+      crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_AUDIO, "heal-sfx");
+      object.handleHeal(this.getData("power"));
+      this.destroy();
+      return;
+    }
+
+    crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_AUDIO, "damage-sfx");
+    object.handleDamage(this.getData("power"));
     this.destroy();
   }
 }
