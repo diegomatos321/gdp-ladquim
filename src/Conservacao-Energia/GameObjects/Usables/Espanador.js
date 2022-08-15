@@ -6,7 +6,6 @@ import GLOBAL_CONSTANTS from "../../../GLOBAL_CONSTANTS.json";
 export default class Espanador extends BaseUsableItem {
   constructor(scene, x, y) {
     super(scene, x, y, "espanador");
-    this.textura = this.scene.add.image(0, 0, "espanador");
 
     this.setData("power", 50);
   }

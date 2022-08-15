@@ -192,6 +192,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
   handleFinishedGame = () => {
     this.pauseGame();
+    crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.STOP_ALL_AUDIO);
     this.scene.launch(GAME_CONSTANTS.FINISH_GAME_MODAL);
   }
 

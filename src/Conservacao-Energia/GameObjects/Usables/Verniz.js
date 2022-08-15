@@ -7,7 +7,6 @@ import GAME_OBJECT_CONSTANTS from "../../GAME_OBJECT_CONSTANTS.json";
 export default class Verniz extends BaseUsableItem {
   constructor(scene, x, y) {
     super(scene, x, y, "verniz");
-    this.textura = this.scene.add.image(0, 0, "verniz");
 
     this.setData("power", 50);
   }
