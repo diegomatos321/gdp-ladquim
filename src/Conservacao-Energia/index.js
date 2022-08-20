@@ -82,6 +82,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   update = () => {
+    // Paleativo para não gerar + de 1 adversidade
     if (this.adversityGroup.children.entries.length >= 1) {
     } else {
       this.generateRandomAdversityArea();
@@ -105,16 +106,16 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.load.image("tecido", new URL("./images/tecido.png?quality=100&width=100", import.meta.url).pathname);
     this.load.image("verniz", new URL("./images/verniz.png?quality=100&width=100", import.meta.url).pathname);
     this.load.image("espanador", new URL("./images/espanador.png?quality=100&width=100", import.meta.url).pathname);
-    this.load.image("limpeza", new URL("./images/limpeza.png?quality=100&width=100", import.meta.url).pathname);
+    this.load.image("limpeza", new URL("./images/limpeza3.png?quality=100&width=100", import.meta.url).pathname);
     this.load.image("lixo", new URL("./images/lixo.png?quality=100&width=100", import.meta.url).pathname);
-    this.load.image("lixo-comida", new URL("./images/lixo-comida.png?quality=50&width=200", import.meta.url).pathname);
-    this.load.image("comida-rosquinha", new URL("./images/comida-rosquinha.png?quality=75&width=75", import.meta.url).pathname);
-    this.load.image("comida-maca", new URL("./images/comida-maca.png?quality=75&width=75", import.meta.url).pathname);
+    this.load.image("lixo-comida", new URL("./images/lixo-comida2.png?quality=50&width=200", import.meta.url).pathname);
+    this.load.image("comida-rosquinha", new URL("./images/comida-rosquinha.png?quality=100&width=100", import.meta.url).pathname);
+    this.load.image("comida-maca", new URL("./images/comida-maca.png?quality=100&width=100", import.meta.url).pathname);
     this.load.image("raindrop", new URL("./images/gota-chuva.png?quality=75&width=8", import.meta.url).pathname);
     this.load.image("sol", new URL("./images/sol.png?quality=75&width=400", import.meta.url).pathname);
-    this.load.image("fogo", new URL("./images/fogo.png?quality=75&width=400", import.meta.url).pathname);
+    this.load.image("fogo", new URL("./images/fogo2.png?quality=75&width=150", import.meta.url).pathname);
     this.load.image("nuvem", new URL("./images/nuvem.png?quality=75&width=400", import.meta.url).pathname);
-
+    this.load.image("folhas", new URL("./images/folhas.png?quality=75&width=400", import.meta.url).pathname);
 
     this.load.image('background', new URL("./images/background.jpg", import.meta.url).pathname)
 
@@ -135,6 +136,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.load.audio('sweeping-sfx', new URL("./sounds/sweeping-sfx.mp3", import.meta.url).pathname);
     this.load.audio('fire-sfx', new URL("./sounds/fire-sfx.mp3", import.meta.url).pathname);
     this.load.audio('garbage-sfx', new URL("./sounds/garbage-sfx.mp3", import.meta.url).pathname);
+    this.load.audio('water-sfx', new URL("./sounds/water-sfx.mp3", import.meta.url).pathname);
   }
 
   carregarElementosDoJogo = () => {
