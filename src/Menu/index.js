@@ -14,7 +14,6 @@ export default class MenuScene extends Phaser.Scene {
 
     this.currentContainerKey = MODAL_CONSTANTS.MENU;
     this.mapOfModals = new Map();
-    var music
   }
 
   init = () => {

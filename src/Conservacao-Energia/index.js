@@ -19,20 +19,19 @@ const STATES = {
 export default class ConservacaoEnergiaScene extends Phaser.Scene {
   constructor() {
     super({ key: GLOBAL_CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO });
-
-
-    var rainSources
     var pauseGame
   }
 
-  init = () => {
+  init = (data) => {
+    console.log("Nível Selecionado: " + data.level)
+    console.log(this)
+    this.currentLevel = data.level;
     this.GameManager = this.scene.get(GLOBAL_CONSTANTS.GAME_MANAGER);
     this.GameManager.setCurrentScene(this.scene.key)
 
     this.GAME_WIDTH = Number(this.game.config.width);
     this.GAME_HEIGHT = Number(this.game.config.height);
 
-    this.rainSources = []
     this.currentState = STATES.START;
   }
 
@@ -42,8 +41,10 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.loadSounds();
   }
 
-  create = () => {
+  create = (data) => {
     // Executa o GUI do Minigame
+    console.log("Av")
+    console.log(data)
     this.scene.launch(GAME_CONSTANTS.GUI);
     
     if (this.currentState === STATES.START || this.currentState === STATES.FINISHED) {
@@ -150,6 +151,37 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.objectsGroup = this.physics.add.group({ collideWorldBounds: true });
     this.collectableItemsGroup = this.physics.add.group({ collideWorldBounds: true });
 
+    this.loadLevel();
+  }
+
+  // Levels
+
+  loadLevel = () => {
+    console.log("dadsasdadsa");
+    console.log(this.currentLevel);
+    switch (this.currentLevel) {
+      case 1:
+          this.handleLoadLevel1();
+          break;
+      case 2:
+          this.handleLoadLevel2();
+          break;
+      default:
+          break;
+    }
+  }
+
+
+  handleLoadLevel1 = () => {
+    let estatuaMadeira = new BaseObject(this, (this.GAME_WIDTH / 2) - 300, this.GAME_HEIGHT / 2, "estatua-madeira").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MADEIRA);
+    let estatuaMarmore = new BaseObject(this, this.GAME_WIDTH / 2, this.GAME_HEIGHT / 2, "estatua-marmore").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MARMORE);
+    let estatuaBronze = new BaseObject(this, (this.GAME_WIDTH / 2) + 300, this.GAME_HEIGHT / 2, "estatua-bronze").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.BRONZE);
+
+    this.objectsGroup.addMultiple([estatuaMadeira, estatuaMarmore, estatuaBronze], true);
+
+  }
+
+  handleLoadLevel2 = () => {
     let estatuaMadeira = new BaseObject(this, (this.GAME_WIDTH / 2) - 300, this.GAME_HEIGHT / 2, "estatua-madeira").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MADEIRA);
     let estatuaMarmore = new BaseObject(this, this.GAME_WIDTH / 2, this.GAME_HEIGHT / 2, "estatua-marmore").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MARMORE);
     let estatuaBronze = new BaseObject(this, (this.GAME_WIDTH / 2) + 300, this.GAME_HEIGHT / 2, "estatua-bronze").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.BRONZE);
@@ -188,8 +220,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   handleRestartGame = () => {
-    this.scene.restart(this.scene.key);
-    this.scene.restart(this.scene.key + "-gui");
+    this.scene.restart({level: this.currentLevel});
   }
 
   handleFinishedGame = () => {
@@ -258,21 +289,22 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   cleanEvents = (sys) => {
-    console.log("Cleaning Events from Conservacao Energia Minigame")
-    this.GameManager.setCurrentScene(null)
+    console.log("Cleaning Events from Conservacao Energia Minigame");
+    this.textures.remove("background");
+    this.GameManager.setCurrentScene(null);
 
     crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.STOP_ALL_AUDIO);
 
-    crossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene)
-    crossSceneEventEmitter.removeListener(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu)
+    crossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene);
+    crossSceneEventEmitter.removeListener(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu);
 
     sys.scene.input.removeListener(Phaser.Input.Events.DRAG_START, this.handleDragStart);
     sys.scene.input.removeListener(Phaser.Input.Events.DRAG, this.handleDrag);
     sys.scene.input.removeListener(Phaser.Input.Events.DRAG_END, this.handleDragEnd);
-    sys.scene.events.removeListener(GAME_CONSTANTS.START_GAME, this.handleStartGame)
-    sys.scene.events.removeListener(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame)
-    sys.scene.events.removeListener(GAME_CONSTANTS.RESTART_GAME, this.handleRestartGame)
-    sys.scene.events.removeListener(GAME_CONSTANTS.SHOW_INSTRUCOES, this.handleShowInstrucoes)
-    sys.scene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
+    sys.scene.events.removeListener(GAME_CONSTANTS.START_GAME, this.handleStartGame);
+    sys.scene.events.removeListener(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame);
+    sys.scene.events.removeListener(GAME_CONSTANTS.RESTART_GAME, this.handleRestartGame);
+    sys.scene.events.removeListener(GAME_CONSTANTS.SHOW_INSTRUCOES, this.handleShowInstrucoes);
+    sys.scene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
   }
 }
