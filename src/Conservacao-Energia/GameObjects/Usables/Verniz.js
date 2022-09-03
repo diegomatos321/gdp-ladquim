@@ -8,6 +8,7 @@ export default class Verniz extends BaseUsableItem {
   constructor(scene, x, y) {
     super(scene, x, y, "verniz");
 
+    this.setName('verniz');
     this.setData("power", 50);
   }
 

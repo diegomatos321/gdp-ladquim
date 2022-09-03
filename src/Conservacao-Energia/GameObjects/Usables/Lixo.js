@@ -8,6 +8,7 @@ export default class Lixo extends BaseUsableItem {
   constructor(scene, x, y) {
     super(scene, x, y, "lixo");
 
+    this.setName('lixo');
     this.setData("power", 50);
   }
 

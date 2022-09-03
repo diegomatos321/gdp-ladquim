@@ -3,8 +3,17 @@ import GameTimer from "./GameObjects/GameTimer"
 import GAME_CONSTANTS from "./GAME_CONSTANTS.json"
 import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
 import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
+import GAME_OBJECT_CONSTANTS from './GAME_OBJECT_CONSTANTS.json';
 
 export default class QuimicaConservacaoGUI extends Phaser.Scene {
+    usablesList = [
+        'espanador',
+        'limpeza',
+        'lixo',
+        'verniz'
+    ]
+    slotsGroup;
+
   constructor() {
     super({key: GAME_CONSTANTS.GUI})
   }
@@ -22,6 +31,7 @@ export default class QuimicaConservacaoGUI extends Phaser.Scene {
     this.settingsButton = this.add.image(this.game.config.width - 16, 16, "ui-atlas", "options").setOrigin(1, 0).setInteractive();
     
     this.gameTimer = new GameTimer(this, this.GAME_WIDTH / 2, 100)
+    this.drawInventory();
     
     this.settingsButton.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSettingsClicked)
     crossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSED, this.toogleSettingsButton);
@@ -34,6 +44,16 @@ export default class QuimicaConservacaoGUI extends Phaser.Scene {
 
   toogleSettingsButton = () => {
     this.settingsButton.visible ? this.settingsButton.setVisible(false) : this.settingsButton.setVisible(true)
+  }
+
+  drawInventory = () => {
+    this.slotsGroup = this.add.group();
+
+    this.usablesList.forEach((usableName, i) => {
+        const usableSlot = this.add.image(250 + i*280, this.GAME_HEIGHT - 130, 'slot-inventario');
+        usableSlot.setName(usableName);
+        this.slotsGroup.add(usableSlot);
+    });
   }
 
   cleanAndStop = () => {

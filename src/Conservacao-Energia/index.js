@@ -119,6 +119,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.load.image("folhas", new URL("./images/folhas.png?quality=75&width=400", import.meta.url).pathname);
 
     this.load.image('background', new URL("./images/background.jpg", import.meta.url).pathname)
+    this.load.image('slot-inventario', new URL("./images/slot-inventario.png", import.meta.url).pathname)
 
     this.load.image('left-cap', new URL("./images/uipack-space/barHorizontal_green_left.png", import.meta.url).pathname)
     this.load.image('middle', new URL("./images/uipack-space/barHorizontal_green_mid.png", import.meta.url).pathname)
