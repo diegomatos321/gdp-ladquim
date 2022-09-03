@@ -6,6 +6,11 @@ export default class LoadingInterface extends Phaser.GameObjects.Container {
     const offSetX = this.scene.game.config.width / 4, leftTextPadding = 8;
     this.scene.add.existing(this)
 
+    this.gdplogo = this.scene.add.image(-100, -100, "GDP-LOGO");
+    this.ladquimlogo = this.scene.add.image(100, -100, "LADQUIM-LOGO");
+        
+    this.add([this.gdplogo, this.ladquimlogo]);
+
     this.progressGraphic = this.scene.add.graphics();
 
     const shapeHeight = 16;

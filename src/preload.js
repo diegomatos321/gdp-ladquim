@@ -14,6 +14,8 @@ export default class Preload extends Phaser.Scene {
   }
 
   preload = () => {
+    this.load.image("GDP-LOGO", new URL("./common/images/GDP.png?quality=100&width=100", import.meta.url).pathname)
+    this.load.image("LADQUIM-LOGO", new URL("./ui/icons/ladquim-logo.png?quality=100&width=200", import.meta.url).pathname)
     new LoadingInterface(this, this.game.config.width/2, this.game.config.height/2)
     this.load.atlas("common-atlas", new URL("./common/atlas/common-textures.png", import.meta.url).pathname, commonAtlas);
     this.load.atlas("ui-atlas", new URL("./common/atlas/ui-textures.png", import.meta.url).pathname, uiAtlas);    

@@ -52,7 +52,6 @@ export default class AdversityRain extends Phaser.GameObjects.Rectangle {
     }
 
     dealsDamage = (object) => {
-        // toca sfx
         object.handleDamage(this.getData("power"));
     }
 

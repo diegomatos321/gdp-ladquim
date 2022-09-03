@@ -40,6 +40,9 @@ export default class AudioManager extends Phaser.Scene {
     CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.STOP_BACKGROUND_MUSIC, this.stopBackgroundMusic)
     CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.PLAY_AUDIO, this.playAudio)
     CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.STOP_AUDIO, this.stopAudio)
+    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.STOP_ALL_AUDIO, this.stopAllAudio)
+    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSE_ALL_AUDIO, this.pauseAllAudio)
+    CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.RESUME_ALL_AUDIO, this.resumeAllAudio)
     CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.MUSIC_SETTINGS_CHANGED, this.musicSettingsChanged);
     CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.GET_MUSIC_SETTINGS, this.handleGetMusicSettings);
     // CrossSceneEventEmitter.on(GLOBAL_CONSTANTS.AUDIO_SETTING_CHANGED, this.audioSettingsChanged);
@@ -74,7 +77,22 @@ export default class AudioManager extends Phaser.Scene {
 
   stopAudio = (key) => {
     console.log("Stop Audio: " + key);
-    this.sound.stopByKey(key)
+    this.sound.stopByKey(key);
+  }
+
+  stopAllAudio = () => {
+    console.log("Stop All Audios");
+    this.sound.stopAll();
+  }
+
+  resumeAllAudio = () => {
+    console.log("Resume All Audios");
+    this.sound.resumeAll();
+  }
+
+  pauseAllAudio = () => {
+    console.log("Pause All Audios");
+    this.sound.pauseAll();
   }
 
   musicSettingsChanged = (key, value) => {
