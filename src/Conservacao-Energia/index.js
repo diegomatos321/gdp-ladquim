@@ -63,6 +63,12 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     
     this.carregarElementosDoJogo();
 
+    this.time.addEvent({
+        delay: 1_000,
+        loop: true,
+        callback: this.generateRandomUsable
+    });
+
     // Overlap
     this.physics.add.overlap(this.objectsGroup, this.adversityGroup, this.damageItem);
     this.physics.add.overlap(this.objectsGroup, this.collectableItemsGroup, this.handleUsableOverlap);
@@ -88,7 +94,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     } else {
       this.generateRandomAdversityArea();
     }
-    this.generateRandomUsable();
   }
 
   /**
@@ -253,9 +258,9 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   generateRandomUsable = () => {
-    let randomNumber = Phaser.Math.Between(0, 500);
+    let randomNumber = Phaser.Math.Between(0, 100);
 
-    if (randomNumber < 1) {
+    if (randomNumber < 20) {
         const itemWidth = 75;
         const itemHeight = 88;
         const randomPos = {
