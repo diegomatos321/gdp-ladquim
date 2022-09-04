@@ -4,6 +4,7 @@ import GAME_CONSTANTS from "./GAME_CONSTANTS.json"
 import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
 import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
 import GAME_OBJECT_CONSTANTS from './GAME_OBJECT_CONSTANTS.json';
+import InventorySlot from "./GameObjects/InventorySlot"
 
 export default class QuimicaConservacaoGUI extends Phaser.Scene {
     usablesList = [
@@ -50,8 +51,7 @@ export default class QuimicaConservacaoGUI extends Phaser.Scene {
     this.slotsGroup = this.add.group();
 
     this.usablesList.forEach((usableName, i) => {
-        const usableSlot = this.add.image(250 + i*280, this.GAME_HEIGHT - 130, 'slot-inventario');
-        usableSlot.setName(usableName);
+        const usableSlot = new InventorySlot(this, 250 + i*280, this.GAME_HEIGHT - 130, usableName);
         this.slotsGroup.add(usableSlot);
     });
   }
