@@ -36,6 +36,7 @@ export default class QuimicaConservacaoGUI extends Phaser.Scene {
     
     this.settingsButton.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSettingsClicked)
     crossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSED, this.toogleSettingsButton);
+    crossSceneEventEmitter.on(GAME_CONSTANTS.ITEM_PICK_UP, this.handlePickUp);
     this.gameScene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanAndStop);
   }
 
@@ -56,10 +57,18 @@ export default class QuimicaConservacaoGUI extends Phaser.Scene {
     });
   }
 
+  handlePickUp = (itemName) => {
+    const result = this.slotsGroup.getMatching('name', itemName)[0];
+    console.dir(result);
+    result.setImageVisible(true);
+  }
+
   cleanAndStop = () => {
     this.settingsButton.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSettingsClicked)
-    this.GameManager.events.removeListener(GLOBAL_CONSTANTS.PAUSED, this.toogleSettingsButton);
+    crossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.PAUSED, this.toogleSettingsButton);
+    crossSceneEventEmitter.removeListener(GAME_CONSTANTS.ITEM_PICK_UP, this.handlePickUp);
     this.gameScene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanAndStop);
+
     this.scene.stop();
   }
 }
