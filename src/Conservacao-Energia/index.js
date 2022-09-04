@@ -269,7 +269,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
         }
 
         let collectableItem = UsableItemFactory(this, randomPos.x, randomPos.y);
-        this.collectableItemsGroup.add(collectableItem, true);
+        collectableItem.setEnableToPick(true);
     }
   }
 
