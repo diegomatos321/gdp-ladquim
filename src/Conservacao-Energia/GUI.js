@@ -3,26 +3,20 @@ import GameTimer from "./GameObjects/GameTimer"
 import GAME_CONSTANTS from "./GAME_CONSTANTS.json"
 import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
 import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
-import GAME_OBJECT_CONSTANTS from './GAME_OBJECT_CONSTANTS.json';
 import InventorySlot from "./GameObjects/InventorySlot"
 
 export default class QuimicaConservacaoGUI extends Phaser.Scene {
-    usablesList = [
-        'espanador',
-        'limpeza',
-        'lixo',
-        'verniz'
-    ]
     slotsGroup;
 
   constructor() {
     super({key: GAME_CONSTANTS.GUI})
   }
   
-  init = () => {
+  init = (startInventoryData) => {
     this.GAME_WIDTH = Number(this.game.config.width);
     this.GAME_HEIGHT = Number(this.game.config.height);
     this.GameManager = this.scene.get(GLOBAL_CONSTANTS.GAME_MANAGER)
+    this.drawInventory(startInventoryData);
   }
 
   create = () => {
@@ -32,11 +26,9 @@ export default class QuimicaConservacaoGUI extends Phaser.Scene {
     this.settingsButton = this.add.image(this.game.config.width - 16, 16, "ui-atlas", "options").setOrigin(1, 0).setInteractive();
     
     this.gameTimer = new GameTimer(this, this.GAME_WIDTH / 2, 100)
-    this.drawInventory();
     
     this.settingsButton.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSettingsClicked)
     crossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSED, this.toogleSettingsButton);
-    crossSceneEventEmitter.on(GAME_CONSTANTS.ITEM_PICK_UP, this.handlePickUp);
     this.gameScene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanAndStop);
   }
 
@@ -48,25 +40,21 @@ export default class QuimicaConservacaoGUI extends Phaser.Scene {
     this.settingsButton.visible ? this.settingsButton.setVisible(false) : this.settingsButton.setVisible(true)
   }
 
-  drawInventory = () => {
+  drawInventory = (startInventoryData) => {
     this.slotsGroup = this.add.group();
 
-    this.usablesList.forEach((usableName, i) => {
-        const usableSlot = new InventorySlot(this, 250 + i*280, this.GAME_HEIGHT - 130, usableName);
+    const paddingX = 30;
+    const startX = (this.GAME_WIDTH / 2) - (InventorySlot.slotWidth + paddingX) * (startInventoryData.length / 2);
+    const startY = this.GAME_HEIGHT - 130;
+    startInventoryData.forEach((usable, i) => {
+        const usableSlot = new InventorySlot(this, startX + i*(InventorySlot.slotWidth + paddingX), startY, usable.item, usable.amount);
         this.slotsGroup.add(usableSlot);
     });
-  }
-
-  handlePickUp = (itemName) => {
-    const result = this.slotsGroup.getMatching('name', itemName)[0];
-    console.dir(result);
-    result.setImageVisible(true);
   }
 
   cleanAndStop = () => {
     this.settingsButton.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSettingsClicked)
     crossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.PAUSED, this.toogleSettingsButton);
-    crossSceneEventEmitter.removeListener(GAME_CONSTANTS.ITEM_PICK_UP, this.handlePickUp);
     this.gameScene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanAndStop);
 
     this.scene.stop();
