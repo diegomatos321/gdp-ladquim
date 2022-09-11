@@ -14,6 +14,6 @@ export default class Espanador extends BaseUsableItem {
   usedBy = (object) => {
     crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_AUDIO, "sweeping-sfx");
     object.handleHeal(this.getData("power"));
-    this.destroy();
+    this.destroyGameObject();
   }
 }

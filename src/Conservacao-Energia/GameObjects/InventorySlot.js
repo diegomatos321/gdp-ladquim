@@ -38,4 +38,8 @@ export default class InventorySlot extends Phaser.GameObjects.Container {
         console.log("Handle Item Selected");
         crossSceneEventEmitter.emit(GAME_CONSTANTS.ITEM_SELECTED, this.name);
     }
+
+    setLabel = (newValue) => {
+        this.usableLabel.setText(`x${newValue}`);
+    }
 }

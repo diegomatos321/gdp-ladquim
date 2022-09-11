@@ -77,6 +77,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     crossSceneEventEmitter.on(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu)
     crossSceneEventEmitter.on(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame)
     crossSceneEventEmitter.on(GAME_CONSTANTS.ITEM_SELECTED, this.handleItemSelected);
+    crossSceneEventEmitter.on(GAME_CONSTANTS.ITEM_USED, this.handleItemUsed);
 
     this.input.on(Phaser.Input.Events.DRAG_START, this.handleDragStart);
     this.input.on(Phaser.Input.Events.DRAG, this.handleDrag);
@@ -261,6 +262,17 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.usableItemGroup.add(usableItem);
   }
 
+  handleItemUsed = (itemName) => {
+    let result = this.inventario.find((item, index) => {
+        return item.name == itemName;
+    });
+    result.amount--;
+    console.log("New State of inventory ");
+    console.dir(this.inventario);
+    
+    crossSceneEventEmitter.emit(GAME_CONSTANTS.GUI_UPDATE_INVENTORY, itemName, result.amount);
+  }
+
   handleUsableOverlap = (object, collectable) => {
     collectable.usedBy(object);
   }
@@ -292,6 +304,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     crossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene);
     crossSceneEventEmitter.removeListener(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu);
     crossSceneEventEmitter.removeListener(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame);
+    crossSceneEventEmitter.removeListener(GAME_CONSTANTS.ITEM_SELECTED, this.handleItemSelected);
+    crossSceneEventEmitter.removeListener(GAME_CONSTANTS.ITEM_USED, this.handleItemUsed);
 
     sys.scene.input.removeListener(Phaser.Input.Events.DRAG_START, this.handleDragStart);
     sys.scene.input.removeListener(Phaser.Input.Events.DRAG, this.handleDrag);

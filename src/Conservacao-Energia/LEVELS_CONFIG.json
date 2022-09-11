@@ -1,17 +1,17 @@
 {
     "level1": [
         {
-            "item": "espanador",
+            "name": "espanador",
             "amount": 5
         }
     ],
     "level2": [
         {
-            "item": "espanador",
+            "name": "espanador",
             "amount": 3
         },
         {
-            "item": "verniz",
+            "name": "verniz",
             "amount": 1
         }
     ]

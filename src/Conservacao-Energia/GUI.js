@@ -27,8 +27,10 @@ export default class QuimicaConservacaoGUI extends Phaser.Scene {
     
     this.gameTimer = new GameTimer(this, this.GAME_WIDTH / 2, 100)
     
-    this.settingsButton.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSettingsClicked)
     crossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSED, this.toogleSettingsButton);
+    crossSceneEventEmitter.on(GAME_CONSTANTS.GUI_UPDATE_INVENTORY, this.updateInventory);
+
+    this.settingsButton.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSettingsClicked)
     this.gameScene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanAndStop);
   }
 
@@ -47,14 +49,22 @@ export default class QuimicaConservacaoGUI extends Phaser.Scene {
     const startX = (this.GAME_WIDTH / 2) - ((startInventoryData.length - 1) / 2) * (InventorySlot.slotWidth / 2 + paddingX);
     const startY = this.GAME_HEIGHT - 130;
     startInventoryData.forEach((usable, i) => {
-        const usableSlot = new InventorySlot(this, startX + i*(InventorySlot.slotWidth + paddingX), startY, usable.item, usable.amount);
+        const usableSlot = new InventorySlot(this, startX + i*(InventorySlot.slotWidth + paddingX), startY, usable.name, usable.amount);
         this.slotsGroup.add(usableSlot);
     });
   }
 
+  updateInventory = (itemName, newValue) => {
+    const slotInventory = this.slotsGroup.getMatching("name", itemName)[0];
+    console.log(newValue);
+    slotInventory.setLabel(newValue);
+  }
+
   cleanAndStop = () => {
-    this.settingsButton.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSettingsClicked)
     crossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.PAUSED, this.toogleSettingsButton);
+    crossSceneEventEmitter.removeListener(GAME_CONSTANTS.GUI_UPDATE_INVENTORY, this.updateInventory);
+
+    this.settingsButton.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSettingsClicked)
     this.gameScene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanAndStop);
 
     this.scene.stop();
