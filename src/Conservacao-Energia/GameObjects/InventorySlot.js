@@ -1,3 +1,6 @@
+import crossSceneEventEmitter from "../../Singletons/CrossSceneEventEmitter";
+import GAME_CONSTANTS from "../GAME_CONSTANTS.json";
+
 export default class InventorySlot extends Phaser.GameObjects.Container {
     static slotWidth = 250;
     static slotHeight = 250;
@@ -25,5 +28,14 @@ export default class InventorySlot extends Phaser.GameObjects.Container {
         this.setData('amount', amount);
 
         this.add([this.usableSlot, this.usableImage, this.usableLabel]);
+
+        this.setInteractive(new Phaser.Geom.Rectangle(-InventorySlot.slotWidth / 2, -InventorySlot.slotHeight / 2, InventorySlot.slotWidth, InventorySlot.slotHeight), Phaser.Geom.Rectangle.Contains);
+
+        this.addListener(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleItemSelected);
+    }
+
+    handleItemSelected = () => {
+        console.log("Handle Item Selected");
+        crossSceneEventEmitter.emit(GAME_CONSTANTS.ITEM_SELECTED, this.name);
     }
 }

@@ -256,6 +256,11 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.scene.pause(this.scene.key + "-gui");
   }
 
+  handleItemSelected = (itemName) => {
+    const usableItem = UsableItemFactory(this, this.input.x, this.input.y, itemName);
+    this.usableItemGroup.add(usableItem);
+  }
+
   handleUsableOverlap = (object, collectable) => {
     collectable.usedBy(object);
   }

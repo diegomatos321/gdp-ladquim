@@ -9,5 +9,5 @@
   "GAME_FINISHED": "finished-game-quimica-conservacao",
   "SHOW_INSTRUCOES": "show-game-instrucoes",
   "RETURN_TO_MENU": "return-to-menu",
-  "ITEM_PICK_UP": "espanador-pick-up"
+  "ITEM_SELECTED": "item-selected"
 }

@@ -7,16 +7,20 @@ export default class BaseUsableItem extends Phaser.Physics.Arcade.Image {
 
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
-        
-        /* this.setInteractive({
-            draggable: true
-        }); */
-        this.disableBody();
+
         this.setDepth(10);
+
+        this.scene.input.addListener(Phaser.Input.Events.POINTER_MOVE, this.followPointer);
+        this.scene.input.addListener(Phaser.Input.Events.POINTER_UP, this.destroyGameObject);
+        this.addListener(Phaser.GameObjects.Events.DESTROY, this.cleanEvents);
     }
 
-    followPointer = () => {
+    followPointer = (pointer) => {
+        this.setPosition(pointer.x, pointer.y);
+    }
 
+    destroyGameObject = () => {
+        this.destroy();
     }
 
     setEnableToPick = (canPick) => {
@@ -32,5 +36,11 @@ export default class BaseUsableItem extends Phaser.Physics.Arcade.Image {
     handlePick = () => {
         crossSceneEventEmitter.emit(GAME_CONSTANTS.ITEM_PICK_UP, this.name);
         this.destroy();
+    }
+
+    cleanEvents = () => {
+        this.scene.input.removeListener(Phaser.Input.Events.POINTER_MOVE, this.followPointer);
+        this.scene.input.removeListener(Phaser.Input.Events.POINTER_UP, this.destroyGameObject);
+        this.removeListener(Phaser.GameObjects.Events.DESTROY, this.cleanEvents);
     }
 }
