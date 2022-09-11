@@ -2,12 +2,13 @@ import Phaser from "phaser"
 import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
 import GAME_CONSTANTS from "./GAME_CONSTANTS.json"
 import GAME_OBJECT_CONSTANTS from "./GAME_OBJECT_CONSTANTS.json"
+import LEVELS_CONFIG from "./LEVELS_CONFIG.json"
 
 import LoadingInterface from "../common/scripts/LoadingInterface"
 import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
 import BaseObject from "./GameObjects/BaseObject"
-import UsableItemFactory from "./Factories/UsableItemFactory"
 import AdversityFactory from "./Factories/AdversityFactory"
+import UsableItemFactory from "./Factories/UsableItemFactory";
 
 const STATES = {
   START: 0,
@@ -17,6 +18,8 @@ const STATES = {
 }
 
 export default class ConservacaoEnergiaScene extends Phaser.Scene {
+    inventario = {};
+
   constructor() {
     super({ key: GLOBAL_CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO });
     var pauseGame
@@ -32,6 +35,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.GAME_WIDTH = Number(this.game.config.width);
     this.GAME_HEIGHT = Number(this.game.config.height);
 
+    this.inventario = LEVELS_CONFIG["level" + data.level];
+
     this.currentState = STATES.START;
   }
 
@@ -45,7 +50,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // Executa o GUI do Minigame
     console.log("Av")
     console.log(data)
-    this.scene.launch(GAME_CONSTANTS.GUI);
+    this.scene.launch(GAME_CONSTANTS.GUI, this.inventario);
     
     if (this.currentState === STATES.START || this.currentState === STATES.FINISHED) {
       this.scene.pause(this.scene.key);
@@ -65,18 +70,19 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     // Overlap
     this.physics.add.overlap(this.objectsGroup, this.adversityGroup, this.damageItem);
-    this.physics.add.overlap(this.objectsGroup, this.collectableItemsGroup, this.handleUsableOverlap);
+    this.physics.add.overlap(this.objectsGroup, this.usableItemGroup, this.handleUsableOverlap);
 
     // Eventos
     crossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene)
     crossSceneEventEmitter.on(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu)
     crossSceneEventEmitter.on(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame)
+    crossSceneEventEmitter.on(GAME_CONSTANTS.ITEM_SELECTED, this.handleItemSelected);
+    crossSceneEventEmitter.on(GAME_CONSTANTS.ITEM_USED, this.handleItemUsed);
 
     this.input.on(Phaser.Input.Events.DRAG_START, this.handleDragStart);
     this.input.on(Phaser.Input.Events.DRAG, this.handleDrag);
     this.input.on(Phaser.Input.Events.DRAG_END, this.handleDragEnd);
     this.events.on(GAME_CONSTANTS.START_GAME, this.handleStartGame)
-    this.events.on(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame)
     this.events.on(GAME_CONSTANTS.RESTART_GAME, this.handleRestartGame)
     this.events.on(GAME_CONSTANTS.SHOW_INSTRUCOES, this.handleShowInstrucoes)
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
@@ -88,7 +94,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     } else {
       this.generateRandomAdversityArea();
     }
-    this.generateRandomUsable();
   }
 
   /**
@@ -119,6 +124,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.load.image("folhas", new URL("./images/folhas.png?quality=75&width=400", import.meta.url).pathname);
 
     this.load.image('background', new URL("./images/background.jpg", import.meta.url).pathname)
+    this.load.image('slot-inventario', new URL("./images/slot-inventario.png", import.meta.url).pathname)
 
     this.load.image('left-cap', new URL("./images/uipack-space/barHorizontal_green_left.png", import.meta.url).pathname)
     this.load.image('middle', new URL("./images/uipack-space/barHorizontal_green_mid.png", import.meta.url).pathname)
@@ -149,7 +155,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // Grupos de itens
     this.adversityGroup = this.add.group();
     this.objectsGroup = this.physics.add.group({ collideWorldBounds: true });
-    this.collectableItemsGroup = this.physics.add.group({ collideWorldBounds: true });
+    this.usableItemGroup = this.physics.add.group({ collideWorldBounds: true });
 
     this.loadLevel();
   }
@@ -251,20 +257,20 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.scene.pause(this.scene.key + "-gui");
   }
 
-  generateRandomUsable = () => {
-    let randomNumber = Phaser.Math.Between(0, 500);
+  handleItemSelected = (itemName) => {
+    const usableItem = UsableItemFactory(this, this.input.x, this.input.y, itemName);
+    this.usableItemGroup.add(usableItem);
+  }
 
-    if (randomNumber < 1) {
-        const itemWidth = 75;
-        const itemHeight = 88;
-        const randomPos = {
-            x: Phaser.Math.Between(itemWidth, this.GAME_WIDTH - itemWidth),
-            y: Phaser.Math.Between(itemHeight, this.GAME_HEIGHT - itemHeight)
-        }
-
-        let collectableItem = UsableItemFactory(this, randomPos.x, randomPos.y);
-        this.collectableItemsGroup.add(collectableItem, true);
-    }
+  handleItemUsed = (itemName) => {
+    let result = this.inventario.find((item, index) => {
+        return item.name == itemName;
+    });
+    result.amount--;
+    console.log("New State of inventory ");
+    console.dir(this.inventario);
+    
+    crossSceneEventEmitter.emit(GAME_CONSTANTS.GUI_UPDATE_INVENTORY, itemName, result.amount);
   }
 
   handleUsableOverlap = (object, collectable) => {
@@ -297,12 +303,14 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     crossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene);
     crossSceneEventEmitter.removeListener(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu);
+    crossSceneEventEmitter.removeListener(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame);
+    crossSceneEventEmitter.removeListener(GAME_CONSTANTS.ITEM_SELECTED, this.handleItemSelected);
+    crossSceneEventEmitter.removeListener(GAME_CONSTANTS.ITEM_USED, this.handleItemUsed);
 
     sys.scene.input.removeListener(Phaser.Input.Events.DRAG_START, this.handleDragStart);
     sys.scene.input.removeListener(Phaser.Input.Events.DRAG, this.handleDrag);
     sys.scene.input.removeListener(Phaser.Input.Events.DRAG_END, this.handleDragEnd);
     sys.scene.events.removeListener(GAME_CONSTANTS.START_GAME, this.handleStartGame);
-    sys.scene.events.removeListener(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame);
     sys.scene.events.removeListener(GAME_CONSTANTS.RESTART_GAME, this.handleRestartGame);
     sys.scene.events.removeListener(GAME_CONSTANTS.SHOW_INSTRUCOES, this.handleShowInstrucoes);
     sys.scene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);

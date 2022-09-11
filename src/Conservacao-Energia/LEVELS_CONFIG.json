@@ -1,0 +1,18 @@
+{
+    "level1": [
+        {
+            "name": "espanador",
+            "amount": 5
+        }
+    ],
+    "level2": [
+        {
+            "name": "espanador",
+            "amount": 3
+        },
+        {
+            "name": "verniz",
+            "amount": 1
+        }
+    ]
+}

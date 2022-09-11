@@ -7,6 +7,7 @@ export default class Limpeza extends BaseUsableItem {
   constructor(scene, x, y) {
     super(scene, x, y, "limpeza");
 
+    this.setName('limpeza');
     this.setData("power", 50);
   }
 

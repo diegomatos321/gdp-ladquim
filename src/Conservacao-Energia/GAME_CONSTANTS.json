@@ -8,5 +8,8 @@
   "RESTART_GAME": "restart-game-quimica-conservacao",
   "GAME_FINISHED": "finished-game-quimica-conservacao",
   "SHOW_INSTRUCOES": "show-game-instrucoes",
-  "RETURN_TO_MENU": "return-to-menu"
+  "RETURN_TO_MENU": "return-to-menu",
+  "ITEM_SELECTED": "item-selected",
+  "ITEM_USED": "item-used",
+  "GUI_UPDATE_INVENTORY": "gui-update-inventory"
 }

@@ -8,6 +8,7 @@ export default class Lixo extends BaseUsableItem {
   constructor(scene, x, y) {
     super(scene, x, y, "lixo");
 
+    this.setName('lixo');
     this.setData("power", 50);
   }
 
@@ -16,7 +17,7 @@ export default class Lixo extends BaseUsableItem {
     if(object.getData("tipo-quadro") || object.getData("tecido") || object.getData("livro")) {
       crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_AUDIO, "damage-sfx");
       object.handleDamage(this.getData("power"));
-      this.destroy();
+      this.destroyGameObject();
     }
 
   }
