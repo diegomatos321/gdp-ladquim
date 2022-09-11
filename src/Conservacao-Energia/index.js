@@ -2,11 +2,11 @@ import Phaser from "phaser"
 import GLOBAL_CONSTANTS from "../GLOBAL_CONSTANTS.json"
 import GAME_CONSTANTS from "./GAME_CONSTANTS.json"
 import GAME_OBJECT_CONSTANTS from "./GAME_OBJECT_CONSTANTS.json"
+import LEVELS_CONFIG from "./LEVELS_CONFIG.json"
 
 import LoadingInterface from "../common/scripts/LoadingInterface"
 import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
 import BaseObject from "./GameObjects/BaseObject"
-import UsableItemFactory from "./Factories/UsableItemFactory"
 import AdversityFactory from "./Factories/AdversityFactory"
 
 const STATES = {
@@ -17,6 +17,8 @@ const STATES = {
 }
 
 export default class ConservacaoEnergiaScene extends Phaser.Scene {
+    inventario = {};
+
   constructor() {
     super({ key: GLOBAL_CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO });
     var pauseGame
@@ -32,6 +34,8 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     this.GAME_WIDTH = Number(this.game.config.width);
     this.GAME_HEIGHT = Number(this.game.config.height);
 
+    this.inventario = LEVELS_CONFIG["level" + data.level];
+
     this.currentState = STATES.START;
   }
 
@@ -45,7 +49,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // Executa o GUI do Minigame
     console.log("Av")
     console.log(data)
-    this.scene.launch(GAME_CONSTANTS.GUI);
+    this.scene.launch(GAME_CONSTANTS.GUI, this.inventario);
     
     if (this.currentState === STATES.START || this.currentState === STATES.FINISHED) {
       this.scene.pause(this.scene.key);
@@ -62,12 +66,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     }
     
     this.carregarElementosDoJogo();
-
-    this.time.addEvent({
-        delay: 1_000,
-        loop: true,
-        callback: this.generateRandomUsable
-    });
 
     // Overlap
     this.physics.add.overlap(this.objectsGroup, this.adversityGroup, this.damageItem);
@@ -255,22 +253,6 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   pauseGame = () => {
     this.scene.pause(this.scene.key);
     this.scene.pause(this.scene.key + "-gui");
-  }
-
-  generateRandomUsable = () => {
-    let randomNumber = Phaser.Math.Between(0, 100);
-
-    if (randomNumber < 20) {
-        const itemWidth = 75;
-        const itemHeight = 88;
-        const randomPos = {
-            x: Phaser.Math.Between(itemWidth, this.GAME_WIDTH - itemWidth),
-            y: Phaser.Math.Between(itemHeight, this.GAME_HEIGHT - itemHeight)
-        }
-
-        let collectableItem = UsableItemFactory(this, randomPos.x, randomPos.y);
-        collectableItem.setEnableToPick(true);
-    }
   }
 
   handleUsableOverlap = (object, collectable) => {

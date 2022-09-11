@@ -1,0 +1,22 @@
+{
+    "level1": [
+        {
+            "item": "espanador",
+            "amount": 5
+        },
+        {
+            "item": "verniz",
+            "amount": 2
+        }
+    ],
+    "level2": [
+        {
+            "item": "espanador",
+            "amount": 3
+        },
+        {
+            "item": "verniz",
+            "amount": 1
+        }
+    ]
+}
