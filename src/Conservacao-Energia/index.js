@@ -8,6 +8,7 @@ import LoadingInterface from "../common/scripts/LoadingInterface"
 import crossSceneEventEmitter from "../Singletons/CrossSceneEventEmitter"
 import BaseObject from "./GameObjects/BaseObject"
 import AdversityFactory from "./Factories/AdversityFactory"
+import UsableItemFactory from "./Factories/UsableItemFactory";
 
 const STATES = {
   START: 0,
@@ -69,18 +70,18 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     // Overlap
     this.physics.add.overlap(this.objectsGroup, this.adversityGroup, this.damageItem);
-    this.physics.add.overlap(this.objectsGroup, this.collectableItemsGroup, this.handleUsableOverlap);
+    this.physics.add.overlap(this.objectsGroup, this.usableItemGroup, this.handleUsableOverlap);
 
     // Eventos
     crossSceneEventEmitter.on(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene)
     crossSceneEventEmitter.on(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu)
     crossSceneEventEmitter.on(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame)
+    crossSceneEventEmitter.on(GAME_CONSTANTS.ITEM_SELECTED, this.handleItemSelected);
 
     this.input.on(Phaser.Input.Events.DRAG_START, this.handleDragStart);
     this.input.on(Phaser.Input.Events.DRAG, this.handleDrag);
     this.input.on(Phaser.Input.Events.DRAG_END, this.handleDragEnd);
     this.events.on(GAME_CONSTANTS.START_GAME, this.handleStartGame)
-    this.events.on(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame)
     this.events.on(GAME_CONSTANTS.RESTART_GAME, this.handleRestartGame)
     this.events.on(GAME_CONSTANTS.SHOW_INSTRUCOES, this.handleShowInstrucoes)
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents)
@@ -153,7 +154,7 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
     // Grupos de itens
     this.adversityGroup = this.add.group();
     this.objectsGroup = this.physics.add.group({ collideWorldBounds: true });
-    this.collectableItemsGroup = this.physics.add.group({ collideWorldBounds: true });
+    this.usableItemGroup = this.physics.add.group({ collideWorldBounds: true });
 
     this.loadLevel();
   }
@@ -285,12 +286,12 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
 
     crossSceneEventEmitter.removeListener(GLOBAL_CONSTANTS.PAUSED, this.handlePauseScene);
     crossSceneEventEmitter.removeListener(GAME_CONSTANTS.RETURN_TO_MENU, this.handleReturnToMenu);
+    crossSceneEventEmitter.removeListener(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame);
 
     sys.scene.input.removeListener(Phaser.Input.Events.DRAG_START, this.handleDragStart);
     sys.scene.input.removeListener(Phaser.Input.Events.DRAG, this.handleDrag);
     sys.scene.input.removeListener(Phaser.Input.Events.DRAG_END, this.handleDragEnd);
     sys.scene.events.removeListener(GAME_CONSTANTS.START_GAME, this.handleStartGame);
-    sys.scene.events.removeListener(GAME_CONSTANTS.GAME_FINISHED, this.handleFinishedGame);
     sys.scene.events.removeListener(GAME_CONSTANTS.RESTART_GAME, this.handleRestartGame);
     sys.scene.events.removeListener(GAME_CONSTANTS.SHOW_INSTRUCOES, this.handleShowInstrucoes);
     sys.scene.events.removeListener(Phaser.Scenes.Events.SHUTDOWN, this.cleanEvents);
