@@ -3,16 +3,18 @@ import Espanador from "../GameObjects/Usables/Espanador"
 import Limpeza from "../GameObjects/Usables/Limpeza"
 import Lixo from "../GameObjects/Usables/Lixo"
 
-export default function UsableItemFactory(scene, x, y) {
+export default function UsableItemFactory(scene, x, y, itemName = null) {
     const collectableList = [
         "verniz",
         "espanador",
         "limpeza",
         "lixo"
     ];
-    const randomUsable = Phaser.Utils.Array.GetRandom(collectableList);
+    if (itemName == null) {
+        itemName = Phaser.Utils.Array.GetRandom(collectableList);
+    }
 
-    switch (randomUsable) {
+    switch (itemName) {
         case "verniz":
             return new Verniz(scene, x, y);
         case "espanador":
@@ -22,6 +24,6 @@ export default function UsableItemFactory(scene, x, y) {
         case "lixo":
             return new Lixo(scene,x,y);
         default:
-            break;
+            return new Verniz(scene, x, y);
     }
 }
