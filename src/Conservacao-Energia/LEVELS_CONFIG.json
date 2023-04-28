@@ -44,7 +44,15 @@
         },
         {
             "name": "verniz",
-            "amount": 1
+            "amount": 3
+        },
+        {
+            "name": "lixo",
+            "amount": 3
+        },
+        {
+            "name": "limpeza",
+            "amount": 3
         }
     ]
 }
