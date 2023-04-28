@@ -163,14 +163,25 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   // Levels
 
   loadLevel = () => {
-    console.log("dadsasdadsa");
-    console.log(this.currentLevel);
+    console.log("LEVEL: " + this.currentLevel);
     switch (this.currentLevel) {
       case 1:
           this.handleLoadLevel1();
           break;
       case 2:
           this.handleLoadLevel2();
+          break;
+      case 3:
+          this.handleLoadLevel3();
+          break;
+      case 4:
+          this.handleLoadLevel4();
+          break;
+      case 5:
+          this.handleLoadLevel5();
+          break;
+      case 6:
+          this.handleLoadLevel6();
           break;
       default:
           break;
@@ -188,6 +199,45 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   handleLoadLevel2 = () => {
+    let quadro1 = new BaseObject(this, (this.GAME_WIDTH / 2) - 450, this.GAME_HEIGHT / 2, "quadro-sorriso-1").setData("tipo-quadro", GAME_OBJECT_CONSTANTS.QUADROSORRISO1);
+    let quadro2 = new BaseObject(this, (this.GAME_WIDTH / 2) + 450, this.GAME_HEIGHT / 2, "quadro-sorriso-2").setData("tipo-quadro", GAME_OBJECT_CONSTANTS.QUADROSORRISO2);
+    let quadro3 = new BaseObject(this, (this.GAME_WIDTH / 2) + 600, this.GAME_HEIGHT / 2, "quadro-sorriso-3").setData("tipo-quadro", GAME_OBJECT_CONSTANTS.QUADROSORRISO3);
+
+    this.objectsGroup.addMultiple([quadro1,quadro2,quadro3], true);
+  }
+
+  handleLoadLevel3 = () => {
+    let estatuaMadeira = new BaseObject(this, (this.GAME_WIDTH / 2) - 300, this.GAME_HEIGHT / 2, "estatua-madeira").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MADEIRA);
+    let estatuaMarmore = new BaseObject(this, this.GAME_WIDTH / 2, this.GAME_HEIGHT / 2, "estatua-marmore").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MARMORE);
+    let estatuaBronze = new BaseObject(this, (this.GAME_WIDTH / 2) + 300, this.GAME_HEIGHT / 2, "estatua-bronze").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.BRONZE);
+    let quadro1 = new BaseObject(this, (this.GAME_WIDTH / 2) - 450, this.GAME_HEIGHT / 2, "quadro-sorriso-1").setData("tipo-quadro", GAME_OBJECT_CONSTANTS.QUADROSORRISO1);
+    let quadro2 = new BaseObject(this, (this.GAME_WIDTH / 2) + 450, this.GAME_HEIGHT / 2, "quadro-sorriso-2").setData("tipo-quadro", GAME_OBJECT_CONSTANTS.QUADROSORRISO2);
+    let quadro3 = new BaseObject(this, (this.GAME_WIDTH / 2) + 600, this.GAME_HEIGHT / 2, "quadro-sorriso-3").setData("tipo-quadro", GAME_OBJECT_CONSTANTS.QUADROSORRISO3);
+
+    this.objectsGroup.addMultiple([estatuaMadeira, estatuaMarmore, estatuaBronze,quadro1,quadro2,quadro3], true);
+  }
+
+  handleLoadLevel4 = () => {
+    let estatuaMadeira = new BaseObject(this, (this.GAME_WIDTH / 2) - 300, this.GAME_HEIGHT / 2, "estatua-madeira").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MADEIRA);
+    let estatuaMarmore = new BaseObject(this, this.GAME_WIDTH / 2, this.GAME_HEIGHT / 2, "estatua-marmore").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MARMORE);
+    let quadro1 = new BaseObject(this, (this.GAME_WIDTH / 2) - 450, this.GAME_HEIGHT / 2, "quadro-sorriso-1").setData("tipo-quadro", GAME_OBJECT_CONSTANTS.QUADROSORRISO1);
+    let quadro3 = new BaseObject(this, (this.GAME_WIDTH / 2) + 600, this.GAME_HEIGHT / 2, "quadro-sorriso-3").setData("tipo-quadro", GAME_OBJECT_CONSTANTS.QUADROSORRISO3);
+    let livro = new BaseObject(this, (this.GAME_WIDTH / 2), this.GAME_HEIGHT / 3, "livro").setData("livro", GAME_OBJECT_CONSTANTS.LIVRO);
+
+    this.objectsGroup.addMultiple([estatuaMadeira, estatuaMarmore,quadro1,quadro3, livro], true);
+  }
+
+  handleLoadLevel5 = () => {
+    let estatuaMadeira = new BaseObject(this, (this.GAME_WIDTH / 2) - 300, this.GAME_HEIGHT / 2, "estatua-madeira").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MADEIRA);
+    let quadro2 = new BaseObject(this, (this.GAME_WIDTH / 2) + 450, this.GAME_HEIGHT / 2, "quadro-sorriso-2").setData("tipo-quadro", GAME_OBJECT_CONSTANTS.QUADROSORRISO2);
+    let quadro3 = new BaseObject(this, (this.GAME_WIDTH / 2) + 600, this.GAME_HEIGHT / 2, "quadro-sorriso-3").setData("tipo-quadro", GAME_OBJECT_CONSTANTS.QUADROSORRISO3);
+    let livro = new BaseObject(this, (this.GAME_WIDTH / 2), this.GAME_HEIGHT / 3, "livro").setData("livro", GAME_OBJECT_CONSTANTS.LIVRO);
+    let tecido = new BaseObject(this, (this.GAME_WIDTH / 2) + 300, this.GAME_HEIGHT / 3, "tecido").setData("tecido", GAME_OBJECT_CONSTANTS.TECIDO);
+
+    this.objectsGroup.addMultiple([estatuaMadeira,quadro2,quadro3, livro, tecido], true);
+  }
+
+  handleLoadLevel6 = () => {
     let estatuaMadeira = new BaseObject(this, (this.GAME_WIDTH / 2) - 300, this.GAME_HEIGHT / 2, "estatua-madeira").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MADEIRA);
     let estatuaMarmore = new BaseObject(this, this.GAME_WIDTH / 2, this.GAME_HEIGHT / 2, "estatua-marmore").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.MARMORE);
     let estatuaBronze = new BaseObject(this, (this.GAME_WIDTH / 2) + 300, this.GAME_HEIGHT / 2, "estatua-bronze").setData("tipo-estatua", GAME_OBJECT_CONSTANTS.BRONZE);
@@ -258,6 +308,10 @@ export default class ConservacaoEnergiaScene extends Phaser.Scene {
   }
 
   handleItemSelected = (itemName) => {
+    let result = this.inventario.find((item, index) => {
+      return item.name == itemName;
+    });
+    if ((result.amount - 1) < 0) return;
     const usableItem = UsableItemFactory(this, this.input.x, this.input.y, itemName);
     this.usableItemGroup.add(usableItem);
   }

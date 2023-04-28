@@ -55,8 +55,8 @@ export default class QuimicaConservacaoGUI extends Phaser.Scene {
   }
 
   updateInventory = (itemName, newValue) => {
+    if (newValue < 0) return;
     const slotInventory = this.slotsGroup.getMatching("name", itemName)[0];
-    console.log(newValue);
     slotInventory.setLabel(newValue);
   }
 

@@ -14,5 +14,37 @@
             "name": "verniz",
             "amount": 1
         }
+    ],
+    "level3": [
+        {
+            "name": "espanador",
+            "amount": 5
+        }
+    ],
+    "level4": [
+        {
+            "name": "espanador",
+            "amount": 3
+        },
+        {
+            "name": "verniz",
+            "amount": 1
+        }
+    ],
+    "level5": [
+        {
+            "name": "espanador",
+            "amount": 5
+        }
+    ],
+    "level6": [
+        {
+            "name": "espanador",
+            "amount": 3
+        },
+        {
+            "name": "verniz",
+            "amount": 1
+        }
     ]
 }
