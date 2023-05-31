@@ -46,7 +46,7 @@ export default class QuimicaConservacaoGUI extends Phaser.Scene {
     this.slotsGroup = this.add.group();
 
     const paddingX = 30;
-    const startX = (this.GAME_WIDTH / 2) - ((startInventoryData.length - 1) / 2) * (InventorySlot.slotWidth / 2 + paddingX);
+    const startX = (this.GAME_WIDTH / 2) - ((startInventoryData.length - 1)) * (InventorySlot.slotWidth / 2 + paddingX);
     const startY = this.GAME_HEIGHT - 130;
     startInventoryData.forEach((usable, i) => {
         const usableSlot = new InventorySlot(this, startX + i*(InventorySlot.slotWidth + paddingX), startY, usable.name, usable.amount);

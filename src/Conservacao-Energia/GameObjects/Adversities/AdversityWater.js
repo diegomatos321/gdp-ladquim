@@ -9,7 +9,15 @@ export default class AdversityWater extends Phaser.GameObjects.Rectangle {
         super(scene, x, y);
 
         this.scene.physics.add.existing(this);
-        this.imagem = this.scene.add.image(this.x, this.y, image)
+        this.imagem = this.scene.add.image(this.x, this.y + 200, image)
+        this.imagem2 = this.scene.add.image(this.x + 300, this.y + 200, image)
+        this.imagem3 = this.scene.add.image(this.x + 600, this.y + 200, image)
+        this.imagem4 = this.scene.add.image(this.x + 900, this.y + 200, image)
+        this.imagem5 = this.scene.add.image(this.x - 300, this.y + 200, image)
+        this.imagem6 = this.scene.add.image(this.x - 600, this.y + 200, image)
+        this.imagem7 = this.scene.add.image(this.x - 900, this.y + 200, image)
+
+
         this.audioSFX = audio
 
         this.setDisplaySize(this.scene.game.config.width, 400);
@@ -37,7 +45,13 @@ export default class AdversityWater extends Phaser.GameObjects.Rectangle {
     }
 
     destroyWater = () => {
-        this.imagem.destroy();  
+        this.imagem.destroy();
+        this.imagem2.destroy();
+        this.imagem3.destroy();
+        this.imagem4.destroy();
+        this.imagem5.destroy();
+        this.imagem6.destroy();
+        this.imagem7.destroy();
         this.timerEvent.remove();
         this.redArea.destroy();
         crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.STOP_AUDIO, this.audioSFX);

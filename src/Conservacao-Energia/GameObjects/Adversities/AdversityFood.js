@@ -8,6 +8,7 @@ export default class AdversityFood extends Phaser.GameObjects.Rectangle {
 
         // this.scene.add.existing(this);
         this.imagem = this.scene.add.image(this.x, this.displayHeight, image)
+        this.imagem.setFlipY(true)
         this.audioSFX = audio
         crossSceneEventEmitter.emit(GLOBAL_CONSTANTS.PLAY_AUDIO, this.audioSFX);
         this.scene.physics.add.existing(this);

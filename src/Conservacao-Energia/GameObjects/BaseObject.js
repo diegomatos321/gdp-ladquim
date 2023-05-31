@@ -29,12 +29,17 @@ export default class BaseObject extends Phaser.GameObjects.Container {
     }
 
     handleDamage = (damageValue = 0.1) => {
-        this.incData("health", -damageValue);
+        let currentLife = this.getData("health")
+        if (currentLife - damageValue < 0) {
+            this.incData("health", 0);
+        } else {
+            this.incData("health", -damageValue);
+        }
 
         if (this.getData("health") > 0.01) {
             this.interpolateObjectColor();
         } else {
-            this.destroy()
+            //this.destroy()
         }
     }
 

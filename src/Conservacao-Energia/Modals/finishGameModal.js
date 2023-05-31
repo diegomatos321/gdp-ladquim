@@ -9,10 +9,10 @@ export default class FinishGameModal extends Phaser.Scene {
     super({ key: GAME_CONSTANTS.FINISH_GAME_MODAL })
   }
 
-  init = () => {
+  init = (data) => {
     this.GameManager = this.scene.get(GLOBAL_CONSTANTS.GAME_MANAGER);
     this.GameManager.setCurrentScene(this.scene.key);
-
+    this.stars = data.stars
     this.gameScene = this.scene.get(GLOBAL_CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO);
   }
 
@@ -32,12 +32,17 @@ export default class FinishGameModal extends Phaser.Scene {
     this.txtTitle = this.add.text(this.game.config.width/2, this.modalFundo.getTopCenter().y + this.modalFundo.height/6, "Fim de Jogo !", titleStyle).setOrigin(0.5);
 
     const commandStyle = {
-      fontSize: 43,
+      fontSize: 38,
       fontFamily: "Nunito",
       fontStyle: "normal 800",
     }
-    this.playAgainBtn = new Button(this, this.modalFundo.x, this.modalFundo.y - 70, "Jogar Novamente", commandStyle)
-    this.sairBtn = new Button(this, this.modalFundo.x, this.modalFundo.y + 70, "Sair", commandStyle)
+    
+    this.star1 = this.stars >= 1 ? this.add.sprite(this.modalFundo.x - 140, this.modalFundo.y - 70, 'star') : undefined;
+    this.star2 = this.stars >= 2 ? this.add.sprite(this.modalFundo.x, this.modalFundo.y - 70, 'star'): undefined;
+    this.star3 = this.stars >= 3 ? this.add.sprite(this.modalFundo.x + 140, this.modalFundo.y - 70, 'star') : undefined;
+
+    this.playAgainBtn = new Button(this, this.modalFundo.x, this.modalFundo.y + 140, "Jogar Novamente", commandStyle)
+    this.sairBtn = new Button(this, this.modalFundo.x, this.modalFundo.y + 280, "Sair", commandStyle)
 
     this.playAgainBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handlePlayAgainBtn)
     this.sairBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.handleSairBtn)

@@ -2,23 +2,39 @@
     "level1": [
         {
             "name": "espanador",
-            "amount": 5
+            "amount": 2
+        },
+        {
+            "name": "verniz",
+            "amount": 2
         }
     ],
     "level2": [
         {
             "name": "espanador",
-            "amount": 3
+            "amount": 1
         },
         {
             "name": "verniz",
+            "amount": 1
+        },
+        {
+            "name": "lixeira",
             "amount": 1
         }
     ],
     "level3": [
         {
             "name": "espanador",
-            "amount": 5
+            "amount": 2
+        },
+        {
+            "name": "verniz",
+            "amount": 2
+        },
+        {
+            "name": "lixeira",
+            "amount": 2
         }
     ],
     "level4": [
@@ -28,13 +44,33 @@
         },
         {
             "name": "verniz",
+            "amount": 3
+        },
+        {
+            "name": "lixeira",
+            "amount": 2
+        },
+        {
+            "name": "limpeza",
             "amount": 1
         }
     ],
     "level5": [
         {
             "name": "espanador",
-            "amount": 5
+            "amount": 3
+        },
+        {
+            "name": "verniz",
+            "amount": 3
+        },
+        {
+            "name": "lixo",
+            "amount": 3
+        },
+        {
+            "name": "limpeza",
+            "amount": 2
         }
     ],
     "level6": [

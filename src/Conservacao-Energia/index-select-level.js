@@ -76,11 +76,12 @@ export default class ConservacaoEnergiaSelectLevelScene extends Phaser.Scene {
     this.txtTitle = this.add.text(this.game.config.width/2, this.fundo.getTopCenter().y + this.fundo.height/6, "Nível", titleStyle).setOrigin(0.5);
 
 
-    this.backArrow = this.add.image(this.game.config.width/2 + 300, this.game.config.height/2, "ui-atlas", "back-arrow").setInteractive();
-    this.backArrow.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSelectLevelClicked)
+    this.nextArrow = this.add.image(this.game.config.width/2 + 300, this.game.config.height/2, "ui-atlas", "back-arrow").setInteractive();
+    this.nextArrow.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSelectLevelClickedPlusOne)
+    this.nextArrow.setFlipX(true)
 
-    this.nextArrow = this.add.image(this.game.config.width/2 - 300, this.game.config.height/2, "ui-atlas", "back-arrow").setInteractive();
-    this.nextArrow.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSelectLevelClicked)
+    this.backArrow = this.add.image(this.game.config.width/2 - 300, this.game.config.height/2, "ui-atlas", "back-arrow").setInteractive();
+    this.backArrow.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSelectLevelClickedMinusOne)
 
     this.add.image(this.game.config.width/2, this.game.config.height/2, "background")
     //this.selectLevel = this.add.image(this.game.config.width/2, this.game.config.height/2, "select-level").setInteractive();
@@ -100,15 +101,21 @@ export default class ConservacaoEnergiaSelectLevelScene extends Phaser.Scene {
     this.levelSprite = this.add.sprite(this.game.config.width/2, this.game.config.height/2, 'level-1');
     //this.selectLevel.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleSelectLevelClicked)
     this.playBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleStartGame)
+    this.backBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.handleReturnToMenu)
   }
 
-  changePicture = () => {
-    this.currentLevel++;
+  changePicture = (value) => {
+    this.currentLevel += value;
 
     if (this.currentLevel > 6)
     {
       this.currentLevel = 1;
     }
+
+    if (this.currentLevel < 1) {
+      this.currentLevel = 6;
+    }
+
     this.levelSprite.setTexture("level-" + this.currentLevel)
 }
 
@@ -121,8 +128,12 @@ export default class ConservacaoEnergiaSelectLevelScene extends Phaser.Scene {
     this.scene.start(GLOBAL_CONSTANTS.MINI_GAME_QUIMICA_CONSERVACAO, {level: this.currentLevel});
   }
 
-  handleSelectLevelClicked = () => {
-    this.changePicture();
+  handleSelectLevelClickedMinusOne = () => {
+    this.changePicture(-1);
+  }
+
+  handleSelectLevelClickedPlusOne = () => {
+    this.changePicture(1);
   }
 
 

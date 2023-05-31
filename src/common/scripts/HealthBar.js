@@ -38,8 +38,8 @@ export default class HealthBar extends Phaser.GameObjects.Container {
         this.rightCap.x = this.middle.x + this.middle.displayWidth
       },
       onComplete: () => {
-        if(percent <= 0.01)
-          this.setVisible(false)
+        // if(percent <= 0.01)
+        //   this.setVisible(false)
       }
     })
   }

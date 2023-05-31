@@ -27,7 +27,7 @@ export default class AdversityRain extends Phaser.GameObjects.Rectangle {
     createRainParticles = () => {
         this.rainDropParticles = this.scene.add.particles("raindrop");
 
-        const source = new Phaser.Geom.Line(this.x - this.displayWidth / 2, this.y - this.displayHeight / 2, this.x + this.displayWidth / 2, this.y - this.displayHeight / 2);
+        const source = new Phaser.Geom.Line(this.x - this.displayWidth / 2, this.y - this.displayHeight / 3, this.x + this.displayWidth / 2, this.y - this.displayHeight / 3);
 
         this.rainDropParticles.createEmitter({
             speedY: 300,
